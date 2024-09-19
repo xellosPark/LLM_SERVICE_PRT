@@ -1,0 +1,54 @@
+/* 공통 스타일 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .user-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-name {
+    margin-right: 10px;
+    background-color: #7f8c8d;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .logout-button {
+    background-color: #e74c3c;
+    color: #ecf0f1;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* 라이트 모드 (기본) */
+  .header.light-mode {
+    background-color: #FBFAFC;
+    color: #222;
+  }
+  
+  /* 다크 모드 */
+  .header.dark-mode {
+    background-color: #3D3D3D;
+    color: #eee;
+  }
+  
+  .user-name.dark-mode {
+    background-color: #34495e;
+  }
+  
+  .logout-button.dark-mode {
+    background-color: #c0392b;
+  }

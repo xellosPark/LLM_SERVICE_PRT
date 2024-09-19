@@ -1,59 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './Header.css'; // CSS 파일 불러오기
 
-function Header() {
+function Header({ onLogout }) {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // 테마 변경 함수
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <header style={styles.header}>
+    <header className={`header ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <div>
         UbiSam
       </div>
-      <div style={styles.userSection}>
-        <span style={styles.userName}>UbiSam</span>
-        <button style={styles.logoutButton}>로그아웃</button>
+      <div className="user-section">
+        <span className={`user-name ${isDarkMode ? 'dark-mode' : ''}`}>UbiSam</span>
+         {/* 로그아웃 버튼에 onClick 이벤트 추가 */}
+         <button
+          className={`logout-button ${isDarkMode ? 'dark-mode' : ''}`}
+          onClick={onLogout}
+        >
+          로그아웃
+        </button>
+        <button onClick={toggleTheme} style={{ marginLeft: '10px' }}>
+          {isDarkMode ? '라이트 모드' : '다크 모드'}
+        </button>
       </div>
     </header>
   );
 }
-
-const styles = {
-  header: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: '60px',
-    backgroundColor: '#34495e',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0 20px',
-    color: '#ecf0f1',
-    zIndex: 1000,
-  },
-  logoContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  title: {
-    marginLeft: '10px',
-    fontSize: '18px',
-  },
-  userSection: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  userName: {
-    marginRight: '10px',
-    backgroundColor: '#7f8c8d',
-    padding: '5px 10px',
-    borderRadius: '5px',
-  },
-  logoutButton: {
-    backgroundColor: '#e74c3c',
-    color: '#ecf0f1',
-    border: 'none',
-    padding: '5px 10px',
-    cursor: 'pointer',
-  },
-};
 
 export default Header;
