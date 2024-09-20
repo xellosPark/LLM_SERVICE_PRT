@@ -17,12 +17,16 @@ function MainScreen() {
     console.log(`Attempting to load component: ${componentName}`);
     switch (componentName) {
       case 'Sub1':
+        setMainTitle("메일 compliance 점검");
         return lazy(() => import('../Sub1/Sub1'));
       case 'Sub2':
+        setMainTitle("Sub2");
         return lazy(() => import('../Sub2/Sub2'));
       case 'Sub3':
+        setMainTitle("Sub3");
         return lazy(() => import('../Sub3/Sub3'));
       case 'Sub4':
+        setMainTitle("Sub4");
         return lazy(() => import('../Sub4/Sub4'));
       default:
         console.log('Unknown component:', componentName);
@@ -35,7 +39,7 @@ function MainScreen() {
     const Component = loadComponent(componentName);
     if (Component) {
       setActiveComponent(() => Component);
-      setMainTitle(componentName); // 헤더 제목 설정
+      //setMainTitle(componentName); // 헤더 제목 설정
       localStorage.setItem('activeComponent', componentName);  // Save selected component in localStorage
     } else {
       console.error(`Component not found: ${componentName}`);

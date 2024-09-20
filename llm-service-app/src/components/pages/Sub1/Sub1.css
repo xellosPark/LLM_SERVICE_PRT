@@ -4,16 +4,23 @@
 
 .sub1-main {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
 }
 
 .new-button {
-    margin-top: 25px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    /* margin-right: 25px; */
     padding: 0px 15px;
     font-size: 15px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     background-color: #C26075;
     color: white;
+    width: 150px; /* 원하는 가로 사이즈 */
+    height: 40px; /* 원하는 세로 사이즈 */
 }
+
+.new-button:hover {
+    background-color: #e96483; /* 새로운 호버 색상 */
+  }
