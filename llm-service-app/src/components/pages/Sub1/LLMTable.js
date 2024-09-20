@@ -70,7 +70,7 @@ const LLMTable = () => {
     
       return (
         <div>
-          <h2>Paginated Table</h2>
+          
           <table className='fixed-table'>
             <thead>
                 <tr>
