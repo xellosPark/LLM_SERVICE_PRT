@@ -8,7 +8,6 @@ const Sub1 = () => {
       <div className='sub1-main'>
         <button className='new-button'>+  신규 점검 생성</button>
       </div>
-      
       <LLMTable/>
     </div>
   );
