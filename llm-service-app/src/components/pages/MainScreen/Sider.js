@@ -7,7 +7,7 @@ const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
         {isCollapsed ? '열기' : '닫기'}
       </button>
       <ul style={styles.menu}>
-        <li onClick={() => onItemClick('Sub1')} style={styles.menuItem}>Sub1</li>
+        <li onClick={() => onItemClick('Sub1')} style={styles.menuItem}>Service</li>
         <li onClick={() => onItemClick('Sub2')} style={styles.menuItem}>Sub2</li>
         <li onClick={() => onItemClick('Sub3')} style={styles.menuItem}>Sub3</li>
         <li onClick={() => onItemClick('Sub4')} style={styles.menuItem}>Sub4</li>

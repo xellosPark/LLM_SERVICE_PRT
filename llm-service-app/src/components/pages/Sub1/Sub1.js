@@ -1,10 +1,16 @@
 import React from 'react';
+import LLMTable from './LLMTable';
+import './Sub1.css'
 
 const Sub1 = () => {
   return (
-    <div>
-      <h1>Sub1 화면</h1>
-      <p>Sub1의 내용을 여기에 추가하세요.</p>
+    <div id='sub1-main'>
+      <div className='sub1-main'>
+        <h1>메일 compliance 점검</h1>
+        <button className='new-button'>+ 신규 점검 생성</button>
+      </div>
+      
+      <LLMTable/>
     </div>
   );
 };

@@ -1,0 +1,19 @@
+#sub1-main {
+    margin: 10px 20px;
+}
+
+.sub1-main {
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-button {
+    margin-top: 25px;
+    margin-bottom: 20px;
+    padding: 0px 15px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #C26075;
+    color: white;
+}
