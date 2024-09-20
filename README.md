@@ -1,5 +1,6 @@
 1.npm install react-router-dom@6.22.3
 2.npm install --save-dev @babel/plugin-proposal-private-property-in-object
+npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
 
 TTF와 OTF의 차이점 정리:
 특징	TTF (TrueType Font)	OTF (OpenType Font)

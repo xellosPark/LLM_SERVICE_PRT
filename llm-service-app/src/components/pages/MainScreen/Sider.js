@@ -1,49 +1,24 @@
 import React from 'react';
+import './Sider.css'; // CSS 파일 임포트
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
   return (
-    <aside className={`sider ${isCollapsed ? 'collapsed' : ''}`} style={styles.sider}>
-      <button onClick={onToggle} style={styles.toggleButton}>
-        {isCollapsed ? '열기' : '닫기'}
-      </button>
-      <ul style={styles.menu}>
-        <li onClick={() => onItemClick('Sub1')} style={styles.menuItem}>Service</li>
-        <li onClick={() => onItemClick('Sub2')} style={styles.menuItem}>Sub2</li>
-        <li onClick={() => onItemClick('Sub3')} style={styles.menuItem}>Sub3</li>
-        <li onClick={() => onItemClick('Sub4')} style={styles.menuItem}>Sub4</li>
+    <aside className={`sider ${isCollapsed ? 'collapsed' : ''}`}>
+      <ul className="sidemenu">
+        <li onClick={() => onItemClick('Sub1')} className="menuItem">Service</li>
+        <li onClick={() => onItemClick('Sub2')} className="menuItem">Sub2</li>
+        <li onClick={() => onItemClick('Sub3')} className="menuItem">Sub3</li>
+        <li onClick={() => onItemClick('Sub4')} className="menuItem">Sub4</li>
       </ul>
+       {/* 최소화 버튼을 하단에 추가 */}
+      <div onClick={onToggle} className="minimizeButton">
+      <FontAwesomeIcon icon={isCollapsed ? faArrowRight : faArrowLeft} />
+      {!isCollapsed && <span>최소화</span>}
+      </div>
     </aside>
   );
-};
-
-const styles = {
-  sider: {
-    width: '200px',
-    background: '#2c3e50',
-    color: 'white',
-    padding: '20px',
-  },
-  toggleButton: {
-    display: 'block',
-    marginBottom: '20px',
-    padding: '10px',
-    backgroundColor: '#1abc9c',
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  menu: {
-    listStyleType: 'none',
-    padding: 0,
-  },
-  menuItem: {
-    padding: '10px',
-    cursor: 'pointer',
-    backgroundColor: '#34495e',
-    marginBottom: '10px',
-    textAlign: 'center',
-    color: 'white',
-  },
 };
 
 export default Sider;
