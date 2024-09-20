@@ -47,6 +47,7 @@ function MainScreen() {
     } else {
       handleItemClick('Sub1'); // 기본적으로 Sub1 컴포넌트 로드
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ActiveComponent = activeComponent;
