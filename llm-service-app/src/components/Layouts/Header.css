@@ -52,3 +52,12 @@
   .logout-button.dark-mode {
     background-color: #c0392b;
   }
+
+  .logo.light-mode, .logo.dark-mode {
+    width: 150px;
+    background-position: center;
+  }
+
+  #llm-logo:hover {
+    cursor: pointer;
+  }

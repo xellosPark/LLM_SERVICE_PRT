@@ -17,7 +17,7 @@ function MainScreen() {
     console.log(`Attempting to load component: ${componentName}`);
     switch (componentName) {
       case 'Sub1':
-        setMainTitle("메일 compliance 점검");
+        setMainTitle("메일 Compliance 점검");
         return lazy(() => import('../Sub1/Sub1'));
       case 'Sub2':
         setMainTitle("Sub2");

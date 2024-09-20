@@ -1,3 +1,14 @@
+  /* 테이블 컨테이너 설정 (테이블에만 스크롤 발생) */
+  .table-container {
+    overflow-y: auto;
+    height: calc(100vh - 305px); /* Mainscreen에서 남는 공간을 차지 */
+  }
+  
+  /* Pagination 고정 (하단에 고정) */
+  .pagination-container {
+    text-align: center;
+  }
+  
   .fixed-table {
     width: 100%;
     table-layout: auto; /* 열 너비를 고정 */
@@ -5,6 +16,9 @@
   }
   
   .fixed-table th {
+    position: sticky;
+    top: 0;                   /* 상단에 고정 */
+    z-index: 2;               /* 내용보다 위에 위치 */
     border: 1px solid #ddd; /* 테두리 설정 */
     padding: 8px;
     text-align: center;
@@ -15,8 +29,23 @@
     border-bottom: 1px solid #ddd; /* 테두리 설정 */
     padding: 8px;
     text-align: center;
+    white-space: nowrap;     /* 한 줄로 표시 */
+    max-width: 150px;        /* 각 td의 최대 너비 */
+    overflow: hidden;        /* 내용이 넘칠 경우 숨김 처리 */
+    text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
+    position: relative;      /* 툴팁 위치를 설정하기 위한 relative 설정 */
   }
-  
+
+  /* hover 시 툴팁 표시 */
+  .fixed-table td:hover .tooltip {
+    display: block;              /* hover 시 툴팁을 보여줌 */
+  }
+
+  /* ID 열 설정 이렇게도 사용가능 */
+  /* .fixed-table td.id-column {
+    max-width: 10px;
+  } */
+
   .fixed-table th {
     background-color: #A8B2CB;
   }
@@ -30,13 +59,23 @@
   .fixed-table tr:nth-child(odd) {
     background-color: #ffffff; /* 흰색 */
   }
-  
+
   .fixed-table tr:hover {
     background-color: #ddd;
   }
 
-  .td-status {
-    border-radius: 20px;
-    margin: 10px;
-    margin: 10px;
+  /* 툴팁 기본 설정 */
+  .tooltip {
+    display: none;               /* 기본적으로 툴팁은 숨겨진 상태 */
+    position: absolute;          /* 부모 요소를 기준으로 툴팁의 위치 설정 */
+    top: 100%;                   /* 부모 요소 바로 아래에 툴팁 표시 */
+    left: 0;
+    background-color: #333;      /* 툴팁 배경색 */
+    color: white;                /* 툴팁 텍스트 색상 */
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: normal;         /* 줄바꿈 허용 */
+    max-width: 300px;            /* 툴팁의 최대 너비 */
+    z-index: 10;                 /* 툴팁이 다른 요소보다 위에 표시되도록 */
   }

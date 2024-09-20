@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Header.css'; // CSS 파일 불러오기
+import lightLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_grey_rgb.png';
+import darkLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_white_rgb.png';
 
 function Header({ onLogout }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -11,8 +13,8 @@ function Header({ onLogout }) {
 
   return (
     <header className={`header ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-      <div>
-        UbiSam
+      <div id='llm-logo'>
+        <img alt='LG LOGO' src={`${isDarkMode ? darkLogo : lightLogo}`}  className={`logo ${isDarkMode ? 'dark-mode' : 'light-mode'}`} />
       </div>
       <div className="user-section">
         <span className={`user-name ${isDarkMode ? 'dark-mode' : ''}`}>UbiSam</span>

@@ -79,20 +79,19 @@ const LLMTable = () => {
     
      // 상태에 따라 배경색을 반환하는 함수
     const getStatusStyle = (status) => {
-        const baseStyle = {
-            margin: '4px',          // margin 추가
+        const baseStyle = {          // margin 추가
             borderRadius: '8px',    // border-radius 추가
-            padding: '4px 8px'      // padding도 함께 추가 가능
+            padding: '4px 0px'      // padding도 함께 추가 가능
           };
         switch (status) {
         case 'Running':
             return { ...baseStyle, backgroundColor: '#EEF5E9', color: '#698474' }; // 초록색 배경, 초록색 텍스트
         case 'Success':
-            return { backgroundColor: '#EEF5FF', color: '#5A97F1' }; // 빨간색 배경, 빨간색 텍스트
+            return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#5A97F1' }; // 빨간색 배경, 빨간색 텍스트
         case 'Saving':
-            return { backgroundColor: '#FFF8E3', color: '#F6AD00' }; // 노란색 배경, 노란색 텍스트
+            return { ...baseStyle, backgroundColor: '#FFF8E3', color: '#F6AD00' }; // 노란색 배경, 노란색 텍스트
         case 'Error':
-            return { backgroundColor: '#FFEFEF', color: '#F6204B' }; // 노란색 배경, 노란색 텍스트
+            return { ...baseStyle, backgroundColor: '#FFEFEF', color: '#F6204B' }; // 노란색 배경, 노란색 텍스트
         default:
             return {}; // 기본 스타일 (변경 없음)
         }
@@ -100,35 +99,50 @@ const LLMTable = () => {
     
       return (
         <div>
-          <table className='fixed-table'>
-            <thead>
-                <tr>
-                    {columns.map((column, index) => (
-                        <th key={index}>{column}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.time}</td>
-                  <td>{item.model}</td>
-                  <td>{item.result}</td>
-                  <td>{item.risk}</td>
-                  <td>{item.resultFile}</td>
-                  <td><div style={getStatusStyle(item.status)}>{item.status}</div></td>
-                </tr>
-              ))}
-        </tbody>
-      </table>
-
-      <Pagination
-          postsPerPage={itemsPerPage} // 페이지 당 포스트 수
-          totalPosts={data.length} // 전체 포스트 수
-          paginate={(pageNumber) => setCurrentPage(pageNumber)} // 페이지 번호를 변경하는 함수
-          currentPage={currentPage} // 현재 페이지 번호
-        />
+          <div className="table-container">
+            <table className='fixed-table'>
+              <thead>
+                  <tr>
+                      {columns.map((column, index) => (
+                          <th key={index}>{column}</th>
+                      ))}
+                  </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>
+                      {item.time}
+                      {/* 툴팁 추가: hover 시 전체 내용이 표시됨 */}
+                      <div className="tooltip">{item.time}</div>
+                    </td>
+                    <td>
+                      {item.model}
+                      <div className="tooltip">{item.model}</div>
+                    </td>
+                    <td>{item.result}</td>
+                    <td>{item.risk}</td>
+                    <td>{item.resultFile}</td>
+                    <td>
+                      <div style={getStatusStyle(item.status)}>{item.status}</div>
+                      
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <div>
+            <Pagination
+              postsPerPage={itemsPerPage} // 페이지 당 포스트 수
+              totalPosts={data.length} // 전체 포스트 수
+              paginate={(pageNumber) => setCurrentPage(pageNumber)} // 페이지 번호를 변경하는 함수
+              currentPage={currentPage} // 현재 페이지 번호
+            />
+          </div>
+      
     </div>
   );
 };
