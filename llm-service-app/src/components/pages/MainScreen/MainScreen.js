@@ -1,18 +1,20 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import Sider from './Sider'; // Sider 컴포넌트 추가
+import Sider from './Sider'; // Sider component
+import './MainScreen.css';  // Import the new CSS file
 
 function MainScreen() {
-  const [isCollapsed, setIsCollapsed] = useState(false);  // 사이드바 상태
-  const [activeComponent, setActiveComponent] = useState(null);  // 활성화된 컴포넌트
+  const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
+  const [activeComponent, setActiveComponent] = useState(null);  // Active component state
+  const [MainTitle, setMainTitle] = useState(''); // 새로운 상태 추가
 
-  // 사이드바 토글 함수
+  // Toggle Sidebar function
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  // 컴포넌트 동적 로드 함수
+  // Function to dynamically load components
   const loadComponent = (componentName) => {
-    console.log(`컴포넌트 로드 시도: ${componentName}`);
+    console.log(`Attempting to load component: ${componentName}`);
     switch (componentName) {
       case 'Sub1':
         return lazy(() => import('../Sub1/Sub1'));
@@ -23,29 +25,30 @@ function MainScreen() {
       case 'Sub4':
         return lazy(() => import('../Sub4/Sub4'));
       default:
-        console.log('알 수 없는 컴포넌트:', componentName);
+        console.log('Unknown component:', componentName);
         return null;
     }
   };
 
-  // 메뉴 항목 클릭 시 호출되는 함수
+  // Handle menu item click
   const handleItemClick = (componentName) => {
     const Component = loadComponent(componentName);
     if (Component) {
       setActiveComponent(() => Component);
-      localStorage.setItem('activeComponent', componentName); // 로컬 스토리지에 선택한 컴포넌트 저장
+      setMainTitle(componentName); // 헤더 제목 설정
+      localStorage.setItem('activeComponent', componentName);  // Save selected component in localStorage
     } else {
-      console.error(`컴포넌트를 찾을 수 없습니다: ${componentName}`);
+      console.error(`Component not found: ${componentName}`);
     }
   };
 
-  // 페이지 새로고침 시 로컬 스토리지에서 마지막으로 선택된 컴포넌트 복원
+  // Restore last selected component on page refresh
   useEffect(() => {
     const savedComponent = localStorage.getItem('activeComponent');
     if (savedComponent) {
       handleItemClick(savedComponent);
     } else {
-      handleItemClick('Sub1'); // 기본적으로 Sub1 컴포넌트 로드
+      handleItemClick('Sub1');  // Load Sub1 by default
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -53,32 +56,22 @@ function MainScreen() {
   const ActiveComponent = activeComponent;
 
   return (
-    <div style={styles.container}>
+    <div className="container">
       <Sider
         isCollapsed={isCollapsed}
         onToggle={toggleSidebar}
-        onItemClick={handleItemClick}  // Sider에서 메뉴 클릭 시 컴포넌트 변경
+        onItemClick={handleItemClick}  // Change component on Sider menu click
       />
-      <div style={styles.content}>
-        <Suspense fallback={<div>로딩 중...</div>}>
-          {ActiveComponent && <ActiveComponent />}  {/* 선택된 컴포넌트 로드 */}
+      <div className="content">
+        <div className="maintitle">
+          <h1>{MainTitle}</h1>
+        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          {ActiveComponent && <ActiveComponent />}  {/* Load selected component */}
         </Suspense>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    height: '100vh',
-  },
-  content: {
-    flex: 1,
-    padding: '20px',
-    paddingTop: '80px', // 상단 고정된 헤더 아래로 여백 설정
-    backgroundColor: '#ecf0f1',
-  },
-};
 
 export default MainScreen;

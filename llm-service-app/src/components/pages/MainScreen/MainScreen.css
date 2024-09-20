@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    height: 100vh;
+}
+  
+.content {
+    flex: 1;
+    padding: 20px;
+    padding-top: 65px; /* 고정된 헤더 아래 여백 추가 */
+    background-color: #ecf0f1;
+}
+
+.maintitle {
+    display: flex;
+    align-items: center; /* 텍스트 수직 가운데 정렬 */
+    color: #222;
+    font-size: 18px; /* 폰트 크기를 좀 더 키워서 가독성 향상 */
+    padding-bottom: 1px; /* 밑줄 위에 약간의 여백 */
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* 투명도가 적용된 밑줄 */
+    margin-bottom: 10px; /* 밑줄 아래의 여백 */
+}
