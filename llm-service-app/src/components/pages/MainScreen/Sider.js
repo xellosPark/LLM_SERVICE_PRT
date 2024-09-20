@@ -15,7 +15,7 @@ const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
        {/* 최소화 버튼을 하단에 추가 */}
       <div onClick={onToggle} className="minimizeButton">
       <FontAwesomeIcon icon={isCollapsed ? faArrowRight : faArrowLeft} />
-      {!isCollapsed && <span>최소화</span>}
+      {!isCollapsed && <span> 최소화</span>}
       </div>
     </aside>
   );
