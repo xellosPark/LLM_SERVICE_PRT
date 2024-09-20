@@ -19,3 +19,14 @@
     border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* 투명도가 적용된 밑줄 */
     margin-bottom: 10px; /* 밑줄 아래의 여백 */
 }
+
+.fail-loading {
+    text-align: center;        /* 텍스트 가로축 중앙 정렬 */
+    height: 600px;
+    margin-top: 50px;
+}
+
+.centered-fallback {
+    display: inline-block;     /* 인라인 요소의 크기 조절을 위해 사용 */
+  line-height: normal;       /* 인라인 요소의 본래 높이 유지 */
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
+import Loading from '../../../logos/loading_light.png'
 
 function MainScreen() {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
@@ -70,7 +71,13 @@ function MainScreen() {
         <div className="maintitle">
           <h1>{MainTitle}</h1>
         </div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={
+          <div className='fail-loading'>
+            <div className='centered-fallback'>
+              <img src={Loading} alt='loading...' className='fail-loading' />
+            </div>
+            </div>
+          }>
           {ActiveComponent && <ActiveComponent />}  {/* Load selected component */}
         </Suspense>
       </div>
