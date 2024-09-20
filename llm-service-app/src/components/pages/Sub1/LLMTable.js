@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './LLMTable.css'
 import Pagination from '../Pagination/Pagination';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const LLMTable = () => {
 
@@ -100,7 +101,11 @@ const LLMTable = () => {
       }
   };
 
-
+  const handleIconClick = (model) => {
+    console.log(`Icon clicked for model: ${model}`);
+    // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
+    window.open(`https://example.com/model/${model}`, '_blank');
+  };
 
   // 정렬 기능 구현
   const handleSort = (key) => {
@@ -147,6 +152,10 @@ const LLMTable = () => {
                 </td>
                 <td>
                   {item.model}
+                  <FaExternalLinkAlt
+                        style={{ marginLeft: '15px', cursor: 'pointer', fontSize: '12px' }}
+                        onClick={() => handleIconClick(item.model)}
+                      /> {/* 아이콘과 클릭 이벤트 */}
                   <div className="tooltip">{item.model}</div>
                 </td>
                 <td>{item.result}</td>
