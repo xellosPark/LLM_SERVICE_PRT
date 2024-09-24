@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './LLMTable.css'
 import Pagination from '../Pagination/Pagination';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const LLMTable = () => {
 
-  const columns = ['Id', 'Time', 'Model / Data', 'Evaluation Result', 'Risk Mails', 'Result File', 'Status' ];  // 미리 정의된 테이블 헤더
+  const columns = [
+    { key: 'id', label: 'Id', minWidth: 10 },
+    { key: 'time', label: 'Time', minWidth: 20 },
+    { key: 'model', label: 'Model / Data', minWidth: 50 },
+    { key: 'status', label: 'Status', minWidth: 30 },
+    { key: 'risk', label: 'Risk Mails', minWidth: 100 },
+    { key: 'evResult', label: 'Evaluation Result', minWidth: 100 },
+    { key: 'resultFile', label: 'Result File', minWidth: 50 },
+  ];  // 미리 정의된 테이블 헤더
   const datas = [
       { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
       { id: 2, time: '2024-09-04 14:43:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
@@ -69,6 +77,20 @@ const LLMTable = () => {
       { id: 30, time: '2024-09-02 18:29:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' }
   ];
 
+  const [columnWidths, setColumnWidths] = useState({
+    id: 10,
+    time: 20,
+    model: 50,
+    status: 30,
+    risk: 150,
+    evResult: 100,
+    resultFile: 50,
+  });
+
+  // columnRefs를 빈 객체로 초기화합니다.
+  const columnRefs = useRef({});
+  const resizingState = useRef({ startX: 0, startWidth: 0 });
+
   const [data, setData] = useState(datas);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,7 +150,34 @@ const LLMTable = () => {
     setData(sortedData);
   };
 
+  const startResizing = (e, column) => {
+    // 현재 열의 너비와 클릭 위치 간의 차이 보정
+    const boundingRect = columnRefs.current[column.key].getBoundingClientRect();
+    const diff = e.clientX - boundingRect.right;
 
+    resizingState.current.startX = e.clientX;
+    resizingState.current.startWidth = columnRefs.current[column.key].offsetWidth;
+    resizingState.current.diff = diff;
+
+    const onMouseMove = (moveEvent) => {
+      // 보정된 위치에서 너비 계산
+      const newWidth =
+        resizingState.current.startWidth + (moveEvent.clientX - resizingState.current.startX) - resizingState.current.diff;
+
+      setColumnWidths((prevWidths) => ({
+        ...prevWidths,
+        [column.key]: newWidth > column.minWidth ? newWidth : column.minWidth,
+      }));
+    };
+
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  };
 
   return (
     <div>
@@ -136,10 +185,29 @@ const LLMTable = () => {
         <table className='fixed-table'>
           <thead>
               <tr>
-                  {columns.map((column, index) => (
-                      <th key={index} onClick={() => handleSort(column)}>{column} {sortConfig.key === column ? (sortConfig.direction === 'ascending' ? '↑' : '↓') : ''}</th>
-                  ))}
-              </tr>
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  ref={(el) => {
+                    if (el) columnRefs.current[column.key] = el;
+                  }}
+                  style={{ width: `${columnWidths[column.key]}px`, position: 'relative' }}
+                >
+                  {column.label}
+                  <div
+                    onMouseDown={(e) => startResizing(e, column)}
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      width: "2px",
+                      height: "100%",
+                      cursor: "col-resize",
+                    }}
+                  />
+                </th>
+              ))}
+            </tr>
           </thead>
           <tbody>
             {currentItems.map((item) => (
@@ -158,13 +226,14 @@ const LLMTable = () => {
                       /> {/* 아이콘과 클릭 이벤트 */}
                   <div className="tooltip">{item.model}</div>
                 </td>
-                <td>{item.result}</td>
-                <td>{item.risk}</td>
-                <td>{item.resultFile}</td>
                 <td>
                   <div style={getStatusStyle(item.status)}>{item.status}</div>
-                  
                 </td>
+                <td>{item.risk}</td>
+                <td>{item.result}</td>
+                
+                <td>{item.resultFile}</td>
+                
               </tr>
             ))}
           </tbody>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import LoginPage from './components/auth/LoginPage';
 import MainScreen from './components/pages/MainScreen/MainScreen';
 import Header from './components/Layouts/Header';
+import api from './components/api/api';
 
 function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
   const location = useLocation();
@@ -12,6 +13,22 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
     if (isAuthenticated) {
       localStorage.setItem('lastPath', location.pathname); // 현재 경로를 저장
     }
+
+    const interceptor = api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          handleLogout();
+          return Promise.reject(error);
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    // 컴포넌트 언마운트 시 인터셉터 제거
+    return () => {
+      api.interceptors.response.eject(interceptor);
+    };
   }, [location, isAuthenticated]);
 
   return (
@@ -35,13 +52,30 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLogin = (id, pw) => {
-    if (id === '1111' && pw === '2222') {
-      setIsAuthenticated(true); // 로그인 성공 시 상태 변경
+  const handleLogin = async (id, pw) => {
+    
+    // if (id === '1111' && pw === '2222') {
+    //   setIsAuthenticated(true); // 로그인 성공 시 상태 변경
+    //   localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
+    //   localStorage.setItem('activeComponent', 'Sub1'); // 로그인 시 기본적으로 Sub1 로드
+    // } else {
+    //   alert("ID 또는 PW가 틀렸습니다.");
+    // }
+    
+    try {
+      const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
+      const response = await api.post(`${ip}/api/auth/login`, { id, pw });
+      const { accessToken, refreshToken } = response.data;
+      setIsAuthenticated(true);
       localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
       localStorage.setItem('activeComponent', 'Sub1'); // 로그인 시 기본적으로 Sub1 로드
-    } else {
-      alert("ID 또는 PW가 틀렸습니다.");
+      // Access Token과 Refresh Token을 저장
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+    console.log('Login successful');
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
 
@@ -57,6 +91,8 @@ function App() {
     localStorage.removeItem('isAuthenticated'); // 로컬 스토리지에서 로그인 상태 제거
     localStorage.removeItem('lastPath'); // 로컬 스토리지에서 마지막 경로 제거
     localStorage.removeItem('activeComponent'); // 로컬 스토리지에서 마지막 상태 제거
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   };
 
   return (
