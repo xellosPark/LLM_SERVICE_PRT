@@ -1,0 +1,114 @@
+/* 전체 레이아웃을 위한 Flexbox 컨테이너 */
+.create-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* 각 필드 그룹 */
+  .field-wrapper {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .field-wrapper > label {
+    background-color: #ced4da;
+    padding: 10px;
+    margin: 0px 5px;
+    border-radius: 4px;
+  }
+  
+  .file-upload-btn {
+    display: inline-block;
+    
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 1px solid #ced4da;
+  }
+  
+  .file-upload-btn:hover {
+    background-color: #dee2e6;
+  }
+  .file-delete {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .file-delete > div {
+    display: flex;
+    align-items: center;
+  }
+
+  .file-delete-label {
+    background-color: white;
+    padding: 10px;
+    margin: 5px 5px;
+    border-radius: 4px;
+    color: #333;
+  }
+
+  /* 드롭다운 스타일 */
+  .dropdown {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    background-color: #fff;
+    color: #495057;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 6.345c-.566-.566-.168-1.536.636-1.536h9.826c.803 0 1.202.97.636 1.536l-4.796 4.796a1 1 0 0 1-1.414 0z'/%3E%3C/svg%3E");
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 12px;
+    cursor: pointer;
+  }
+  
+  /* 버튼 크기와 위치 조정 */
+  .submit-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e96483;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    width: 200px;  /* 버튼의 고정 너비 설정 */
+    align-self: center;  /* 버튼이 컨테이너의 가운데에 배치되도록 설정 */
+  }
+  
+  .submit-btn:hover {
+    background-color: #C26075;
+  }
+  
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  

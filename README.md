@@ -3,6 +3,7 @@
 npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
 npm install axios
 npm install jwt-decode //JWT의 만료 시간이나 페이로드에 저장된 정보를 확인할 때 사용
+npm i cross-env
 
 TTF와 OTF의 차이점 정리:
 특징	TTF (TrueType Font)	OTF (OpenType Font)

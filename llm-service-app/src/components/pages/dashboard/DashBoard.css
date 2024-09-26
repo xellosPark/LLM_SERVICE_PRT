@@ -23,4 +23,5 @@
 
 .new-button:hover {
     background-color: #e96483; /* 새로운 호버 색상 */
+    cursor: pointer;
   }

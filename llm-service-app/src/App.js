@@ -52,7 +52,7 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLogin = async (id, pw) => {
+  const handleLogin = async (email, password) => {
     
     // if (id === '1111' && pw === '2222') {
     //   setIsAuthenticated(true); // 로그인 성공 시 상태 변경
@@ -64,11 +64,12 @@ function App() {
     
     try {
       const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
-      const response = await api.post(`${ip}/api/auth/login`, { id, pw });
+      const ip2 = 'http://127.0.0.1:4000';
+      const response = await api.post(`${ip2}/api/auth/login`, { email, password });
       const { accessToken, refreshToken } = response.data;
       setIsAuthenticated(true);
       localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
-      localStorage.setItem('activeComponent', 'Sub1'); // 로그인 시 기본적으로 Sub1 로드
+      localStorage.setItem('activeComponent', 'DashBoard'); // 로그인 시 기본적으로 Sub1 로드
       // Access Token과 Refresh Token을 저장
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);

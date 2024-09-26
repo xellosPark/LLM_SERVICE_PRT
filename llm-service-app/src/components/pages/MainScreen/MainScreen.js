@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
 import Loading from '../../../logos/loading_light.png'
+import { Outlet } from 'react-router-dom';
 
 function MainScreen() {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
@@ -17,9 +18,11 @@ function MainScreen() {
   const loadComponent = (componentName) => {
     console.log(`Attempting to load component: ${componentName}`);
     switch (componentName) {
-      case 'Sub1':
-        setMainTitle("메일 Compliance 점검");
-        return lazy(() => import('../Sub1/Sub1'));
+      case 'DashBoard':
+        //setMainTitle("메일 Compliance 점검");
+        //return lazy(() => import('../dashboard/DashBoard'));
+        setMainTitle("메일 Compliance 점검 - 신규 점검 생성");
+        return lazy(() => import('../dashboard/CreateInspection'));
       case 'Sub2':
         setMainTitle("Sub2");
         return lazy(() => import('../Sub2/Sub2'));
@@ -29,6 +32,9 @@ function MainScreen() {
       case 'Sub4':
         setMainTitle("Sub4");
         return lazy(() => import('../Sub4/Sub4'));
+      // case 'Create':
+      //   setMainTitle("신규 점검 생성");
+      //   return lazy(() => import('../dashboard/Inspection'));
       default:
         console.log('Unknown component:', componentName);
         return null;
@@ -53,7 +59,7 @@ function MainScreen() {
     if (savedComponent) {
       handleItemClick(savedComponent);
     } else {
-      handleItemClick('Sub1');  // Load Sub1 by default
+      handleItemClick('DashBoard');  // Load Sub1 by default
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -78,6 +84,7 @@ function MainScreen() {
             </div>
             </div>
           }>
+          {/* <Outlet /> */}
           {ActiveComponent && <ActiveComponent />}  {/* Load selected component */}
         </Suspense>
       </div>

@@ -1,11 +1,13 @@
 import React from 'react';
 import LLMTable from './LLMTable';
-import './Sub1.css'
+import './DashBoard.css'
 import axios from 'axios';
 import api from '../../api/api';
+import CreateInspection from './CreateInspection';
+import { useNavigate } from 'react-router-dom';
 
-const Sub1 = () => {
-
+const DashBoard = () => {
+  const navigate = useNavigate();
 
   const handleTest = async () => {
     const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
@@ -15,15 +17,19 @@ const Sub1 = () => {
     });
   }
 
+  const handleCreate = () => {
+    navigate('/create');
+  }
+
   return (
     <div id='sub1-main'>
       <div className='sub1-main'>
         <button onClick={handleTest}> test </button>
-        <button className='new-button'>+  신규 점검 생성</button>
+        <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button>
       </div>
       <LLMTable/>
     </div>
   );
 };
 
-export default Sub1;
+export default DashBoard;
