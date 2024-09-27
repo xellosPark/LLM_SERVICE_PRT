@@ -19,16 +19,14 @@ function MainScreen() {
     console.log(`Attempting to load component: ${componentName}`);
     switch (componentName) {
       case 'DashBoard':
-        //setMainTitle("메일 Compliance 점검");
-        //return lazy(() => import('../dashboard/DashBoard'));
+        setMainTitle("메일 Compliance 점검");
+        return lazy(() => import('../dashboard/DashBoard'));
+      case 'Sub2':
         setMainTitle("메일 Compliance 점검 - 신규 점검 생성");
         return lazy(() => import('../dashboard/CreateInspection'));
-      case 'Sub2':
-        setMainTitle("Sub2");
-        return lazy(() => import('../Sub2/Sub2'));
       case 'Sub3':
-        setMainTitle("Sub3");
-        return lazy(() => import('../Sub3/Sub3'));
+        setMainTitle("메일 Compliance 점검 - Evaluation");
+        return lazy(() => import('../dashboard/EvalDashBoard'));
       case 'Sub4':
         setMainTitle("Sub4");
         return lazy(() => import('../Sub4/Sub4'));
