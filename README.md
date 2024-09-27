@@ -1,9 +1,10 @@
 1.npm install react-router-dom@6.22.3
 2.npm install --save-dev @babel/plugin-proposal-private-property-in-object
-npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
-npm install axios
-npm install jwt-decode //JWT의 만료 시간이나 페이로드에 저장된 정보를 확인할 때 사용
-npm i cross-env
+3.npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
+4.npm install axios
+5.npm install jwt-decode //JWT의 만료 시간이나 페이로드에 저장된 정보를 확인할 때 사용
+6.npm i cross-env
+7.npm install -g win-node-env
 
 TTF와 OTF의 차이점 정리:
 특징	TTF (TrueType Font)	OTF (OpenType Font)
@@ -20,7 +21,7 @@ TTF와 OTF의 차이점 정리:
 디자인과 타이포그래피: 복잡한 타이포그래피 디자인(리그처, 스몰캡스, 대체 문자 등)이 필요하다면 OTF가 더 적합합니다. OTF는 고급 디자인과 출판 작업에서 유용합니다.
 
 //Unix 스타일의 환경 변수 설정 방식을 Windows에서 지원하도록 해주는 패키지
-npm install -g win-node-env
+
 papckage.json 또는 터미널에서 입력
 "scripts": {
   // ...

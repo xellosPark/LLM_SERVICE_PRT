@@ -1,0 +1,114 @@
+.eval-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-buttons button {
+    border: none;
+    border-left: 1px solid #c0c0c0;
+    border-bottom: 1px solid #c0c0c0;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.tab-buttons button:hover {
+    background-color: gray;
+  }
+  
+  .tab-buttons button.active {
+    background-color: #e96483;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .tab-content {
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+  }
+
+.tab-wrapper {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 0px 0px 8px 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.table-direct {
+    display: flex;
+    width: 100%;
+}
+
+.table-section {
+    width: 100%;
+    margin: 5px;
+}
+
+.table-th {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.risk-th-button {
+    border: 1px solid #e2e2e2;
+    margin-left: 5px;
+    padding: 4px 8px;
+    font-size: 9px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #575757;
+    cursor: pointer;
+}
+
+.eval-table {
+    margin: 0px;
+    padding: 0px;
+}
+
+.risk-td-button {
+    font-size: 10px;
+    padding: 4px 24px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.eval-table td {
+    font-size: 12px;
+}
+
+.risk-td-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.eval-td-textarea {
+    width: 100%;
+  /* border: 2px solid #ddd; */
+  border: none;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  resize: vertical; /* 수직 크기 조절 가능 */
+  /* box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: transparent;
+}
+
+/* 텍스트 에리어에 포커스가 있을 때 스타일 */
+.eval-td-textarea:focus {
+    outline: none;
+    border-color: none;
+    /* box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
+    background-color: transparent;
+  }
+  
+  /* 텍스트 에리어 placeholder 스타일 */
+  .eval-td-textarea::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
