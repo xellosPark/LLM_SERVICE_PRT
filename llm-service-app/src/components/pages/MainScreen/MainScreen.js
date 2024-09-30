@@ -107,8 +107,8 @@ function MainScreen() {
             <div className='centered-fallback'>
               <img src={Loading} alt='loading...' className='fail-loading' />
             </div>
-            </div>
-          }>
+          </div>
+        }>
           {/* <Outlet /> */}
           {ActiveComponent && <ActiveComponent />}  {/* Load selected component */}
         </Suspense>
