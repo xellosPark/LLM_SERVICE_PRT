@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './LLMTable.css'
 import Pagination from '../Pagination/Pagination';
 import Modal from '../Modal/Modal';
@@ -108,6 +108,9 @@ const LLMTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
 
+  const [contextMenu, setContextMenu] = useState(null);
+  const menuRef = useRef(null); // 메뉴의 ref
+
   // 상태에 따라 배경색을 반환하는 함수
   const getStatusStyle = (status) => {
       const baseStyle = {          // margin 추가
@@ -189,6 +192,43 @@ const LLMTable = () => {
     document.addEventListener("mouseup", onMouseUp);
   };
 
+   // 우클릭 이벤트 핸들러
+   const handleRightClick = (event, rowData) => {
+    event.preventDefault();
+    setContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+      rowData,
+    });
+  };
+
+  // 삭제 버튼 클릭 시 해당 행 삭제
+  const handleDelete = () => {
+    setData(data.filter(row => row.id !== contextMenu.rowData.id));
+    setContextMenu(null); // 메뉴 닫기
+  };
+
+  // 메뉴 외부 클릭 시 닫기
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setContextMenu(null); // 메뉴 닫기
+    }
+  };
+
+  useEffect(() => {
+    // 메뉴가 열려 있을 때만 전역 클릭 이벤트를 등록
+    if (contextMenu) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 정리
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [contextMenu]);
+
   return (
     <div>
       <div className="table-container">
@@ -221,7 +261,7 @@ const LLMTable = () => {
           </thead>
           <tbody>
             {currentItems.map((item) => (
-              <tr key={item.id}>
+              <tr key={item.id} onContextMenu={(e) => handleRightClick(e, item)}>
                 <td>{item.id}</td>
                 <td>
                   {item.time}
@@ -252,6 +292,21 @@ const LLMTable = () => {
             <Modal data={selectedRowData} onClose={closeModal} />
           )
         }
+        {/* 커스텀 컨텍스트 메뉴 */}
+      {contextMenu && (
+        <div
+          ref={menuRef} // 메뉴에 대한 참조
+          style={{
+            position: 'absolute',
+            top: `${contextMenu.y}px`,
+            left: `${contextMenu.x}px`,
+            border: '1px solid black',
+            zIndex: 1000,
+          }}
+        >
+          <button onClick={handleDelete} style={{border: 'none', background:'white', padding:' 10px'}}>삭제</button>
+        </div>
+      )}
       </div>
       
       <div>
