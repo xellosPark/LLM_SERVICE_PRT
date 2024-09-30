@@ -36,8 +36,10 @@
 }
 
 .close-button:hover {
-  color: #0056b3;
+  border-radius: 8px;
+  background-color: #0056b3;
   color: white;
+  border: none;
 }
 
 .modal-content-title {
@@ -61,10 +63,6 @@
   color: gray;
 }
 
-
-
-
-
 .data-section {
   display: flex;
   flex-direction: column;
@@ -85,7 +83,8 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
-  width: 175px;
+  width: 115px;
+  text-align: center;
 }
 
 .file-name {
@@ -94,30 +93,28 @@
   padding: 8px 20px;
   border-radius: 4px;
   width: 100%;
-  max-width: 340px;
+  max-width: 395px;
 
   white-space: nowrap; /* 텍스트를 한 줄로 고정 */
   overflow: hidden; /* 넘치는 내용은 숨김 */
   text-overflow: ellipsis; /* 넘치는 부분은 '...'으로 표시 */
 }
 
-.file-name:hover::after {
+.file-name:hover::after, .keyword-name:hover::after {
   content: attr(data-tooltip); /* 툴팁으로 표시될 내용 */
   position: absolute;
   background-color: #333;
   color: #fff;
   padding: 5px;
   border-radius: 4px;
-  top: 40%;
+  top: 36%;
   left: 9%;
   transform: translateX(0%);
   white-space: nowrap;
   z-index: 100;
   opacity: 0;
   transition: opacity 0.3s ease;
-}
-
-.file-name:hover::after {
+  pointer-events: none; /* 마우스 포인터가 툴팁에 영향을 미치지 않게 */
   opacity: 1;
 }
 
@@ -130,6 +127,7 @@
   width: 160px;
   flex-direction: row;
   align-self: start;
+  text-align: center;
 }
 
 .keywords-row {
@@ -152,6 +150,7 @@
   color: #0056b3;
   font-weight: bold;
   width: 70px;
+  text-align: center;
 }
 
 .keyword-name {
@@ -161,14 +160,6 @@
   border-radius: 4px;
   width: 100%;
 }
-
-
-
-
-
-
-
-
 
 .modal-close-button {
   cursor: pointer;

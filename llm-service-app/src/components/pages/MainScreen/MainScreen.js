@@ -87,10 +87,10 @@ function MainScreen() {
         {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
         <div className="navigation-bar">
           <div className="navigation-title">
-            <button onClick={() => handleItemClick('DashBoard')} className="nav-item">
+            <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
               메일 Compliance 점검
             </button>
-            <button onClick={() => handleItemClick('PIEChatbot')} className="nav-item">
+            <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
               PIE 챗봇
             </button>
           </div>

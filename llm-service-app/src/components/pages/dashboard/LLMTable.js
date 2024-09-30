@@ -230,8 +230,7 @@ const LLMTable = () => {
                 </td>
                 <td>
                   {item.model}
-                  <FaExternalLinkAlt
-                        style={{ marginLeft: '15px', cursor: 'pointer', fontSize: '12px' }}
+                  <FaExternalLinkAlt className='icon'
                         onClick={() => handleIconClick(item)}
                       /> {/* 아이콘과 클릭 이벤트 */}
                   <div className="tooltip">{item.model}</div>

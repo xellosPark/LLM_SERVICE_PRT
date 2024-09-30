@@ -34,7 +34,7 @@ const Modal = ({ data, onClose }) => {
             <div className="keywords-row">
               <div className="keywords">
                 <span className="keyword">실수취인</span>
-                <span className="keyword-name">txt</span>
+                <span className="keyword-name" data-tooltip="txt">txt</span>
               </div>
               <div className="keywords">
                 <span className="keyword">제목</span>
