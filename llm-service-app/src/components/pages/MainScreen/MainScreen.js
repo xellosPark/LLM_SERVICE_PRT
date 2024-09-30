@@ -85,30 +85,28 @@ function MainScreen() {
         </div> */}
         {/* Navigation bar - 조건적으로 DashBoard에서만 표시 */}
         {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
-        <div className="navigation-bar">
-          <div className="navigation-title">
-            <button onClick={() => handleItemClick('DashBoard')} className="nav-item">
-              메일 Compliance 점검
-            </button>
-            <button onClick={() => handleItemClick('PIEChatbot')} className="nav-item">
-              PIE 챗봇
-            </button>
+          <div className="navigation-bar">
+            <div className="navigation-title">
+              <button onClick={() => handleItemClick('DashBoard')} className="nav-item">
+                메일 Compliance 점검
+              </button>
+              <button onClick={() => handleItemClick('PIEChatbot')} className="nav-item">
+                PIE 챗봇
+              </button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="maintitle">
-          <h1>{MainTitle}</h1>
-        </div>
-      )}
-
-
+        ) : (
+          <div className="maintitle">
+            <h1>{MainTitle}</h1>
+          </div>
+        )}
         <Suspense fallback={
           <div className='fail-loading'>
             <div className='centered-fallback'>
               <img src={Loading} alt='loading...' className='fail-loading' />
             </div>
-            </div>
-          }>
+          </div>
+        }>
           {/* <Outlet /> */}
           {ActiveComponent && <ActiveComponent />}  {/* Load selected component */}
         </Suspense>

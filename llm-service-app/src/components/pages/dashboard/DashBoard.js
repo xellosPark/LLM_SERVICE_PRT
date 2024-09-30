@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LLMTable from './LLMTable';
 import './DashBoard.css'
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const DashBoard = () => {
   const navigate = useNavigate();
+  const [showCreateInspection, setShowCreateInspection] = useState(false);  // Manage visibility of the new section
 
   const handleTest = async () => {
     const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
@@ -18,7 +19,7 @@ const DashBoard = () => {
   }
 
   const handleCreate = () => {
-    navigate('/create');
+    setShowCreateInspection(true);  // Show the CreateInspection component
   }
 
   return (
@@ -30,7 +31,11 @@ const DashBoard = () => {
           <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button>
         </div>
       </div>
-      <LLMTable/>
+         {/* Conditionally render LLMTable or CreateInspection */}
+      <div className="body-content">
+        {showCreateInspection ? <CreateInspection /> : <LLMTable />}
+      </div>
+      
     </div>
   );
 };

@@ -77,7 +77,6 @@
 .nav-item:focus {
     /*outline: none;  포커스 시 기본 외곽선 제거 */
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 포커스 시 외곽 그림자 추가 */
-    
     color: #aa3c56; 
 }
 
