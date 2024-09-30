@@ -4,7 +4,8 @@
 
 .sub1-main {
     display: flex;
-    justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
+    justify-content: space-between; /* 버튼을 오른쪽으로 정렬 */
+    align-items: center;
 }
 
 .new-button {

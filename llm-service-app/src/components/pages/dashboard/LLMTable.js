@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './LLMTable.css'
 import Pagination from '../Pagination/Pagination';
+import Modal from '../Modal/Modal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const LLMTable = () => {
@@ -15,7 +16,7 @@ const LLMTable = () => {
     { key: 'resultFile', label: 'Result File', minWidth: 50 },
   ];  // 미리 정의된 테이블 헤더
   const datas = [
-      { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
+      { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success', title: '2024-08023 14:54:11', jobId: '202408231454111782' },
       { id: 2, time: '2024-09-04 14:43:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
       { id: 3, time: '2024-09-14 07:33:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
       { id: 4, time: '2024-09-16 07:05:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Success' },
@@ -103,6 +104,10 @@ const LLMTable = () => {
 
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
 
+  // Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState(null);
+
   // 상태에 따라 배경색을 반환하는 함수
   const getStatusStyle = (status) => {
       const baseStyle = {          // margin 추가
@@ -126,7 +131,12 @@ const LLMTable = () => {
   const handleIconClick = (model) => {
     console.log(`Icon clicked for model: ${model}`);
     // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
-    window.open(`https://example.com/model/${model}`, '_blank');
+    setSelectedRowData(model);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   // 정렬 기능 구현
@@ -222,7 +232,7 @@ const LLMTable = () => {
                   {item.model}
                   <FaExternalLinkAlt
                         style={{ marginLeft: '15px', cursor: 'pointer', fontSize: '12px' }}
-                        onClick={() => handleIconClick(item.model)}
+                        onClick={() => handleIconClick(item)}
                       /> {/* 아이콘과 클릭 이벤트 */}
                   <div className="tooltip">{item.model}</div>
                 </td>
@@ -238,6 +248,11 @@ const LLMTable = () => {
             ))}
           </tbody>
         </table>
+        {
+          isModalOpen && (
+            <Modal data={selectedRowData} onClose={closeModal} />
+          )
+        }
       </div>
       
       <div>

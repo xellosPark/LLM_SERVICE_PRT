@@ -24,8 +24,11 @@ const DashBoard = () => {
   return (
     <div id='sub1-main'>
       <div className='sub1-main'>
-        <button onClick={handleTest}> test </button>
-        <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button>
+        <div className='dashboard-title'>메일 Compliance 점검</div>
+        <div>
+          <button onClick={handleTest}> test </button>
+          <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button>
+        </div>
       </div>
       <LLMTable/>
     </div>
