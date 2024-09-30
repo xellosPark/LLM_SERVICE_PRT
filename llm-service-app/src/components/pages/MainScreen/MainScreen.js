@@ -8,6 +8,7 @@ function MainScreen() {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
   const [activeComponent, setActiveComponent] = useState(null);  // Active component state
   const [MainTitle, setMainTitle] = useState(''); // 새로운 상태 추가
+  const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
 
   // Toggle Sidebar function
   const toggleSidebar = () => {
@@ -16,11 +17,18 @@ function MainScreen() {
 
   // Function to dynamically load components
   const loadComponent = (componentName) => {
-    console.log(`Attempting to load component: ${componentName}`);
+    console.log(`컴포넌트를 로드하려고 시도 중: ${componentName}`);
+    setActivePage(componentName);  // 페이지 상태 업데이트
     switch (componentName) {
+      // case 'DashBoard':
+      //   setMainTitle("메일 Compliance 점검  / PIE 챗봇");
+      //   return lazy(() => import('../dashboard/DashBoard'));
       case 'DashBoard':
-        setMainTitle("메일 Compliance 점검");
+        setMainTitle("메일 Compliance 점검");  // 메일 Compliance 점검 타이틀
         return lazy(() => import('../dashboard/DashBoard'));
+      case 'PIEChatbot':
+        setMainTitle("PIE 챗봇");  // PIE 챗봇 타이틀
+        return lazy(() => import('../dashboard/PIEChatbot')); // 새로운 PIE Chatbot 컴포넌트
       case 'Sub2':
         setMainTitle("메일 Compliance 점검 - 신규 점검 생성");
         return lazy(() => import('../dashboard/CreateInspection'));
@@ -72,9 +80,28 @@ function MainScreen() {
         onItemClick={handleItemClick}  // Change component on Sider menu click
       />
       <div className="content">
+        {/* <div className="maintitle">
+          <h1>{MainTitle}</h1>
+        </div> */}
+        {/* Navigation bar - 조건적으로 DashBoard에서만 표시 */}
+        {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
+        <div className="navigation-bar">
+          <div className="navigation-title">
+            <button onClick={() => handleItemClick('DashBoard')} className="nav-item">
+              메일 Compliance 점검
+            </button>
+            <button onClick={() => handleItemClick('PIEChatbot')} className="nav-item">
+              PIE 챗봇
+            </button>
+          </div>
+        </div>
+      ) : (
         <div className="maintitle">
           <h1>{MainTitle}</h1>
         </div>
+      )}
+
+
         <Suspense fallback={
           <div className='fail-loading'>
             <div className='centered-fallback'>
