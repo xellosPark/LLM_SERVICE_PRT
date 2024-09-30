@@ -9,6 +9,7 @@ function MainScreen() {
   const [activeComponent, setActiveComponent] = useState(null);  // Active component state
   const [MainTitle, setMainTitle] = useState(''); // 새로운 상태 추가
   const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
+  const [subPage, setSubPage] = useState('Default')
 
   // Toggle Sidebar function
   const toggleSidebar = () => {
@@ -49,6 +50,7 @@ function MainScreen() {
 
   // Handle menu item click
   const handleItemClick = (componentName) => {
+    setSubPage('Default');
     const Component = loadComponent(componentName);
     if (Component) {
       setActiveComponent(() => Component);
@@ -110,7 +112,12 @@ function MainScreen() {
           </div>
         }>
           {/* <Outlet /> */}
-          {ActiveComponent && <ActiveComponent />}  {/* Load selected component */}
+          {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? ( 
+            <>
+              {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} />}  {/* Load selected component */}
+            </>
+          ) : (<>{ActiveComponent && <ActiveComponent />}</>)
+        }
         </Suspense>
       </div>
     </div>
