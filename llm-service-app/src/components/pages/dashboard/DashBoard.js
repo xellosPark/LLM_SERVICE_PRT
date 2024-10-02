@@ -11,7 +11,7 @@ const DashBoard = ({subPage, setSubPage }) => {
   const [showCreateInspection, setShowCreateInspection] = useState(false);  // Manage visibility of the new section
 
   const handleTest = async () => {
-    const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
+    const ip = `http://127.0.0.1:4000`;
     return await api.get(`${ip}/api/users`, {})
     .then((res) => {
       console.log('getdata : ', res);

@@ -1,18 +1,27 @@
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
+import { useContext } from "react";
 import { useHistory } from 'react-router-dom';
+import { UserContext } from "../useContext/UserContext";
+
+let logoutHandler = null; // 로그아웃 핸들러를 저장할 변수
 
 // Axios 인스턴스 생성
 const api = axios.create({
-    baseURL: `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`
+    baseURL: `http://127.0.0.1:4000` //`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`
 });
+
+export const setLogoutHandler = (logoutFn) => {
+    logoutHandler = logoutFn; // 로그아웃 핸들러를 설정
+};
 
 // Access Token 갱신 함수
 const refreshAccessToken = async () => {
+    
     //const history = useHistory
     console.log('재발급 진행');
 
-    const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
+    const ip = `http://127.0.0.1:4000`;//`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
     const refreshToken = localStorage.getItem('refreshToken');
     try {
         const response = await axios.post(`${ip}/api/auth/token`, { token: refreshToken });
@@ -23,12 +32,8 @@ const refreshAccessToken = async () => {
 
         return accessToken;
     } catch (error) {
-        localStorage.removeItem('isAuthenticated'); // 로컬 스토리지에서 로그인 상태 제거
-        localStorage.removeItem('lastPath'); // 로컬 스토리지에서 마지막 경로 제거
-        localStorage.removeItem('activeComponent'); // 로컬 스토리지에서 마지막 상태 제거
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        //history.push('/login');
+        console.log('error1', logoutHandler);
+        if (logoutHandler) logoutHandler();  // 로그아웃 핸들러 호출
         //console.error('Error refreshing access token:', error);
         throw error;
     }
@@ -80,7 +85,10 @@ api.interceptors.response.use(
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                 return api(originalRequest);  // 원래 요청을 다시 시도
             } catch (error) {
-                //console.error('Refresh token expired or invalid:', error);
+                // Refresh token이 만료되었을 때, logout 호출
+                console.log('error2', logoutHandler);
+                
+                if (logoutHandler) logoutHandler();
                 return Promise.reject(error);  // 로그인 페이지로 리디렉션 등의 처리 필요
             }
         }

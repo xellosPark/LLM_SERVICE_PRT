@@ -30,7 +30,7 @@ function MainScreen() {
       case 'PIEChatbot':
         setMainTitle("PIE 챗봇");  // PIE 챗봇 타이틀
         return lazy(() => import('../dashboard/PIEChatbot')); // 새로운 PIE Chatbot 컴포넌트
-      case 'Sub2':
+      case 'LLMOPS':
         setMainTitle("메일 Compliance 점검 - 신규 점검 생성");
         return lazy(() => import('../dashboard/CreateInspection'));
       case 'Sub3':
@@ -111,7 +111,6 @@ function MainScreen() {
             </div>
           </div>
         }>
-          {/* <Outlet /> */}
           {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? ( 
             <>
               {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} />}  {/* Load selected component */}

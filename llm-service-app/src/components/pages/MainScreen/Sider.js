@@ -7,10 +7,10 @@ const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
   return (
     <aside className={`sider ${isCollapsed ? 'collapsed' : ''}`}>
       <ul className="sidemenu">
-        <li onClick={() => onItemClick('DashBoard')} className="menuItem">DashBoard</li>
-        <li onClick={() => onItemClick('Sub2')} className="menuItem">Sub2</li>
-        <li onClick={() => onItemClick('Sub3')} className="menuItem">Sub3</li>
-        <li onClick={() => onItemClick('Sub4')} className="menuItem">Sub4</li>
+        <li onClick={() => onItemClick('DashBoard')} className="menuItem">LLM Service</li>
+        <li onClick={() => onItemClick('LLMOPS')} className="menuItem">LLM Ops</li>
+        {/* <li onClick={() => onItemClick('Sub3')} className="menuItem">Sub3</li> */}
+        {/* <li onClick={() => onItemClick('Sub4')} className="menuItem">Sub4</li> */}
       </ul>
        {/* 최소화 버튼을 하단에 추가 */}
       <div onClick={onToggle} className="minimizeButton">
