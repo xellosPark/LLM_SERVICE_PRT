@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './LoginPage.css'
+import Gradient from '../../logos/LG_Electronics_Gradient_01_RGB.jpg'
 
 function LoginPage({ onLogin }) {
   const [id, setId] = useState('');
@@ -10,41 +12,51 @@ function LoginPage({ onLogin }) {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>로그인</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>ID:</label>
-          <input
-            type="text"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            required
-          />
+    <div className='login-container'>
+      <div className='login'>
+        <div className='login-logo'>
+          <div>로고부분</div>
+          <h2>로그인</h2>
         </div>
-        <div>
-          <label>PW:</label>
-          <input
-            type="password"
-            value={pw}
-            onChange={(e) => setPw(e.target.value)}
-            required
-          />
+
+        <form onSubmit={handleSubmit}>
+          <div className='login-box'>
+            <div className='login-body'>
+              <input className='login-input'
+                  type="text"
+                  value={id}
+                  placeholder='아이디를 입력해 주세요'
+                  onChange={(e) => setId(e.target.value)}
+                  required
+                />
+              <input className='login-input'
+                  type="password"
+                  value={pw}
+                  placeholder='비밀번호를 입력해 주세요'
+                  onChange={(e) => setPw(e.target.value)}
+                  required
+                />
+            </div>
+            <div className='login-submit'>
+              <button type="submit">로그인</button>
+            </div>
+          </div>
+        </form>
+
+        <div className="login-options">
+          <span></span>
+          <div>
+            <span>아이디 찾기</span>
+            <span className='option'></span>
+            <span>비밀번호 찾기</span>
+          </div>
+
+
         </div>
-        <button type="submit">로그인</button>
-      </form>
+      </div>
+
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-  },
-};
 
 export default LoginPage;
