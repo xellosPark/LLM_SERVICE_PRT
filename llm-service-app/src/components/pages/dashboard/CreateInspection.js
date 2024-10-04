@@ -70,33 +70,55 @@ const CreateInspection = () => {
         />
           <div className="file-upload-list">{fileNames.systemInfo ? fileNames.systemInfo : 'xlsx 파일만 업로드 가능합니다.'}</div>
         </div>
-        <div className="field-wrapper file-delete">
+        <div className="field-wrapper ">
           <label>제거 키워드 정보</label>
-          <div className="flex-row">
-            <label className="file-delete-label">제목</label>
-            <button className="file-upload-btn" type="button" 
-              onClick={() => triggerFileSelect('file-input-title')}>+ 파일 선택</button>
-              <input 
-                id="file-input-title" 
-                type="file" 
-                style={{ display: 'none' }} 
+          <div className="custom-field-wrapper">
+            <div className="flex-row">
+              <label className="file-delete-label">보낸사람</label>
+              <button className="file-upload-btn" type="button" onClick={() => triggerFileSelect('file-input-senduser')}>
+                + 파일 선택
+              </button>
+              <input
+                id="file-input-senduser"
+                type="file"
+                style={{ display: 'none' }}
+                onChange={(e) => handleFileChange(e, 'senduser')}
+                accept=".txt"
+              />
+              <div className="file-upload-list">{fileNames.senduser ? fileNames.senduser : 'txt파일만 업로드 가능합니다.'}</div>
+            </div>
+
+            {/* 제목 */}
+            <div className="flex-row">
+              <label className="file-delete-label">제목</label>
+              <button className="file-upload-btn" type="button" onClick={() => triggerFileSelect('file-input-title')}>
+                + 파일 선택
+              </button>
+              <input
+                id="file-input-title"
+                type="file"
+                style={{ display: 'none' }}
                 onChange={(e) => handleFileChange(e, 'title')}
                 accept=".txt"
               />
-            <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt파일만 업로드 가능합니다.'}</div>
-          </div>
-          <div className="flex-row">
-            <label className="file-delete-label">실수취인</label>
-            <button className="file-upload-btn" type="button" 
-              onClick={() => triggerFileSelect('file-input-user')}>+ 파일 선택</button>
-              <input 
-                id="file-input-user" 
-                type="file" 
-                style={{ display: 'none' }} 
+              <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt파일만 업로드 가능합니다.'}</div>
+            </div>
+
+            {/* 실수취인 */}
+            <div className="flex-row">
+              <label className="file-delete-label">실수취인</label>
+              <button className="file-upload-btn" type="button" onClick={() => triggerFileSelect('file-input-user')}>
+                + 파일 선택
+              </button>
+              <input
+                id="file-input-user"
+                type="file"
+                style={{ display: 'none' }}
                 onChange={(e) => handleFileChange(e, 'user')}
                 accept=".txt"
               />
-            <div className="file-upload-list">{fileNames.user ? fileNames.user : 'txt파일만 업로드 가능합니다.'}</div>
+              <div className="file-upload-list">{fileNames.user ? fileNames.user : 'txt파일만 업로드 가능합니다.'}</div>
+            </div>
           </div>
         </div>
       </div>

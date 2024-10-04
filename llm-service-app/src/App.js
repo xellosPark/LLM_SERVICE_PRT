@@ -56,26 +56,26 @@ function App() {
   const { login, logout } = useContext(UserContext);
   const handleLogin = async (email, password) => {
 
-    const loginData = await Login(email, password);
+    // const loginData = await Login(email, password);
 
-    if (loginData === undefined)
-      console.log('로그인 실패');
+    // if (loginData === undefined)
+    //   console.log('로그인 실패');
       
-    const { accessToken, refreshToken, user } = loginData;
-    setIsAuthenticated(true); // 로그인 성공 시 상태 변경
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
-    localStorage.setItem('activeComponent', 'DashBoard');
-    login(user);
+    // const { accessToken, refreshToken, user } = loginData;
+    // setIsAuthenticated(true); // 로그인 성공 시 상태 변경
+    // localStorage.setItem('accessToken', accessToken);
+    // localStorage.setItem('refreshToken', refreshToken);
+    // localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
+    // localStorage.setItem('activeComponent', 'DashBoard');
+    // login(user);
 
-    // if (email === '1111' && password === '2222') {
-    //   setIsAuthenticated(true); // 로그인 성공 시 상태 변경
+    if (email === '1111' && password === '2222') {
+       setIsAuthenticated(true); // 로그인 성공 시 상태 변경
     //   localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
     //   localStorage.setItem('activeComponent', 'DashBoard'); // 로그인 시 기본적으로 Sub1 로드
-    // } else {
-    //   alert("ID 또는 PW가 틀렸습니다.");
-    // }
+     } else {
+       alert("ID 또는 PW가 틀렸습니다.");
+    }
     
     // try {
     //   const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
