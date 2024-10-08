@@ -98,7 +98,7 @@ function MainScreen() {
                     <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
                       메일 Compliance 점검
                     </button>
-
+                    <div className="separator"></div>
                     <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
                       PIE 챗봇
                     </button>
