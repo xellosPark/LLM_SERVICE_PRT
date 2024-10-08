@@ -21,7 +21,6 @@ const secondTableColumns = [
 ];
 
 const ResizableTable = ({ columns, data, onEdit, showButton }) => {
-
   const [columnWidths, setColumnWidths] = useState({
     id: 10,
     mainContent: 100,
