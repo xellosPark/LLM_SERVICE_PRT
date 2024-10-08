@@ -3,8 +3,10 @@
     flex-direction: column;
     justify-content: space-between;
     width: 180px;
-    background-color: #343A40;
-    color: #C2C7D0;
+    /* background-color: #343A40; */
+    background-color: #8b1e4a;
+    /* color: #C2C7D0; */
+    color: #eee;
     padding: 5px 5px 10px 5px;
     height: 100vh; /* 전체 높이를 설정하여 화면에 맞게 */
     box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
@@ -26,7 +28,7 @@
     cursor: pointer;
     margin-bottom: 5px;
     text-align: center;
-    color: #C2C7D0;
+    color: #eee;
     font-size: 18px;
     transition: background-color 0.3s ease;
     font-weight: bold; /* 폰트 두껍게 */
@@ -34,6 +36,7 @@
   
   .menuItem:hover, .minimizeButton:hover {
     background-color: #007BFF;
+    border-radius: 15px;
     color: #eee; /* #EAD8B1 rgb(247, 243, 45); */
   }
   
@@ -44,7 +47,6 @@
     cursor: pointer;
     margin-bottom: 5px;
     text-align: center;
-    color: whitesmoke;
     font-size: 16px;
     transition: background-color 0.3s ease;
     font-weight: bold; /* 폰트 두껍게 */
