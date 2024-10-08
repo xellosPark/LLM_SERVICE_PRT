@@ -147,16 +147,35 @@ const CreateInspection = () => {
             <option value="">Model을 선택하세요.</option>
             <option value="model1">Gemma2:27b</option>
           </select>
-
         </div>
-
-        {/* 하단 버튼 */}
-        <button className="icon-button-run">
-          {/* Run 아이콘 설정 */}
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/play.png" alt="run icon" />
-          점검 시작
-        </button>
       </div>
+
+      {/*세 번째 섹션 */}
+      <div className="section">
+        <div className="section-title">
+          <div className="title">Prompt Engineering</div>
+          <button className="icon-button-edit">
+          {/* Run 아이콘 설정 */}
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/pencil--v1.png"  alt="edit icon"  />
+          기술 자료 prompt 수정하기
+        </button>
+          
+        </div>
+        <div className="run-button">
+          <div>
+            {/* 하단 버튼 */}
+            <button className="icon-button-run">
+              {/* Run 아이콘 설정 */}
+              <img src="https://img.icons8.com/ios-filled/50/ffffff/play.png" alt="run icon" />
+              점검 시작
+            </button>
+          </div>
+          
+        </div>
+        
+      </div>
+
+      
     </div>
   );
 };
