@@ -9,7 +9,8 @@ function MainScreen() {
   const [activeComponent, setActiveComponent] = useState(null);  // Active component state
   const [MainTitle, setMainTitle] = useState(''); // 새로운 상태 추가
   const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
-  const [subPage, setSubPage] = useState('Default')
+  const [subPage, setSubPage] = useState('Default');
+  const [isActivePage, setIsActivePage] = useState(false);
 
   // Toggle Sidebar function
   const toggleSidebar = () => {
@@ -31,8 +32,8 @@ function MainScreen() {
         setMainTitle("PIE 챗봇");  // PIE 챗봇 타이틀
         return lazy(() => import('../dashboard/PIEChatbot')); // 새로운 PIE Chatbot 컴포넌트
       case 'LLMOPS':
-        setMainTitle("메일 Compliance 점검 - 신규 점검 생성");
-        return lazy(() => import('../dashboard/CreateInspection'));
+        setMainTitle("메일 Compliance 점검 - Evaluation");
+        return lazy(() => import('../dashboard/EvalDashBoard'));
       case 'Sub3':
         setMainTitle("메일 Compliance 점검 - Evaluation");
         return lazy(() => import('../dashboard/EvalDashBoard'));
@@ -51,6 +52,7 @@ function MainScreen() {
   // Handle menu item click
   const handleItemClick = (componentName) => {
     setSubPage('Default');
+    setIsActivePage(false);
     const Component = loadComponent(componentName);
     if (Component) {
       setActiveComponent(() => Component);
@@ -89,12 +91,28 @@ function MainScreen() {
         {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
         <div className="navigation-bar">
           <div className="navigation-title">
-            <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
+            {
+              isActivePage === false ? (
+                <>
+                <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
               메일 Compliance 점검
             </button>
+            
             <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
               PIE 챗봇
             </button>
+                </>
+              ) : (
+                <>
+                <button onClick={() => handleItemClick('DashBoard')} className={`nav-item-create`}>
+              메일 Compliance 점검
+            </button>
+            <div>{`>`}</div>
+            <div>신규 점검 생성</div>
+                </>
+              )
+            }
+            
           </div>
         </div>
       ) : (
@@ -111,7 +129,7 @@ function MainScreen() {
         }>
           {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? ( 
             <>
-              {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} />}  {/* Load selected component */}
+              {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} setIsActivePage={setIsActivePage} />}  {/* Load selected component */}
             </>
           ) : (<>{ActiveComponent && <ActiveComponent />}</>)
         }

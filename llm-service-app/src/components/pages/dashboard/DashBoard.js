@@ -6,7 +6,7 @@ import api from '../../api/api';
 import CreateInspection from './CreateInspection';
 import { useNavigate } from 'react-router-dom';
 
-const DashBoard = () => {
+const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
   const navigate = useNavigate();
   const [showCreateInspection, setShowCreateInspection] = useState(false);  // Manage visibility of the new section
 
@@ -19,8 +19,17 @@ const DashBoard = () => {
   }
 
   const handleCreate = () => {
-    setShowCreateInspection(true);  // CreateInspection 컴포넌트 표시
+    setSubPage('Create');
+    setShowCreateInspection(true);  // Show the CreateInspection component
+    setIsActivePage(true);
   }
+
+  useEffect(()=> {
+    if (subPage === 'Default') {
+      setShowCreateInspection(false);
+      setIsActivePage(false);
+    }
+  },[subPage])
 
   return (
     <div id='sub1-main'>

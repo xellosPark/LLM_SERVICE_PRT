@@ -7,7 +7,7 @@ const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
   return (
     <aside className={`sider ${isCollapsed ? 'collapsed' : ''}`}>
       <ul className="sidemenu">
-        <li onClick={() => onItemClick('DashBoard')} className="menuItem">LLM Service</li>
+        <li onClick={() => onItemClick('DashBoard')} className="menuItem">{isCollapsed === true ? (<div style={{backgroundColor: 'white'}}><img className="thumbnail" width={40} src={process.env.PUBLIC_URL + `/llmservice_icon.png`} alt='LLM Service'></img></div>) : <p>LLM Service</p>}</li>
         <li onClick={() => onItemClick('LLMOPS')} className="menuItem">LLM Ops</li>
         {/* <li onClick={() => onItemClick('Sub3')} className="menuItem">Sub3</li> */}
         {/* <li onClick={() => onItemClick('Sub4')} className="menuItem">Sub4</li> */}
