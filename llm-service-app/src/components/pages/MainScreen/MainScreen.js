@@ -3,6 +3,7 @@ import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
 import Loading from '../../../logos/loading_light.png'
 import { Outlet } from 'react-router-dom';
+import { BsChevronDoubleRight } from "react-icons/bs";
 
 function MainScreen() {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
@@ -89,37 +90,40 @@ function MainScreen() {
         </div> */}
         {/* Navigation bar - 조건적으로 DashBoard에서만 표시 */}
         {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
-        <div className="navigation-bar">
-          <div className="navigation-title">
-            {
-              isActivePage === false ? (
-                <>
-                <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
-              메일 Compliance 점검
-            </button>
-            
-            <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
-              PIE 챗봇
-            </button>
-                </>
-              ) : (
-                <>
-                <button onClick={() => handleItemClick('DashBoard')} className={`nav-item-create`}>
-              메일 Compliance 점검
-            </button>
-            <div>{`>`}</div>
-            <div>신규 점검 생성</div>
-                </>
-              )
-            }
-            
+          <div className="navigation-bar">
+            <div className="navigation-title">
+              {
+                isActivePage === false ? (
+                  <>
+                    <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
+                      메일 Compliance 점검
+                    </button>
+
+                    <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
+                      PIE 챗봇
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleItemClick('DashBoard')} className="nav-item-create">
+                      메일 Compliance 점검
+                    </button>
+                    <BsChevronDoubleRight className="nav-item-create-header" />
+                    
+                    <div className="nav-item-create-active">신규 점검 생성</div>
+                  </>
+                )
+              }
+
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="maintitle">
-          <h1>{MainTitle}</h1>
-        </div>
-      )}
+        ) : (
+          <div className="maintitle">
+            <h1>{MainTitle}</h1>
+          </div>
+        )}
+
+
         <Suspense fallback={
           <div className='fail-loading'>
             <div className='centered-fallback'>
@@ -127,12 +131,12 @@ function MainScreen() {
             </div>
           </div>
         }>
-          {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? ( 
+          {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
             <>
               {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} setIsActivePage={setIsActivePage} />}  {/* Load selected component */}
             </>
           ) : (<>{ActiveComponent && <ActiveComponent />}</>)
-        }
+          }
         </Suspense>
       </div>
     </div>
