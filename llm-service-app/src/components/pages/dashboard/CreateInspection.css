@@ -10,30 +10,27 @@
   margin-bottom: 15px;
 }
 .section-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   color: #333;
   background-color: #fff;
   outline: 2px solid #EFEFF0;
   padding: 20px;
   border-radius: 15px;
-  
 }
 
 .title {
-  font-size: 30px;
+  font-size: 25px;
   color: #c59c80;
 }
 
 /* 각 필드 그룹 */
 .field-wrapper {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   border-radius: 20px;
   margin-left: 40px;
-  
 }
 
 .field-wrapper > label {
@@ -52,7 +49,6 @@
 .custom-field-wrapper {
   display: flex;
   flex-direction: column; /* 세로 정렬 */
-  margin-bottom: 20px;
 }
 
 .file-upload-list {
@@ -61,7 +57,6 @@
 }
 
 .file-delete {
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -107,7 +102,7 @@
   background-repeat: no-repeat;
   background-size: 12px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 40px;
 }
 
@@ -142,7 +137,7 @@
   border-radius: 5px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
   padding: 5px 10px; /* 버튼의 내부 여백 설정 */
-  font-size: 16px; /* 글자 크기 설정 */
+  font-size: 15px; /* 글자 크기 설정 */
   font-weight: bold; /* 글자 굵기를 굵게 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
@@ -171,7 +166,7 @@ background-color: #4a90e2; /* 버튼 배경 색을 파란색으로 설정 */
 border: none;
 border-radius: 5px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
 color: white; /* 글자 색을 흰색으로 설정 */
-padding: 5px 10px; /* 버튼의 내부 여백 설정 */
+padding: 12px 10px; /* 버튼의 내부 여백 설정 */
 font-size: 16px; /* 글자 크기 설정 */
 font-weight: bold; /* 글자 굵기를 굵게 설정 */
 cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
@@ -199,3 +194,47 @@ background-color: #7aaaf3; /* 아이콘의 배경 색을 흰색으로 설정 */
 padding: 5px;       /* 아이콘 안쪽 여백 설정 */
 }
 
+.run-button {
+  justify-content: right;
+}
+
+.icon-button-edit {
+  display: inline-block;
+  background-color: #F86C44; /* 버튼 배경 색을 파란색으로 설정 */
+  border: none;
+  border-radius: 5px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
+  color: white; /* 글자 색을 흰색으로 설정 */
+  padding: 5px 10px; /* 버튼의 내부 여백 설정 */
+  font-size: 16px; /* 글자 크기 설정 */
+  font-weight: bold; /* 글자 굵기를 굵게 설정 */
+  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
+  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
+  transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
+  margin-right: 10px;
+  /* width: 200px; 동일한 버튼 너비 설정 */
+  justify-content: center; /* 내용물 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-top: 20px;
+  margin-left: 40px;
+  }
+  
+  .icon-button-edit:hover {
+  opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
+  }
+  
+  .icon-button-edit img {
+  width: 20px;         /* 아이콘 크기 줄이기 */
+  height: 20px;        /* 아이콘 높이 줄이기 */
+  margin-right: 10px;  /* 아이콘과 텍스트 사이의 간격 설정 */
+  border-radius: 50%;  /* 아이콘을 완전히 둥글게 만듦 (원형) */
+  background-color: #f0e556; /* 아이콘의 배경 색을 흰색으로 설정 */
+  padding: 5px;       /* 아이콘 안쪽 여백 설정 */
+  }
+
+  .run-button {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
