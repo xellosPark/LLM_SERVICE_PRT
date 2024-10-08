@@ -10,8 +10,7 @@
   
   .eval-table {
     width: 100%;
-    table-layout: auto; /* 열 너비를 고정 */
-    border-collapse: collapse;
+    table-layout: fixed; /* 열 너비를 고정 */
   }
   
   .eval-table th {
@@ -22,7 +21,11 @@
     padding: 8px;
     text-align: center;
     color: white;
-    user-select:none
+    user-select:none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-collapse: collapse;
   }
 
   .eval-table td {
@@ -34,6 +37,7 @@
     overflow: hidden;        /* 내용이 넘칠 경우 숨김 처리 */
     text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
     position: relative;      /* 툴팁 위치를 설정하기 위한 relative 설정 */
+    border-collapse: collapse;
   }
 
   /* hover 시 툴팁 표시 */
@@ -50,6 +54,11 @@
     background-color: #A8B2CB;
   }
 
+  .eval-table th:nth-last-child(3) {
+    background-color: #F8F9FA;
+    border: none;
+  }
+
   /* 짝수 행 배경색 */
   .eval-table tr:nth-child(even) {
     background-color: #F7F7F7;
@@ -62,6 +71,11 @@
 
   .eval-table tr:hover {
     background-color: #ddd;
+  }
+
+  .eval-table td:nth-last-child(3) {
+    background-color: #F8F9FA;
+    border: none;
   }
 
   /* 툴팁 기본 설정 */
