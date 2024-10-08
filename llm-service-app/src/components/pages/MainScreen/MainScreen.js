@@ -102,8 +102,6 @@ function MainScreen() {
           <h1>{MainTitle}</h1>
         </div>
       )}
-
-
         <Suspense fallback={
           <div className='fail-loading'>
             <div className='centered-fallback'>
