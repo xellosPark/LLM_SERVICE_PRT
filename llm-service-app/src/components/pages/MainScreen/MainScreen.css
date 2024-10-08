@@ -122,3 +122,11 @@
     font-size: 16px; /* 폰트 크기 */
     position: relative; /* underline을 위한 상대적 위치 */
 }
+
+.separator {
+    width: 1px;
+    height: 30px;
+    background-color: #b6b4b4;
+    margin: 0 5px;
+    margin-top: 7px;
+  }
