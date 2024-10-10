@@ -14,11 +14,9 @@ function LoginPage({ onLogin }) {
   return (
     <div className='login-container'>
       <div className='login'>
-        <div className='login-logo'>
-          <div><img alt='LG LOGO' src={lightLogo} style={{width: '90px'}} /></div>
-          <h2>로그인</h2>
-        </div>
-
+      <div className='login-img' >
+        <img alt='LG LOGO' src={lightLogo} style={{width: '160px'}} />
+      </div>
         <form onSubmit={handleSubmit}>
           <div className='login-box'>
             <div className='login-body'>
