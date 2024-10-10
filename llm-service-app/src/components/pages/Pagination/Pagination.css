@@ -14,7 +14,7 @@
   }
   
   .page-item button {
-    border: 1px solid #007bff;
+    border: 1px solid #504f4f;
     padding: 10px 20px;
     background-color: white;
     color: #000c04;
@@ -22,7 +22,7 @@
   }
   
   .page-item button:hover {
-    background-color: #5090CC;
+    background-color: #bfc1c2;
     color: white;
   }
   
@@ -33,6 +33,6 @@
   }
   
   .page-item.active button {
-    background-color: #007bff;
+    background-color: #474849;
     color: white;
   }

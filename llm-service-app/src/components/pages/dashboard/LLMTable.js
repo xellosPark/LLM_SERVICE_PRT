@@ -119,13 +119,13 @@ const LLMTable = () => {
         };
       switch (status) {
       case 'Running':
-          return { ...baseStyle, backgroundColor: '#EEF5E9', color: '#698474',  }; // 초록색 배경, 초록색 텍스트
+          return { ...baseStyle, backgroundColor: '#FFF8E3', color: '#F1A500',  border: '2px solid #F1A500' }; // 노란색 배경, 노란색 텍스트
       case 'Success':
-          return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#5A97F1' }; // 빨간색 배경, 빨간색 텍스트
+          return { ...baseStyle, backgroundColor: '#EEF5E9', color: '#527B5D', border: '2px solid #527B5D' }; // 초록색 배경, 초록색 텍스트
       case 'Saving':
-          return { ...baseStyle, backgroundColor: '#FFF8E3', color: '#F6AD00' }; // 노란색 배경, 노란색 텍스트
+          return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#4274D1', border: '2px solid #4274D1' }; // 파랑색 배경, 파랑색 텍스트
       case 'Error':
-          return { ...baseStyle, backgroundColor: '#FFEFEF', color: '#F6204B' }; // 노란색 배경, 노란색 텍스트
+          return { ...baseStyle, backgroundColor: '#FFEFEF', color: '#D9143B', border: '2px solid #D9143B' }; // 빨강색 배경, 빨강색 텍스트
       default:
           return {}; // 기본 스타일 (변경 없음)
       }

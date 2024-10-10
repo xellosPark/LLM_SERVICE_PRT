@@ -119,7 +119,7 @@ function MainScreen() {
           </div>
         ) : (
           <div className="maintitle">
-            <h1>{MainTitle}</h1>
+            <h3>{MainTitle}</h3>
           </div>
         )}
 
