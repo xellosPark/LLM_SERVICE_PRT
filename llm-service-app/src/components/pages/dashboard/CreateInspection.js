@@ -155,11 +155,10 @@ const CreateInspection = () => {
         <div className="section-title">
           <div className="title">Prompt Engineering</div>
           <button className="icon-button-edit">
-          {/* Run 아이콘 설정 */}
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/pencil--v1.png"  alt="edit icon"  />
-          기술 자료 prompt 수정하기
-        </button>
-          
+            {/* Run 아이콘 설정 */}
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/pencil--v1.png"  alt="edit icon"  />
+            기술 자료 prompt 수정하기
+          </button>
         </div>
         <div className="run-button">
           <div>
@@ -170,12 +169,8 @@ const CreateInspection = () => {
               점검 시작
             </button>
           </div>
-          
         </div>
-        
       </div>
-
-      
     </div>
   );
 };

@@ -39,8 +39,18 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
           {
             showCreateInspection === false && (
               <>
-                <button onClick={handleTest}> test </button>
-                <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button>
+                {/* <button onClick={handleTest}> test </button> */}
+                {/* <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button> */}
+                <div className="newaddbutton" onClick={handleCreate}>
+                  <div>
+                    {/* 하단 버튼 */}
+                    <button className="icon-button-add">
+                      {/*  아이콘 설정 */}
+                      <img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" alt="add function icon" />
+                      신규 점검 생성
+                    </button>
+                  </div>
+                </div>
               </>
             )
           }
