@@ -266,7 +266,7 @@ const EvaluationTable = () => {
                                 </td>
                                 <td>{item.blenk}</td>
                                 <td>
-                                    <button className="risk-td-button" style={{ backgroundColor: item.complianceRisk === 'true' ? '#FFEFEF' : 'gray',
+                                    <button className="risk-td-button" style={{ backgroundColor: item.complianceRisk === 'true' ? '#FFEFEF' : '#eee',
                                         border: item.complianceRisk === 'true' ? '1px solid #D9143B' : '1px solid #222'
                                      }}>Risk</button>
                                 </td>
