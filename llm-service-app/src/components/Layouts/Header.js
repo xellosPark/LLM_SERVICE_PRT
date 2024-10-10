@@ -3,20 +3,28 @@ import './Header.css'; // CSS 파일 불러오기
 import lightLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_grey_rgb.png';
 import darkLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_white_rgb.png';
 import { UserContext } from '../useContext/UserContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-function Header({ onLogout }) {
+function Header({ onLogout, setActivePage }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  // 테마 변경 함수
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
+  const handleClickLogo = () => {
+    setActivePage('main'); // 메인 페이지 활성화
+    navigate('/main'); // 메인 페이지로 이동
+    // return (
+    //   <Navigate to={"/main"} />
+    // )
+    
   };
 
   return (
     <header className={`header ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <div id='llm-logo'>
-        <img alt='LG LOGO' src={`${isDarkMode ? darkLogo : lightLogo}`}  className={`logo ${isDarkMode ? 'dark-mode' : 'light-mode'}`} />
+        <button className='llm-logo-button' onClick={handleClickLogo}>
+          <img alt='LG LOGO' src={`${isDarkMode ? darkLogo : lightLogo}`}  className={`logo ${isDarkMode ? 'dark-mode' : 'light-mode'}`} />
+        </button>
       </div>
       <div className="user-section">
        

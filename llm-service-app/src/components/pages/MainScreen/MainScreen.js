@@ -2,14 +2,13 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
 import Loading from '../../../logos/loading_light.png'
-import { Outlet } from 'react-router-dom';
 import { BsChevronDoubleRight } from "react-icons/bs";
 
-function MainScreen() {
+function MainScreen({ setActivePage, activePage }) {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
   const [activeComponent, setActiveComponent] = useState(null);  // Active component state
   const [MainTitle, setMainTitle] = useState(''); // 새로운 상태 추가
-  const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
+  //const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
   const [subPage, setSubPage] = useState('Default');
   const [isActivePage, setIsActivePage] = useState(false);
 
@@ -73,7 +72,7 @@ function MainScreen() {
       handleItemClick('DashBoard');  // Load Sub1 by default
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [activePage]);
 
   const ActiveComponent = activeComponent;
 

@@ -4,10 +4,8 @@ import './DashBoard.css'
 import axios from 'axios';
 import api from '../../api/api';
 import CreateInspection from './CreateInspection';
-import { useNavigate } from 'react-router-dom';
 
 const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
-  const navigate = useNavigate();
   const [showCreateInspection, setShowCreateInspection] = useState(false);  // Manage visibility of the new section
 
   const handleTest = async () => {

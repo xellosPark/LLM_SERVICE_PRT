@@ -9,6 +9,7 @@ import { Login } from './components/api/userControllers';
 
 function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
   const location = useLocation();
+  const [activePage, setActivePage] = useState('main'); // activePage 상태 관리
 
   useEffect(() => {
     // 로그인 상태와 마지막 경로를 로컬 스토리지에 저장
@@ -35,7 +36,7 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
 
   return (
     <>
-      {isAuthenticated && <Header onLogout={handleLogout} />}
+      {isAuthenticated && <Header onLogout={handleLogout} setActivePage={setActivePage} />}
       <Routes>
         <Route
           path="/"
@@ -43,7 +44,7 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
         />
         <Route
           path="/main"
-          element={isAuthenticated ? <MainScreen /> : <Navigate to="/" />}
+          element={isAuthenticated ? <MainScreen setActivePage={setActivePage} activePage={activePage} /> : <Navigate to="/" />}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

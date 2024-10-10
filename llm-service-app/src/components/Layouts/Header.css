@@ -120,3 +120,11 @@
     font-size: 16px;
     color: #222;    /* 연한 파란색 텍스트 */
   }
+
+  .llm-logo-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+  }
