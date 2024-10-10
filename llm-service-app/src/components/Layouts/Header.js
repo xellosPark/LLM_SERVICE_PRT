@@ -54,12 +54,12 @@ function Header({ onLogout, setActivePage }) {
           {/* 텍스트 콘텐츠 */}
           {
             user ? (
-              <span className={`${isDarkMode ? 'dark-mode' : ''}`}>{user.name}</span>
+              <span className='dark-mode'>{user.name}</span>
             ) : (
-              <span className={`${isDarkMode ? 'dark-mode' : ''}`}>User Info</span>
+              <span className='dark-mode'>User Info</span>
             )
           } 
-    </label>
+      </label>
     
         <button className="NewlogOut-button" onClick={onLogout}>
           {/* 로그인 아이콘 */}

@@ -68,6 +68,11 @@
     width: 150px; /* 버튼 넓이 설정 */
     position: relative;
     margin-right: 25px;
+    cursor: pointer;
+  }
+
+  .NewlogOut-button:hover {
+    opacity: 0.8;    /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
   }
   
   .icon-lock {
@@ -95,9 +100,7 @@
     border-left: 2px dashed #eee;   /* 점선 추가 */
     height: 100%;
   }
-   .NewlogOut-button:hover {
-    opacity: 0.8;    /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
-  }
+
    .Huserinfo {
     display: flex;
     align-items: center;
@@ -105,7 +108,6 @@
     color: rgb(75, 75, 75);
     padding: 10px 30px;
     border-radius: 50px;
-    cursor: pointer;
     font-weight: bold;
     border: 2px solid #bebdbd;   /* 점선 추가 */
     margin-right: 25px;
