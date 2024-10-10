@@ -10,7 +10,7 @@ const LLMTable = () => {
     { key: 'id', label: 'Id', minWidth: 10 },
     { key: 'time', label: 'Time', minWidth: 20 },
     { key: 'model', label: 'Model / Data', minWidth: 50 },
-    { key: 'status', label: 'Status', minWidth: 30 },
+    { key: 'status', label: 'Status', minWidth: 10 },
     { key: 'risk', label: 'Risk Mails', minWidth: 100 },
     { key: 'evResult', label: 'Evaluation Result', minWidth: 100 },
     { key: 'resultFile', label: 'Result File', minWidth: 50 },
@@ -82,7 +82,7 @@ const LLMTable = () => {
     id: 10,
     time: 20,
     model: 50,
-    status: 30,
+    status: 10,
     risk: 150,
     evResult: 100,
     resultFile: 50,
@@ -119,7 +119,7 @@ const LLMTable = () => {
         };
       switch (status) {
       case 'Running':
-          return { ...baseStyle, backgroundColor: '#EEF5E9', color: '#698474' }; // 초록색 배경, 초록색 텍스트
+          return { ...baseStyle, backgroundColor: '#EEF5E9', color: '#698474',  }; // 초록색 배경, 초록색 텍스트
       case 'Success':
           return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#5A97F1' }; // 빨간색 배경, 빨간색 텍스트
       case 'Saving':
@@ -241,7 +241,7 @@ const LLMTable = () => {
                   ref={(el) => {
                     if (el) columnRefs.current[column.key] = el;
                   }}
-                  style={{ width: `${columnWidths[column.key]}px`, position: 'relative' }}
+                  style={{ width: `${columnWidths[column.key]}px`, position: 'relative', backgroundColor: '#545455' }}
                 >
                   {column.label}
                   <div
@@ -250,7 +250,7 @@ const LLMTable = () => {
                       position: "absolute",
                       right: 0,
                       top: 0,
-                      width: "2px",
+                      width: "5px",
                       height: "100%",
                       cursor: "col-resize",
                     }}
@@ -276,7 +276,7 @@ const LLMTable = () => {
                   <div className="tooltip">{item.model}</div>
                 </td>
                 <td>
-                  <div style={getStatusStyle(item.status)}>{item.status}</div>
+                  <div className='status' style={getStatusStyle(item.status)}>{item.status} {item.status === 'Error' && (<span className='status-error'>?</span>)}</div>
                 </td>
                 <td>{item.risk}</td>
                 <td>{item.result}</td>
@@ -300,7 +300,7 @@ const LLMTable = () => {
             position: 'absolute',
             top: `${contextMenu.y}px`,
             left: `${contextMenu.x}px`,
-            border: '1px solid black',
+            border: '1px solid gray',
             zIndex: 1000,
           }}
         >

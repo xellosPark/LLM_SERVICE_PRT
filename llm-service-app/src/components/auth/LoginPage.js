@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginPage.css'
-import Gradient from '../../logos/LG_Electronics_Gradient_01_RGB.jpg'
+import lightLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_grey_rgb.png';
 
 function LoginPage({ onLogin }) {
   const [id, setId] = useState('');
@@ -15,7 +15,7 @@ function LoginPage({ onLogin }) {
     <div className='login-container'>
       <div className='login'>
         <div className='login-logo'>
-          <div>로고부분</div>
+          <div><img alt='LG LOGO' src={lightLogo} style={{width: '90px'}} /></div>
           <h2>로그인</h2>
         </div>
 

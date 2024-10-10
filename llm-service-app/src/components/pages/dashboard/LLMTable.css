@@ -23,8 +23,8 @@
     border-bottom: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+    user-select:none;
     color: white;
-    user-select:none
   }
 
   .fixed-table th:nth-last-child(1) {
@@ -50,12 +50,6 @@
   /* .fixed-table td.id-column {
     max-width: 10px;
   } */
-
-  .fixed-table th {
-    /* background-color: #A8B2CB; */
-    background-color: white;
-    color: #939ebb;
-  }
 
   /* 짝수 행 배경색 */
   .fixed-table tr:nth-child(even) {
@@ -91,4 +85,22 @@
     margin-left: 10px;
     cursor: pointer;
     font-size: 14px;
+  }
+
+  .status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .status-error {
+    font-size: 12px;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: 0px 5px;
+    margin-left: 7px;
+    color: black;
+    font-weight: bold;
+    cursor: default;
   }
