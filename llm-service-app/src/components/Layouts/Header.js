@@ -56,7 +56,7 @@ function Header({ onLogout, setActivePage }) {
             user ? (
               <span className={`${isDarkMode ? 'dark-mode' : ''}`}>{user.name}</span>
             ) : (
-              <span className={`${isDarkMode ? 'dark-mode' : ''}`}>UbiSam</span>
+              <span className={`${isDarkMode ? 'dark-mode' : ''}`}>User Info</span>
             )
           } 
     </label>

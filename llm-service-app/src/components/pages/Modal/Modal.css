@@ -37,7 +37,7 @@
 
 .close-button:hover {
   border-radius: 8px;
-  background-color: #0056b3;
+  background-color: #9A4444;
   color: white;
   border: none;
 }
@@ -144,10 +144,10 @@
 }
 
 .keyword {
-  background-color: #e0ecf8;
+  background-color: #717D9E;
   padding: 10px 20px;
   border-radius: 20px;
-  color: #0056b3;
+  color: white;
   font-weight: bold;
   width: 70px;
   text-align: center;
@@ -161,15 +161,22 @@
   width: 100%;
 }
 
+.modal-close {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-top: 8px;
+}
+
 .modal-close-button {
   cursor: pointer;
   padding: 8px 16px;
-  background-color: #007bff;
+  background-color: #9A4444;
   color: white;
   border: none;
   border-radius: 4px;
 }
 
 .modal-close-button:hover {
-  background-color: #0056b3;
+  background-color: #664343;
 }

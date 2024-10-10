@@ -32,10 +32,11 @@
     font-size: 18px;
     transition: background-color 0.3s ease;
     font-weight: bold; /* 폰트 두껍게 */
+    border-radius: 15px;
   }
   
   .menuItem:hover, .minimizeButton:hover {
-    background-color: #007BFF;
+    background-color: #EA337C;
     border-radius: 15px;
     color: #eee; /* #EAD8B1 rgb(247, 243, 45); */
   }

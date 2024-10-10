@@ -72,8 +72,8 @@ function App() {
 
     if (email === '1111' && password === '2222') {
        setIsAuthenticated(true); // 로그인 성공 시 상태 변경
-    //   localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
-    //   localStorage.setItem('activeComponent', 'DashBoard'); // 로그인 시 기본적으로 Sub1 로드
+       localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
+       localStorage.setItem('activeComponent', 'DashBoard'); // 로그인 시 기본적으로 Sub1 로드
      } else {
        alert("ID 또는 PW가 틀렸습니다.");
     }

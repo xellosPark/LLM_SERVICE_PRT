@@ -23,11 +23,11 @@ const Modal = ({ data, onClose }) => {
           </div>
           <div className="row">
             <div className="data-row">메일 본문</div>
-            <span className="file-name">zip</span>
+            <span className="file-name" data-tooltip="zip">zip</span>
           </div>
           <div className="row">
             <div className="data-row">자료요청 시스템 정보</div>
-            <span className="file-name">xlsx</span>
+            <span className="file-name" data-tooltip="xlsx">xlsx</span>
           </div>
           <div className="row">
             <div className="data-delete">제거 키워드 정보</div>
@@ -38,19 +38,16 @@ const Modal = ({ data, onClose }) => {
               </div>
               <div className="keywords">
                 <span className="keyword">제목</span>
-                <span className="keyword-name">txt</span>
+                <span className="keyword-name" data-tooltip="txt">txt</span>
               </div>
             </div>
           </div>
         </div>
 
-
-
-
-
-
-
+        <div className="modal-close">
         <button className="modal-close-button" onClick={onClose}>Close</button>
+        </div>
+        
       </div>
     </div>
   );

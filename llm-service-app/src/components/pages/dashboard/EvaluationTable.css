@@ -80,28 +80,12 @@
     border: none;
   }
 
-  /* 툴팁 기본 설정 */
-  .eval-tooltip {
-    display: none;               /* 기본적으로 툴팁은 숨겨진 상태 */
-    position: absolute;          /* 부모 요소를 기준으로 툴팁의 위치 설정 */
-    top: 100%;                   /* 부모 요소 바로 아래에 툴팁 표시 */
-    left: 0;
-    background-color: #333;      /* 툴팁 배경색 */
-    color: white;                /* 툴팁 텍스트 색상 */
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: normal;         /* 줄바꿈 허용 */
-    max-width: 300px;            /* 툴팁의 최대 너비 */
-    z-index: 10;                 /* 툴팁이 다른 요소보다 위에 표시되도록 */
-  }
-
   .eval-icon {
     margin-left: 10px;
     cursor: pointer;
   }
 
-  .tooltip {
+  .eval-tooltip {
     font-size: 15px;
     background-color: #F6F7E1;
     color: black;
