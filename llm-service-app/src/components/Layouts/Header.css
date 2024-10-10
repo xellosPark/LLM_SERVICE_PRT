@@ -18,19 +18,13 @@
     align-items: center;
   }
   
-  .user-name {
-    margin-right: 10px;
-    background-color: #7f8c8d;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
   .logout-button {
-    background-color: #e74c3c;
+    background-color: #8B1E4A;
     color: #ecf0f1;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   /* 라이트 모드 (기본) */
@@ -60,4 +54,74 @@
 
   #llm-logo:hover {
     cursor: pointer;
+  }
+
+  /* LoginButton.css */.NewlogOut-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #a754a2; /* 파란색 배경 */
+    color: #eee;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px; /* 둥근 모서리 */
+    width: 150px; /* 버튼 넓이 설정 */
+    position: relative;
+  }
+  
+  .icon-lock {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .icon-arrow {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .NewlogOut-text {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+   .NewlogOut-text::before {
+    content: '';
+    position: absolute;
+    left: 50px;
+    top: 0;
+    bottom: 0;
+    border-left: 2px dashed #eee;
+    /* 점선 추가 */
+    height: 100%;
+  }
+   .NewlogOut-button:hover {
+    opacity: 0.8;
+    /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
+  }
+   .Huserinfo {
+    display: flex;
+    align-items: center;
+    background-color: #f5f4f4;
+    /* 연한 파란색 배경 */
+    color: rgb(75, 75, 75);
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+   .icon-half-human {
+    width: 20px;
+    /* 아이콘 너비 */
+    height: 20px;
+    /* 아이콘 높이 */
+    margin-right: 10px;
+    /* 텍스트와 아이콘 간격 */
+    fill: rgb(131, 186, 250);
+    /* 아이콘 색상 */
+  }
+   .userinfo-text {
+    font-size: 16px;
+    color: #222;
+    /* 연한 파란색 텍스트 */
   }
