@@ -56,17 +56,18 @@
     cursor: pointer;
   }
 
-  /* LoginButton.css */.NewlogOut-button {
+  .NewlogOut-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #a754a2; /* 파란색 배경 */
     color: #eee;
-    border: none;
+    border: 2px solid #9305af;   /* 점선 추가 */
     padding: 10px 20px;
     border-radius: 50px; /* 둥근 모서리 */
     width: 150px; /* 버튼 넓이 설정 */
     position: relative;
+    margin-right: 25px;
   }
   
   .icon-lock {
@@ -91,37 +92,31 @@
     left: 50px;
     top: 0;
     bottom: 0;
-    border-left: 2px dashed #eee;
-    /* 점선 추가 */
+    border-left: 2px dashed #eee;   /* 점선 추가 */
     height: 100%;
   }
    .NewlogOut-button:hover {
-    opacity: 0.8;
-    /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
+    opacity: 0.8;    /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
   }
    .Huserinfo {
     display: flex;
     align-items: center;
-    background-color: #f5f4f4;
-    /* 연한 파란색 배경 */
+    background-color: #f5f4f4;    /* 연한 파란색 배경 */
     color: rgb(75, 75, 75);
     padding: 10px 30px;
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
+    border: 2px solid #bebdbd;   /* 점선 추가 */
+    margin-right: 25px;
   }
    .icon-half-human {
-    width: 20px;
-    /* 아이콘 너비 */
-    height: 20px;
-    /* 아이콘 높이 */
-    margin-right: 10px;
-    /* 텍스트와 아이콘 간격 */
-    fill: rgb(131, 186, 250);
-    /* 아이콘 색상 */
+    width: 20px;    /* 아이콘 너비 */
+    height: 20px;    /* 아이콘 높이 */
+    margin-right: 10px;    /* 텍스트와 아이콘 간격 */
+    fill: rgb(131, 186, 250);    /* 아이콘 색상 */
   }
    .userinfo-text {
     font-size: 16px;
-    color: #222;
-    /* 연한 파란색 텍스트 */
+    color: #222;    /* 연한 파란색 텍스트 */
   }
