@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Pagination from "../Pagination/Pagination";
 import './EvaluationTable.css'
 
@@ -28,7 +28,7 @@ const EvaluationTable = () => {
         {
             id: 1, file: '파일 없음', send: 'nakyeong1.kim@lge.com', receive: 'nan', title: 'FW: 로보테크쇼 전시회 부스 디자인 공유',
             time: '2024-06-01 4:11', fileName: 'nan', reference: 'nan', hiddenRef: '<a@naver.com>', analyzeFiles: '파일 없음',
-            name: '김나경', mainContent: 'Table 첫번째 데이터', content: '데이터1', complianceRisk: 'true', result: '데이터1',
+            name: '김나경', mainContent: 'Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 ', content: '데이터1', complianceRisk: 'true', result: '데이터1',
         },
         { id: 2, mainContent: 'Table 두번째 데이터', content: '데이터2', complianceRisk: 'true', result: '', },
         { id: 3, mainContent: 'Table 세번째 데이터', content: '데이터3', complianceRisk: 'false', result: '데이터3', },
@@ -41,11 +41,11 @@ const EvaluationTable = () => {
         { id: 10, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
         { id: 11, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
         { id: 12, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
-        { id: 13, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
+        { id: 13, mainContent: 'Table 네번째 데이터', content: 'Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 ', complianceRisk: 'true', result: '데이터4', },
         { id: 14, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
         { id: 15, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
-        { id: 16, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
-        { id: 17, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
+        { id: 16, mainContent: 'Table 네번째 데이터', content: 'Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 ', complianceRisk: 'true', result: '데이터4', },
+        { id: 17, mainContent: 'Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 Table 첫번째 데이터 테스트를 위해 많은 내용을 표시 ', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
         { id: 18, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
         { id: 19, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
         { id: 20, mainContent: 'Table 네번째 데이터', content: '데이터4', complianceRisk: 'true', result: '데이터4', },
@@ -89,6 +89,27 @@ const EvaluationTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(20);
 
+    const [tooltip, setTooltip] = useState({ visible: false, content: '', top: 0, left: 0 });
+    const tooltipRef = useRef(null); // 툴팁 요소를 참조하기 위한 useRef
+
+    const handleColumnClick = (event, content) => {
+        if (content === undefined || content === "")
+            return;
+        const clickY = event.clientY;
+        const clickX = event.clientX;
+    
+        setTooltip({
+            visible: true,
+            content,
+            top: clickY, // 초기 top 값은 임시로 설정
+            left: clickX + 15,
+        });
+    };
+
+      const closeTooltip = () => {
+        setTooltip({ visible: false, content: '', top: 0, left: 0 });
+      };
+
     // 현재 페이지에 맞는 데이터를 계산
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -127,6 +148,44 @@ const EvaluationTable = () => {
         document.addEventListener("mouseup", onMouseUp);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
+            closeTooltip();
+          }
+        };
+    
+        document.addEventListener('mousedown', handleClickOutside);
+        
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, []);
+
+      useEffect(() => {
+        if (tooltip.content === undefined || tooltip.content === "")
+            return;
+        
+        if (tooltip.visible && tooltipRef.current) {
+          const tooltipElement = tooltipRef.current;
+          const windowHeight = window.innerHeight;
+          const tooltipHeight = tooltipElement.offsetHeight; // 실제 툴팁 높이 측정
+          const tooltipTop = tooltip.top;
+    
+          // 화면 아래로 나가는지 여부 확인 후 조정
+          const adjustedTop =
+            tooltipTop + tooltipHeight > windowHeight
+              ? windowHeight - tooltipHeight - 10 // 화면 아래로 나가지 않도록 조정
+              : tooltipTop;
+    
+          // 툴팁의 top 값을 다시 업데이트
+          setTooltip((prevTooltip) => ({
+            ...prevTooltip,
+            top: adjustedTop,
+          }));
+        }
+      }, [tooltip.visible, tooltip.top]);
+
     return (
         <div>
             <div className="eval-table-container">
@@ -139,7 +198,7 @@ const EvaluationTable = () => {
                                     ref={(el) => {
                                         if (el) columnRefs.current[column.key] = el;
                                     }}
-                                    style={{ width: `${columnWidths[column.key]}%`, position: 'relative' }}
+                                    style={{ width: `${columnWidths[column.key]}%`, position: 'relative', position: 'sticky', top: '0' }}
                                 >
                                     <div className="table-th">
                                         <div>{column.label}</div>
@@ -166,40 +225,40 @@ const EvaluationTable = () => {
                         {currentItems.map((item, index) => (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.file)}>
                                     {item.file}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.send)}>
                                     {item.send}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.receive)}>
                                     {item.receive}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.title)}>
                                     {item.title}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.time)}>
                                     {item.time}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.fileName)}>
                                     {item.fileName}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.reference)}>
                                     {item.reference}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.hiddenRef)}>
                                     {item.hiddenRef}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.analyzeFiles)}>
                                     {item.analyzeFiles}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.name)}>
                                     {item.name}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.mainContent)}>
                                     {item.mainContent}
                                 </td>
-                                <td>
+                                <td onClick={(e) => handleColumnClick(e, item.content)}>
                                     {item.content}
                                 </td>
                                 <td>{item.blenk}</td>
@@ -216,6 +275,15 @@ const EvaluationTable = () => {
                         ))}
                     </tbody>
                 </table>
+                {tooltip.visible && (
+                    <div 
+                    className="tooltip"
+                    ref={tooltipRef} // 툴팁 요소를 참조
+                    style={{ top: tooltip.top, left: tooltip.left, position: 'absolute' }}
+                    >
+                    {tooltip.content}
+                    </div>
+                )}
             </div>
             <div>
                 <Pagination
