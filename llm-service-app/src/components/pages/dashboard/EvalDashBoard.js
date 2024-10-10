@@ -14,7 +14,7 @@ const EvalDashBoard = () => {
   const [secondTableWidths, setSecondTableWidths] = useState([50, 120]);
   
   return (
-    <div>
+    <div style={{margin: '10px',}}>
       <div className="tab-buttons">
         <button className={activeTab === 'Tab1' ? 'active' : ''}
           onClick={() => handleTabClick('Tab1')}>High Risk - 기술 자료 요청</button>

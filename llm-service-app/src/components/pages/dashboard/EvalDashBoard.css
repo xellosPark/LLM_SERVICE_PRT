@@ -1,35 +1,39 @@
+.tab-buttons {
+    display: inline-block;
+    border-radius: 14px 14px 0px 0px;
+    overflow: hidden;
+    background-color: white;
+}
 
 .tab-buttons button {
     border: none;
-    border-left: 1px solid #c0c0c0;
-    border-bottom: 1px solid #c0c0c0;
+    /* border-left: 1px solid #c0c0c0; */
+    /* border-bottom: 1px solid #c0c0c0; */
     padding: 8px 16px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     transition: background-color 0.3s;
+    border-radius: 14px 14px 0px 0px;
+    background-color: white;
+    color: #6b6b6b;
+    /* border-bottom: 1px solid #c0c0c0; */
 }
 
 .tab-buttons button:hover {
     background-color: rgb(179, 179, 179);
+    border-radius: 14px 0px 0px 0px;
   }
   
   .tab-buttons button.active {
     background-color: #e96483;
+    border-radius: 14px 0px 0px 0px;
     color: white;
     font-weight: bold;
   }
-  
-  .tab-content {
-    padding: 20px;
-    border: 1px solid #ddd;
-    margin-top: 10px;
-  }
 
 .tab-wrapper {
-    padding: 20px;
-    background-color: #f8f9fa;
+    padding: 10px;
     border-radius: 0px 0px 8px 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: calc(100vh - 240px); /* Mainscreen에서 남는 공간을 차지 */
 }
 .table-direct {
@@ -54,7 +58,7 @@
     font-size: 9px;
     border-radius: 8px;
     background-color: transparent;
-    color: #575757;
+    color: white;
     cursor: pointer;
 }
 

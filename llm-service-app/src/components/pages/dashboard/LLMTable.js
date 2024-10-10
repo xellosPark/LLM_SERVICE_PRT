@@ -241,7 +241,7 @@ const LLMTable = () => {
                   ref={(el) => {
                     if (el) columnRefs.current[column.key] = el;
                   }}
-                  style={{ width: `${columnWidths[column.key]}px`, position: 'relative', backgroundColor: '#545455' }}
+                  style={{ width: `${columnWidths[column.key]}px`, position: 'relative', backgroundColor: '#545455', position:'sticky', top: '0' }}
                 >
                   {column.label}
                   <div
