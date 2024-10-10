@@ -23,7 +23,7 @@
     border: 2px solid #f05656;
     border-radius: 5px;
     color: white; /* 글자 색을 흰색으로 설정 */
-    padding: 12px 10px; /* 버튼의 내부 여백 설정 */
+    padding: 8px 10px; /* 버튼의 내부 여백 설정 */
     font-size: 14px; /* 글자 크기 설정 */
     font-weight: bold; /* 글자 굵기를 굵게 설정 */
     cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
@@ -34,7 +34,8 @@
     width: 180px; /* 동일한 버튼 너비 설정 */
     justify-content: center; /* 내용물 중앙 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    margin-right: 17px;
   }
   
   .newaddbutton:hover {

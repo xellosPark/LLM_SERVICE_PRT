@@ -75,9 +75,17 @@
     background-color: #ddd;
   }
 
+  .eval-table td:nth-last-child(4) {
+    border-right: none;
+  }
+
   .eval-table td:nth-last-child(3) {
     background-color: #ECF0F1;
     border: none;
+  }
+
+  .eval-table td:nth-last-child(1) {
+    border-right: none;
   }
 
   .eval-icon {
