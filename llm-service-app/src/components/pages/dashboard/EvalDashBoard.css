@@ -1,8 +1,9 @@
 .tab-buttons {
     display: inline-block;
-    border-radius: 14px 14px 0px 0px;
+    border-radius: 15px 0px 0px 0px;
     overflow: hidden;
-    background-color: white;
+    background-color: #ECF0F1;
+    margin-left: 11px;
 }
 
 .tab-buttons button {
@@ -13,20 +14,22 @@
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
-    border-radius: 14px 14px 0px 0px;
+    border-radius: 15px 0px 0px 0px;
     background-color: white;
+    border: 2px solid #222;   /* 점선 추가 */
     color: #6b6b6b;
+    margin-right: 5px;
     /* border-bottom: 1px solid #c0c0c0; */
 }
 
 .tab-buttons button:hover {
     background-color: rgb(179, 179, 179);
-    border-radius: 14px 0px 0px 0px;
+    border-radius: 15px 0px 0px 0px;
   }
   
   .tab-buttons button.active {
-    background-color: #e96483;
-    border-radius: 14px 0px 0px 0px;
+    background-color: #f3aa56;
+    border-radius: 15px 0px 0px 0px;
     color: white;
     font-weight: bold;
   }
