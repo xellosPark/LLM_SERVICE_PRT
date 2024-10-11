@@ -4,22 +4,22 @@
     justify-content: space-between;
     width: 180px;
     /* background-color: #343A40; */
-    background-color: #8b1e4a;
+    background-color: white;
     /* color: #C2C7D0; */
-    color: #eee;
+    color: #979292;
     padding: 5px 5px 10px 5px;
     height: 100vh; /* 전체 높이를 설정하여 화면에 맞게 */
     box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
   }
   
   .sider.collapsed {
-    width: 90px; /* 사이드바가 접힌 상태일 때의 너비 */
+    width: 70px; /* 사이드바가 접힌 상태일 때의 너비 */
   }
   
   .sidemenu {
     list-style-type: none;
     padding: 0;
-    margin-top: 60px;
+    margin-top: 100px;
   }
   
   .menuItem {
@@ -27,30 +27,27 @@
     padding: 10px;
     cursor: pointer;
     margin-bottom: 5px;
-    text-align: center;
-    color: #eee;
-    font-size: 18px;
+    font-size: 13px;
     transition: background-color 0.3s ease;
     font-weight: bold; /* 폰트 두껍게 */
-    border-radius: 15px;
-  }
-  
-  .menuItem:hover, .minimizeButton:hover {
-    background-color: #EA337C;
-    border-radius: 15px;
-    color: #eee; /* #EAD8B1 rgb(247, 243, 45); */
+    border-radius: 5px;
+    margin-left: 10px;
   }
   
   /* 최소화 버튼 */
   .minimizeButton {
-    align-items: center;
     padding: 10px;
     cursor: pointer;
-    margin-bottom: 5px;
-    text-align: center;
-    font-size: 16px;
+    margin: 15px;
+    
     transition: background-color 0.3s ease;
-    font-weight: bold; /* 폰트 두껍게 */
+    margin-left: 20px;
+  }
+   
+  .menuItem:hover, .minimizeButton:hover {
+    background-color: #F8E5EB;
+    border-radius: 5px;
+    color: #EA337C; /* #EAD8B1 rgb(247, 243, 45); */
   }
   
   /* .minimizeButton:hover {
@@ -60,4 +57,6 @@
   
   .custom-icon-size {
     font-size: 18px; /* Adjust the icon size here */
+    margin-right: 15px;
+    margin-left: 10px;
   }

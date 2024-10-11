@@ -1,7 +1,6 @@
 /* 전체 레이아웃을 위한 Flexbox 컨테이너 */
 .create-container {
-  padding: 20px;
-  background-color: #ECF0F1;
+  
 }
 
 .section {
@@ -13,15 +12,12 @@
   font-size: 17px;
   font-weight: bold;
   color: #333;
-  background-color: #fff;
-  outline: 2px solid #EFEFF0;
   padding: 20px;
   border-radius: 15px;
 }
 
 .title {
-  font-size: 25px;
-  color: #c59c80;
+  color: #2E3B51;
 }
 
 /* 각 필드 그룹 */
@@ -29,13 +25,13 @@
   margin-top: 10px;
   display: flex;
   align-items: center;
-  border-radius: 20px;
-  margin-left: 40px;
+  border-radius: 5px;
+  margin-left: 20px;
+  background-color: #f7f7f7;
 }
 
 .field-wrapper > label {
   display: flex;
-  background-color: #b1416f;
   border-radius: 10px;
   justify-content: center; 
   align-items: center; 
@@ -43,7 +39,8 @@
   padding: 10px;
   margin-right: 30px;
   width: 180px;
-  color: #fff;
+  color: #222;
+  height: 30px;
 }
   /* 새로운 필드 그룹을 위한 Flex 설정 */
 .custom-field-wrapper {
@@ -54,6 +51,7 @@
 .file-upload-list {
   color: #888;
   flex: 1; /* 자동으로 남은 공간 차지 */
+  margin-left: 18px;
 }
 
 .file-delete {
@@ -75,10 +73,11 @@
 
 /* 라벨 스타일 */
 .file-delete-label {
+  border: solid 2px;
   display: inline-block;
-  background-color: #717d9e;
-  color: #eee;
-  padding: 10px;
+  background-color: white;
+  color: #222;
+  padding: 7px;
   border-radius: 10px;
   margin-right: 15px;
   min-width: 200px; /* 일정한 너비 설정 */
@@ -91,10 +90,10 @@
   display: block;
   width: 60%;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: 1px solid #ced4da;
   font-size: 14px;
-  background-color: #fff;
+  background-color: #f7f7f7;
   color: #495057;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 6.345c-.566-.566-.168-1.536.636-1.536h9.826c.803 0 1.202.97.636 1.536l-4.796 4.796a1 1 0 0 1-1.414 0z'/%3E%3C/svg%3E");
@@ -103,7 +102,7 @@
   background-size: 12px;
   cursor: pointer;
   margin-top: 10px;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 /* 버튼 크기와 위치 조정 */
@@ -130,41 +129,26 @@
   display: flex;
   justify-content: space-between;
 }
-
-.icon-button {
-  background-color: #48ADA7; /* 버튼 배경 색을 파란색으로 설정 */
-  border: none;
-  border-radius: 5px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
-  color: white; /* 글자 색을 흰색으로 설정 */
-  padding: 5px 10px; /* 버튼의 내부 여백 설정 */
-  font-size: 15px; /* 글자 크기 설정 */
-  font-weight: bold; /* 글자 굵기를 굵게 설정 */
-  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+.csv-open-btn{
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
   align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
-  transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
+  padding: 5px 10px; /* 버튼의 내부 여백 설정 */
+  font-size: 18px; /* 글자 크기 설정 */
   margin-right: 10px;
+  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+  margin-left: 40px;
+  border: solid 1px;
+  border-radius: 5px;
 }
-
-.icon-button:hover {
-  opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
-}
-
-.icon-button img {
-  width: 20px; /* 아이콘 크기 줄이기 */
-  height: 20px; /* 아이콘 높이 줄이기 */
-  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 설정 */
-  border-radius: 50%; /* 아이콘을 완전히 둥글게 만듦 (원형) */
-  background-color: #4f8b7f; /* 아이콘의 배경 색을 흰색으로 설정 */
-  padding: 5px; /* 아이콘 안쪽 여백 설정 */
+.action-icon {
+  margin-right: 8px; /* 아이콘과 텍스트 사이의 마진 */
 }
 
 .icon-button-run {
   display: inline-block;
-  background-color: #4a90e2; /* 버튼 배경 색을 파란색으로 설정 */
+  background-color: #c9415e; /* 버튼 배경 색을 파란색으로 설정 */
   border: none;
-  border-radius: 5px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
+  border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
   padding: 12px 10px; /* 버튼의 내부 여백 설정 */
   font-size: 16px; /* 글자 크기 설정 */
@@ -190,7 +174,7 @@ width: 20px;         /* 아이콘 크기 줄이기 */
 height: 20px;        /* 아이콘 높이 줄이기 */
 margin-right: 10px;  /* 아이콘과 텍스트 사이의 간격 설정 */
 border-radius: 50%;  /* 아이콘을 완전히 둥글게 만듦 (원형) */
-background-color: #7aaaf3; /* 아이콘의 배경 색을 흰색으로 설정 */
+background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
 padding: 5px;       /* 아이콘 안쪽 여백 설정 */
 }
 
@@ -200,11 +184,11 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
 
 .icon-button-edit {
   display: inline-block;
-  background-color: #F86C44; /* 버튼 배경 색을 파란색으로 설정 */
+  background-color: #e25977; /* 버튼 배경 색을 파란색으로 설정 */
   border: none;
-  border-radius: 5px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
+  border-radius: 25px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
-  padding: 5px 10px; /* 버튼의 내부 여백 설정 */
+  padding: 8px 24px; /* 버튼의 내부 여백 설정 */
   font-size: 16px; /* 글자 크기 설정 */
   font-weight: bold; /* 글자 굵기를 굵게 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
@@ -229,7 +213,7 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   height: 20px;        /* 아이콘 높이 줄이기 */
   margin-right: 10px;  /* 아이콘과 텍스트 사이의 간격 설정 */
   border-radius: 50%;  /* 아이콘을 완전히 둥글게 만듦 (원형) */
-  background-color: #f0e556; /* 아이콘의 배경 색을 흰색으로 설정 */
+  background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
   padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   }
 
@@ -237,4 +221,69 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     display: flex;
     justify-content: right;
     align-items: center;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .file-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .file-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    
+  }
+  
+  .file-details {
+    display: flex;
+    flex-direction: column;
+    border: none;
+  }
+  
+  .file-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    border: none;
+  }
+
+  .file-margin {
+    margin-right: 80px;
+  }
+  
+  .file-modified {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .file-actions {
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  .edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .csvfileOpen-icon {
+    width: 24px;
+    height: 24px;
   }

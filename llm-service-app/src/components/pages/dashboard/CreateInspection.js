@@ -32,13 +32,31 @@ const CreateInspection = () => {
       <div className="section">
         <div className="section-title">
           <div className="title">Data</div>
-          
-          <div className="field-wrapper">
-            <label>메일 정보</label>     
-            <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-mailInfo')}>
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices.png" alt="file selection icon" />
-              Select File
-            </button>
+
+          <div>
+            <div className="file-item">
+              <div className="file-info">
+                <img
+                  src="https://img.icons8.com/?size=100&id=2577&format=png&color=000000"
+                  alt="pdf icon"
+                  className="file-icon"
+                />
+
+                <div className="file-details">
+                  <p className="file-name file-margin">메일 정보</p>
+                </div>
+                <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailInfo')}>
+                  <img
+
+                    src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
+                    alt="csvfileOpen"
+                    className="csvfileOpen-icon"
+                  />
+                </button>
+
+                <div className="file-upload-list">{fileNames.mailInfo ? fileNames.mailInfo : 'csv 파일만 업로드 가능합니다.'}</div>
+              </div>
+            </div>
             <input
               id="file-input-mailInfo"
               type="file"
@@ -46,14 +64,30 @@ const CreateInspection = () => {
               onChange={(e) => handleFileChange(e, 'mailInfo')}
               accept=".csv"
             />
-            <div className="file-upload-list">{fileNames.mailInfo ? fileNames.mailInfo : 'csv 파일만 업로드 가능합니다.'}</div>
+
           </div>
-          <div className="field-wrapper">
-            <label>메일 본문</label>
-            <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-mailContent')}>
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices.png" alt="file selection icon" />
-              Select File
-            </button>
+          <div className="file-item">
+            <div className="file-info">
+              <img
+                src="https://img.icons8.com/?size=100&id=312&format=png&color=000000"
+                alt="pdf icon"
+                className="file-icon"
+              />
+
+              <div className="file-details">
+                <p className="file-name file-margin">메일 본문</p>
+              </div>
+              <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailContent')}>
+                <img
+                  src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
+                  alt="csvfileOpen"
+                  className="csvfileOpen-icon"
+                />
+              </button>
+
+              <div className="file-upload-list">{fileNames.mailContent ? fileNames.mailContent : 'zip 파일만 업로드 가능합니다.'}</div>
+
+            </div>
             <input
               id="file-input-mailContent"
               type="file"
@@ -61,32 +95,52 @@ const CreateInspection = () => {
               onChange={(e) => handleFileChange(e, 'mailContent')}
               accept=".zip"
             />
-            <div className="file-upload-list">{fileNames.mailContent ? fileNames.mailContent : 'html, mhtml로 이루어진 zip 파일만 업로드 가능합니다.'}</div>
+
           </div>
-          <div className="field-wrapper">
-            <label>자료요청 시스템 정보</label>
-            <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-systemInfo')}>
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices.png" alt="file selection icon" />
-                Select File
-            </button>
-            <input
-              id="file-input-systemInfo"
-              type="file"
-              style={{ display: 'none' }}
-              onChange={(e) => handleFileChange(e, 'systemInfo')}
-              accept=".xlsx"
-            />
-            <div className="file-upload-list">{fileNames.systemInfo ? fileNames.systemInfo : 'xlsx 파일만 업로드 가능합니다.'}</div>
+          <div className="file-item">
+            <div className="file-info">
+              <img
+                src="https://img.icons8.com/?size=100&id=2937&format=png&color=000000"
+                alt="pdf icon"
+                className="file-icon"
+              />
+
+              <div className="file-details">
+                <p className="file-name">자료요청 시스템 정보</p>
+              </div>
+              <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-senduser')}>
+                <img
+
+                  src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
+                  alt="csvfileOpen"
+                  className="csvfileOpen-icon"
+                />
+              </button>
+
+              <div className="file-upload-list">{fileNames.systemInfo ? fileNames.systemInfo : 'xlsx 파일만 업로드 가능합니다.'}</div>
+            </div>
           </div>
+          <input
+            id="file-input-systemInfo"
+            type="file"
+            style={{ display: 'none' }}
+            onChange={(e) => handleFileChange(e, 'systemInfo')}
+            accept=".xlsx"
+          />
+
           <div className="field-wrapper ">
             <label>제거 키워드 정보</label>
             <div className="custom-field-wrapper">
               <div className="flex-row">
+
                 <label className="file-delete-label">보낸사람</label>
 
                 <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-senduser')}>
-                  <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices.png" alt="file selection icon" />
-                  Select File
+                  <img
+                    src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
+                    alt="csvfileOpen"
+                    className="csvfileOpen-icon"
+                  />
                 </button>
 
                 <input
@@ -103,8 +157,11 @@ const CreateInspection = () => {
               <div className="flex-row">
                 <label className="file-delete-label">제목</label>
                 <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-title')}>
-                  <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices.png" alt="file selection icon" />
-                  Select File
+                  <img
+                    src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
+                    alt="csvfileOpen"
+                    className="csvfileOpen-icon"
+                  />
                 </button>
                 <input
                   id="file-input-title"
@@ -121,8 +178,11 @@ const CreateInspection = () => {
                 <label className="file-delete-label">실수취인</label>
 
                 <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-user')}>
-                  <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices.png" alt="file selection icon" />
-                  Select File
+                <img
+                    src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
+                    alt="csvfileOpen"
+                    className="csvfileOpen-icon"
+                  />
                 </button>
 
                 <input
@@ -156,7 +216,7 @@ const CreateInspection = () => {
           <div className="title">Prompt Engineering</div>
           <button className="icon-button-edit">
             {/* Run 아이콘 설정 */}
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/pencil--v1.png"  alt="edit icon"  />
+            <img src="https://img.icons8.com/?size=100&id=71201&format=png&color=e25977" alt="edit icon" />
             기술 자료 prompt 수정하기
           </button>
         </div>
@@ -165,12 +225,15 @@ const CreateInspection = () => {
             {/* 하단 버튼 */}
             <button className="icon-button-run">
               {/* Run 아이콘 설정 */}
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/play.png" alt="run icon" />
+              <img src="https://img.icons8.com/ios-filled/50/c9415e/play.png" alt="run icon" />
               점검 시작
             </button>
           </div>
         </div>
       </div>
+
+    
+
     </div>
   );
 };
