@@ -13,29 +13,29 @@
     height: 20px; /* 아이콘 높이 줄이기 */
     margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 설정 */
     border-radius: 50%; /* 아이콘을 완전히 둥글게 만듦 (원형) */
-    background-color: #8d2640; /* 아이콘의 배경 색을 흰색으로 설정 */
+    background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
     padding: 5px; /* 아이콘 안쪽 여백 설정 */
   }
   
 .icon-button-add {
-    display: inline-block;
-    background-color: #c0526a; 
-    border: 2px solid #f05656;
-    border-radius: 5px;
-    color: white; /* 글자 색을 흰색으로 설정 */
-    padding: 8px 10px; /* 버튼의 내부 여백 설정 */
-    font-size: 14px; /* 글자 크기 설정 */
-    font-weight: bold; /* 글자 굵기를 굵게 설정 */
-    cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
-    display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
-    align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
-    transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
-    width: 180px; /* 동일한 버튼 너비 설정 */
-    justify-content: center; /* 내용물 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    margin-bottom: 8px;
-    margin-right: 17px;
+  display: inline-block;
+  background-color: #c9415e; /* 버튼 배경 색을 파란색으로 설정 */
+  border: none;
+  border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
+  color: white; /* 글자 색을 흰색으로 설정 */
+  padding: 12px 10px; /* 버튼의 내부 여백 설정 */
+  font-size: 16px; /* 글자 크기 설정 */
+  font-weight: bold; /* 글자 굵기를 굵게 설정 */
+  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
+  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
+  transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
+  margin-right: 10px;
+  width: 200px; /* 동일한 버튼 너비 설정 */
+  justify-content: center; /* 내용물 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin: 10px;
   }
   
   .newaddbutton:hover {

@@ -18,12 +18,13 @@
     padding: 10px 20px;
     background-color: white;
     color: #000c04;
+    border-radius: 15px;
     cursor: pointer;
   }
   
   .page-item button:hover {
-    background-color: #bfc1c2;
-    color: white;
+    background-color: #F8E5EB;
+    color: EA337C;
   }
   
   .page-item button:disabled {
@@ -33,6 +34,6 @@
   }
   
   .page-item.active button {
-    background-color: #474849;
+    background-color: #BB0841;
     color: white;
   }

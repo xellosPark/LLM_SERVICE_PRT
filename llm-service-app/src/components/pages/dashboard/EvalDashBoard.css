@@ -2,7 +2,6 @@
     display: inline-block;
     border-radius: 15px 0px 0px 0px;
     overflow: hidden;
-    background-color: #ECF0F1;
     margin-left: 11px;
 }
 
@@ -23,12 +22,13 @@
 }
 
 .tab-buttons button:hover {
-    background-color: rgb(179, 179, 179);
+    background-color: #F8E5EB;
     border-radius: 15px 0px 0px 0px;
+    color: #EA337C;
   }
   
   .tab-buttons button.active {
-    background-color: #f3aa56;
+    background-color: #c9415e;
     border-radius: 15px 0px 0px 0px;
     color: white;
     font-weight: bold;
@@ -55,13 +55,13 @@
 }
 
 .risk-th-button {
-    border: 1px solid #e2e2e2;
+    border: 1px solid #888;
     margin-left: 5px;
     padding: 4px 8px;
     font-size: 9px;
     border-radius: 8px;
     background-color: transparent;
-    color: white;
+    color: #888;
     cursor: pointer;
 }
 

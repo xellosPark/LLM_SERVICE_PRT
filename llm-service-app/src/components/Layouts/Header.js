@@ -33,9 +33,6 @@ function Header({ onLogout, setActivePage }) {
           <svg xmlns="http://www.w3.org/2000/svg" className="icon-image" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A7.962 7.962 0 0012 20a7.962 7.962 0 006.879-2.196M15 10a3 3 0 11-6 0 3 3 0 016 0zM4 15a8 8 0 1116 0v1a4 4 0 01-4 4H8a4 4 0 01-4-4v-1z" />
           </svg>
-
-           
-        
           <span className="userinfo-text">UbiSam</span>
         </label> */}
         {/* 로그아웃 버튼에 onClick 이벤트 추가 */}
@@ -61,25 +58,26 @@ function Header({ onLogout, setActivePage }) {
           } 
       </label>
     
-        <button className="NewlogOut-button" onClick={onLogout}>
+        {/* <button className="NewlogOut-button" onClick={onLogout}> */}
           {/* 로그인 아이콘 */}
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="icon-lock" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z" />
           </svg> */}
           {/* 로그아웃 아이콘 */}
-          <svg xmlns="http://www.w3.org/2000/svg" className="icon-lock" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          {/* <svg xmlns="http://www.w3.org/2000/svg" className="icon-lock" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
-          </svg>
+          </svg> */}
 
 
           {/* 로그인 텍스트 */}
-          <span className="NewlogOut-text">LOGOUT</span>
+          {/* <span className="NewlogOut-text">LOGOUT</span> */}
 
           {/* 화살표 아이콘 */}
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="icon-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg> */}
-        </button>
+        {/* </button> */}
+        
       </div>
     </header>
   );
