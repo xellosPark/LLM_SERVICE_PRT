@@ -22,7 +22,7 @@
     border-radius: 50%; /* 아이콘을 완전히 둥글게 만듦 (원형) */
     background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
     padding: 5px; /* 아이콘 안쪽 여백 설정 */
-  }
+}
   
 .icon-button-add {
   display: inline-block;
