@@ -9,13 +9,13 @@ const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
   return (
     <aside className={`sider ${isCollapsed ? 'collapsed' : ''}`}>
       <ul className="sidemenu">
-        <li onClick={() => onItemClick('DashBoard')} className="menuItem">
+        <li onClick={() => onItemClick('DashBoard')} className="minimizeButton">
           <span className="custom-icon-size">
             <FontAwesomeIcon icon={faChartPie } />
           </span>
           {!isCollapsed && ' LLM Service'}
         </li>
-        <li onClick={() => onItemClick('LLMOPS')} className="menuItem">
+        <li onClick={() => onItemClick('LLMOPS')} className="minimizeButton">
           <span className="custom-icon-size">
             <FontAwesomeIcon icon={faDesktop} />
           </span>
@@ -24,10 +24,12 @@ const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
         {/* <li onClick={() => onItemClick('Sub3')} className="menuItem">Sub3</li> */}
         {/* <li onClick={() => onItemClick('Sub4')} className="menuItem">Sub4</li> */}
       </ul>
-      {/* 최소화 버튼을 하단에 추가 */}
+      
+
+          {/* 최소화 버튼을 하단에 추가 */}
       <div onClick={onToggle} className="minimizeButton">
         <FontAwesomeIcon icon={isCollapsed ? faArrowRight : faArrowLeft} />
-        {!isCollapsed &&   <span className="custom-icon-size"> 최소화</span>}
+        {!isCollapsed &&   <span className="custom-icon-ssize"> 최소화</span>}
       </div>
     </aside>
   );
