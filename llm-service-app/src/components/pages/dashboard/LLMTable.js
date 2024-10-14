@@ -82,7 +82,7 @@ const LLMTable = () => {
     id: 2,
     time: 10,
     model: 20,
-    status: 5,
+    status: 2,
     risk: 10,
     evResult: 10,
     resultFile: 10,
@@ -115,7 +115,7 @@ const LLMTable = () => {
   const getStatusStyle = (status) => {
       const baseStyle = {          // margin 추가
           borderRadius: '8px',    // border-radius 추가
-          padding: '8px 0px'      // padding도 함께 추가 가능
+          padding: '2px 0px'      // padding도 함께 추가 가능
         };
       switch (status) {
       case 'Running':

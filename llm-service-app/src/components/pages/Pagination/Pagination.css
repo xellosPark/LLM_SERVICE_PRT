@@ -15,9 +15,9 @@
   }
   
   .page-item button {
-    border: 1px solid #504f4f;
+    border: none;
     padding: 7px 12px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.1); 
     color: #000c04;
     border-radius: 10px;
     cursor: pointer;
@@ -31,7 +31,7 @@
   .page-item button:disabled {
     color: #a1a1a1;
     cursor: auto;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.1); 
   }
   
   .page-item.active button {
