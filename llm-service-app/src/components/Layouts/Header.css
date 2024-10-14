@@ -115,13 +115,13 @@
     margin-right: 25px;
   }
    .icon-half-human {
-    width: 20px;    /* 아이콘 너비 */
-    height: 20px;    /* 아이콘 높이 */
+    width: 15px;    /* 아이콘 너비 */
+    height: 15px;    /* 아이콘 높이 */
     margin-right: 10px;    /* 텍스트와 아이콘 간격 */
     fill: rgb(131, 186, 250);    /* 아이콘 색상 */
   }
    .userinfo-text {
-    font-size: 14px;
+    font-size: 12px;
     color: #222;    /* 연한 파란색 텍스트 */
   }
 
