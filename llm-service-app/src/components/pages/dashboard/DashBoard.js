@@ -32,7 +32,11 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
   return (
     <div id='sub1-main'>
       <div className='sub1-main'>
-      <div className='dashboard-title'>{showCreateInspection === false ? `메일 Compliance 점검` : ''}</div>
+      <div className='dashboard-title'>{showCreateInspection === false ? ( <>
+                                                                          <img src="https://img.icons8.com/?size=100&id=124173&format=png&color=000000" alt="icon" style={{ width: '14px', height: '14px', marginRight: '8px' }} />
+                                                                           메일 Compliance 점검
+                                                                           </> ): ('')
+                                                                           }</div>
         <div>
           {
             showCreateInspection === false && (
@@ -44,7 +48,7 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
                     {/* 하단 버튼 */}
                     <button className="icon-button-add">
                       {/*  아이콘 설정 */}
-                      <img src="https://img.icons8.com/ios-filled/50/c9415e/plus-math.png" alt="add function icon" />
+                      <img src="https://img.icons8.com/ios-filled/50/BB0841/plus-math.png" alt="add function icon" />
                       신규 점검 생성
                     </button>
                   </div>

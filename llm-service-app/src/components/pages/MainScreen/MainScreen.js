@@ -118,7 +118,7 @@ function MainScreen({ setActivePage, activePage }) {
           </div>
         ) : (
           <div className="maintitle">
-            <h3>{MainTitle}</h3>
+            <h4>{MainTitle}</h4>
           </div>
         )}
 

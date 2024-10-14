@@ -31,12 +31,14 @@
   .header.light-mode {
     background-color: #FBFAFC;
     color: #222;
+    font-size: 14px;
   }
   
   /* 다크 모드 */
   .header.dark-mode {
     background-color: #3D3D3D;
     color: #eee;
+    font-size: 14px;
   }
   
   .user-name.dark-mode {
@@ -106,7 +108,7 @@
     align-items: center;
     background-color: #f5f4f4;    /* 연한 파란색 배경 */
     color: rgb(75, 75, 75);
-    padding: 10px 30px;
+    padding: 4px 10px;
     border-radius: 50px;
     font-weight: bold;
     border: 2px solid #bebdbd;   /* 점선 추가 */
@@ -119,7 +121,7 @@
     fill: rgb(131, 186, 250);    /* 아이콘 색상 */
   }
    .userinfo-text {
-    font-size: 16px;
+    font-size: 14px;
     color: #222;    /* 연한 파란색 텍스트 */
   }
 
