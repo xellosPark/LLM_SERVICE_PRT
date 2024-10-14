@@ -127,7 +127,7 @@ const CreateInspection = () => {
             accept=".xlsx"
           />
 
-          <div className="field-wrapper ">
+          <div className="field-wrapper">
             <img src="https://img.icons8.com/?size=40&id=2290&format=png&color=000000" alt="txtfile"></img>
             <label>제거 키워드 정보</label>
             <div className="custom-field-wrapper">

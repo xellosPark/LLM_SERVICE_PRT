@@ -26,10 +26,10 @@
   display: flex;
   align-items: center;
   border-radius: 5px;
-  margin-left: 20px;
+  margin-left: 8px;
   background-color: #f7f7f7;
-  width: auto;
-  max-width: 1550px;
+  width: 960px;
+  max-width: 960px;
   font-size: 14px;
 }
 
@@ -91,7 +91,7 @@
   padding: 7px;
   border-radius: 10px;
   margin-right: 15px;
-  min-width: 200px; /* 일정한 너비 설정 */
+  min-width: 80px; /* 일정한 너비 설정 */
   text-align: center; /* 가운데 정렬 */
   margin-right: 30px;
 }
@@ -113,27 +113,7 @@
   background-size: 12px;
   cursor: pointer;
   margin-top: 10px;
-  margin-left: 20px;
-}
-
-/* 버튼 크기와 위치 조정 */
-.submit-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #e96483;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
-  width: 200px;  /* 버튼의 고정 너비 설정 */
-  align-self: center;  /* 버튼이 컨테이너의 가운데에 배치되도록 설정 */
-}
-
-.submit-btn:hover {
-  background-color: #C26075;
+  margin-left: 10px;
 }
 
 .flex-row {
@@ -161,7 +141,7 @@
   border: none;
   border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
-  padding: 12px 10px; /* 버튼의 내부 여백 설정 */
+  padding: 6px 10px; /* 버튼의 내부 여백 설정 */
   font-size: 16px; /* 글자 크기 설정 */
   font-weight: bold; /* 글자 굵기를 굵게 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
@@ -170,10 +150,9 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
   transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
   margin-right: 10px;
-  width: 200px; /* 동일한 버튼 너비 설정 */
+  /* width: 100px; 동일한 버튼 너비 설정 */
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  margin-top: 20px;
 }
 
 .icon-button-run:hover {
@@ -189,17 +168,13 @@ background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
 padding: 5px;       /* 아이콘 안쪽 여백 설정 */
 }
 
-.run-button {
-  justify-content: right;
-}
-
 .icon-button-edit {
   display: inline-block;
   background-color: #BB0841; /* 버튼 배경 색을 파란색으로 설정 */
   border: none;
   border-radius: 25px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
-  padding: 8px 24px; /* 버튼의 내부 여백 설정 */
+  padding: 6px 10px; /* 버튼의 내부 여백 설정 */
   font-size: 16px; /* 글자 크기 설정 */
   font-weight: bold; /* 글자 굵기를 굵게 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
@@ -207,12 +182,11 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
   transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
-  margin-right: 10px;
   /* width: 200px; 동일한 버튼 너비 설정 */
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   margin-top: 20px;
-  margin-left: 40px;
+  margin-left: 10px;
   }
   
   .icon-button-edit:hover {
@@ -230,8 +204,9 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
 
   .run-button {
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
+    margin-left: 220px;
   }
 
   .file-item {
@@ -242,14 +217,15 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 10px;
-    margin: 10px 20px;
-    max-width: 1530px;
+    margin: 10px 8px;
+    width: 940px;
+    max-width: 940px;
   }
   
   .file-info {
     display: flex;
     align-items: center;
-    max-width: 1530px;
+    width: 900px;
     font-size: 14px;
   }
   
