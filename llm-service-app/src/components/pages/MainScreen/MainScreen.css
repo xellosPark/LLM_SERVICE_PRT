@@ -40,6 +40,8 @@
     display: flex;                  /* 버튼들을 수평으로 나열 */
     justify-content: flex-start;    /* 왼쪽 정렬 */
     gap: 10px;                      /* 버튼 사이에 간격 추가 */
+    justify-content: center; /* 내용물 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
 }
 
 .nav-item {
@@ -127,4 +129,9 @@
     background-color: #b6b4b4;
     margin: 0 5px;
     margin-top: 12px;
+  }
+
+  .nav-icon {
+    display: inline-block;
+    margin-right: 4px;
   }

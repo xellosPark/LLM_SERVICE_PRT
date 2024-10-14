@@ -21,10 +21,10 @@
     padding: 8px;
     text-align: center;
     user-select:none;
-    color: #888;
-    
+    color: #787682;
     font-size: 14px;
     font-weight: lighter;
+    background-color: '#F8FAFC', 
   }
 
   .fixed-table th:nth-last-child(1) {
@@ -104,4 +104,17 @@
     color: black;
     font-weight: bold;
     cursor: default;
+  }
+
+  .result-button {
+    border: none;
+    background-color: #c9415e;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .result-button:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* 버튼에 그림자 추가 */
   }
