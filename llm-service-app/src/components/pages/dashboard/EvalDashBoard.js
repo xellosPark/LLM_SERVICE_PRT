@@ -28,7 +28,13 @@ const EvalDashBoard = () => {
         {
           activeTab === 'Tab1' && (
             <>
-              <div>Portential Risk 300건 / 800건</div>
+            <div className="tab-container">
+              <img src="https://img.icons8.com/?size=45&id=80613&format=png&color=000000" alt="tab1" />
+              <div className="tab-title">Portential Risk
+                 <div className="tab-title-span">300건 / 800건</div>
+              </div>
+            </div>
+            
             <div className="flex-row table-direct">
               <div className="table-section">
                 <EvaluationTable />
