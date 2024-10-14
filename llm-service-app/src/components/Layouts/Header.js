@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './Header.css'; // CSS 파일 불러오기
-import lightLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_grey_rgb.png';
+import lightLogo from '../../logos/test_logo.jfif';
 import darkLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_white_rgb.png';
 import { UserContext } from '../useContext/UserContext';
 import { Navigate, useNavigate } from 'react-router-dom';

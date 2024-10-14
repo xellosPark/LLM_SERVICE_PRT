@@ -9,11 +9,11 @@ const LLMTable = () => {
   const columns = [
     { key: 'id', label: 'Id', minWidth: 1 },
     { key: 'time', label: 'Time', minWidth: 20 },
-    { key: 'model', label: 'Model / Data', minWidth: 150 },
+    { key: 'model', label: 'Model / Data', minWidth: 20 },
     { key: 'status', label: 'Status', minWidth: 2 },
-    { key: 'risk', label: 'Risk Mails', minWidth: 100 },
-    { key: 'evResult', label: 'Evaluation Result', minWidth: 100 },
-    { key: 'resultFile', label: 'Result File', minWidth: 100 },
+    { key: 'risk', label: 'Risk Mails', minWidth: 10 },
+    { key: 'evResult', label: 'Evaluation Result', minWidth: 10 },
+    { key: 'resultFile', label: 'Result File', minWidth: 10 },
   ];  // 미리 정의된 테이블 헤더
   const datas = [
       { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '평가하기', risk: '-', resultFile: '-', status: 'Success', title: '2024-08023 14:54:11', jobId: '202408231454111782' },
@@ -80,8 +80,8 @@ const LLMTable = () => {
 
   const [columnWidths, setColumnWidths] = useState({
     id: 2,
-    time: 10,
-    model: 20,
+    time: 5,
+    model: 10,
     status: 2,
     risk: 10,
     evResult: 10,

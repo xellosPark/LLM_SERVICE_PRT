@@ -47,7 +47,7 @@ const CreateInspection = () => {
                 </div>
                 <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailInfo')}>
                   <img
-                    src="https://img.icons8.com/?size=100&id=68546&format=png&color=000000"
+                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
                     alt="csvfileOpen"
                     className="csvfileOpen-icon"
                   />
@@ -78,7 +78,7 @@ const CreateInspection = () => {
               </div>
               <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailContent')}>
                 <img
-                  src="https://img.icons8.com/?size=100&id=68546&format=png&color=000000"
+                  src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
                   alt="csvfileOpen"
                   className="csvfileOpen-icon"
                 />
@@ -110,7 +110,7 @@ const CreateInspection = () => {
               <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-senduser')}>
                 <img
 
-                  src="https://img.icons8.com/?size=100&id=68546&format=png&color=000000"
+                  src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
                   alt="csvfileOpen"
                   className="csvfileOpen-icon"
                 />
@@ -137,7 +137,7 @@ const CreateInspection = () => {
 
                 <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-senduser')}>
                   <img
-                    src="https://img.icons8.com/?size=100&id=68546&format=png&color=000000"
+                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
                     alt="csvfileOpen"
                     className="csvfileOpen-icon"
                   />
@@ -160,7 +160,7 @@ const CreateInspection = () => {
                 <label className="file-delete-label">제목</label>
                 <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-title')}>
                   <img
-                    src="https://img.icons8.com/?size=100&id=68546&format=png&color=000000"
+                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
                     alt="csvfileOpen"
                     className="csvfileOpen-icon"
                   />
@@ -183,7 +183,7 @@ const CreateInspection = () => {
 
                 <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-user')}>
                 <img
-                    src="https://img.icons8.com/?size=100&id=68546&format=png&color=000000"
+                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
                     alt="csvfileOpen"
                     className="csvfileOpen-icon"
                   />

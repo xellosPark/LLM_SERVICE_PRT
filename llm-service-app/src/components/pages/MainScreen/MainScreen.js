@@ -109,6 +109,7 @@ function MainScreen({ setActivePage, activePage }) {
                     </button>
                     <BsChevronDoubleRight className="nav-item-create-header" />
                     
+                    
                     <div className="nav-item-create-active">신규 점검 생성</div>
                   </>
                 )

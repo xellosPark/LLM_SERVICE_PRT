@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginPage.css'
-import lightLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_grey_rgb.png';
+import lightLogo from '../../logos/test_logo.jfif';
 
 function LoginPage({ onLogin }) {
   const [id, setId] = useState('');
@@ -15,7 +15,7 @@ function LoginPage({ onLogin }) {
     <div className='login-container'>
       <div className='login'>
       <div className='login-img' >
-        <img alt='LG LOGO' src={lightLogo} style={{width: '160px'}} />
+        <img alt='LG LOGO' src={lightLogo} style={{width: '100px'}} />
       </div>
         <form onSubmit={handleSubmit}>
           <div className='login-box'>

@@ -6,8 +6,8 @@
 .section {
   flex: 1;
   margin-right: 20px;
-  margin-bottom: 15px;
 }
+
 .section-title {
   font-size: 17px;
   font-weight: bold;
@@ -28,9 +28,9 @@
   border-radius: 5px;
   margin-left: 8px;
   background-color: #f7f7f7;
-  width: 960px;
-  max-width: 960px;
-  font-size: 14px;
+  width: 1000px;
+  max-width: 1000px;
+  font-size: 13px;
 }
 
 .field-wrapper  > img {
@@ -45,7 +45,7 @@
   min-width: 100px;
   padding: 10px;
   margin-right: 5px;
-  width: 140px;
+  width: 130px;
   color: #222;
   height: 30px;
   
@@ -101,9 +101,9 @@
   display: block;
   width: 60%;
   padding: 14px 10px;
-  border-radius: 60px;
+  border-radius: 10px;
   border: 1px solid #ced4da;
-  font-size: 16px;
+  font-size: 15px;
   background-color: #f7f7f7;
   color: #495057;
   appearance: none;
@@ -124,26 +124,30 @@
 .csv-open-btn{
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
   align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  padding: 5px 10px; /* 버튼의 내부 여백 설정 */
-  font-size: 15px; /* 글자 크기 설정 */
+  padding: 5px 5px; /* 버튼의 내부 여백 설정 */
+  font-size: 13px; /* 글자 크기 설정 */
   margin-right: 10px;
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
   margin-left: 40px;
   border: none;
   background-color: #F7F7F7;
+  border: 2px solid #c1c3c5;
+  border-radius: 30px;
 }
 
 .action-icon {
   margin-right: 8px; /* 아이콘과 텍스트 사이의 마진 */
 }
 
-.icon-button{
+.icon-button {
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
   align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  font-size: 15px; /* 글자 크기 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
   border: none;
+  padding: 0px 0px;
   background-color: #F7F7F7;
+  border: 2px solid #c1c3c5;
+  border-radius: 20px;
 }
 
 .icon-button-run {
@@ -153,14 +157,13 @@
   border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
   padding: 6px 10px; /* 버튼의 내부 여백 설정 */
-  font-size: 16px; /* 글자 크기 설정 */
+  font-size: 14px; /* 글자 크기 설정 */
   font-weight: bold; /* 글자 굵기를 굵게 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
   align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
   transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
-  margin-right: 10px;
   /* width: 100px; 동일한 버튼 너비 설정 */
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
@@ -186,7 +189,7 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   border-radius: 25px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
   padding: 6px 10px; /* 버튼의 내부 여백 설정 */
-  font-size: 16px; /* 글자 크기 설정 */
+  font-size: 13px; /* 글자 크기 설정 */
   font-weight: bold; /* 글자 굵기를 굵게 설정 */
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
@@ -229,15 +232,15 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     border-radius: 8px;
     padding: 10px;
     margin: 10px 8px;
-    width: 940px;
-    max-width: 940px;
+    width: 980px;
+    max-width: 980px;
   }
   
   .file-info {
     display: flex;
     align-items: center;
     width: 900px;
-    font-size: 14px;
+    font-size: 13px;
   }
   
   .file-icon {
@@ -260,7 +263,7 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   }
 
   .file-margin {
-    margin-right: 70px;
+    margin-right: 65px;
   }
   
   .file-modified {

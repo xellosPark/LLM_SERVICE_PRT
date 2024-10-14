@@ -22,21 +22,9 @@
     margin-top: 100px;
   }
   
-  .menuItem {
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    margin-bottom: 5px;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    font-weight: bold; /* 폰트 두껍게 */
-    border-radius: 5px;
-    margin-left: 10px;
-  }
-  
   /* 최소화 버튼 */
   .minimizeButton {
-    padding: 5px;
+    padding: 10px 5px;
     cursor: pointer;
     font-size: 12px;
     transition: background-color 0.3s ease;
@@ -50,21 +38,21 @@
     color: #EA337C; /* #EAD8B1 rgb(247, 243, 45); */
   }
   
-  /* .minimizeButton:hover {
-    background-color: #21ad91;
-    color: rgb(247, 243, 45);
-  } */
-  
   .custom-icon-size {
-    font-size: 12px; /* Adjust the icon size here */
-    margin-right: 3px;
-    margin-left: 2px;
+    font-size: 13px; /* Adjust the icon size here */
+    /* margin-right: 3px;
+    margin-left: 2px; */
+    margin: 5px 2px 5px 3px;
   }
 
   .custom-icon-ssize {
     font-size: 12px; /* Adjust the icon size here */
     margin-right: 5px;
     margin-left: 1px;
+    
   }
 
-  
+  .mini-div {
+    display: flex;
+    justify-content: center;
+  }
