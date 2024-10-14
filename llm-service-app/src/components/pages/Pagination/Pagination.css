@@ -15,10 +15,10 @@
   
   .page-item button {
     border: 1px solid #504f4f;
-    padding: 10px 20px;
+    padding: 7px 12px;
     background-color: white;
     color: #000c04;
-    border-radius: 15px;
+    border-radius: 10px;
     cursor: pointer;
   }
   

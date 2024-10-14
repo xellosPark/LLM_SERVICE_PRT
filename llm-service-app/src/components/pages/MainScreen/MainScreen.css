@@ -25,23 +25,21 @@
 }
 
 .centered-fallback {
-    display: inline-block;     /* 인라인 요소의 크기 조절을 위해 사용 */
-  line-height: normal;       /* 인라인 요소의 본래 높이 유지 */
+    display: inline-block;        /* 인라인 요소의 크기 조절을 위해 사용 */
+  line-height: normal;            /* 인라인 요소의 본래 높이 유지 */
 }
 .navigation-bar {
-    background-color: #ecf0f1; /* 네비게이션 배경색 */
-    display: flex; /* 플렉스 사용으로 항목들을 적절히 정렬 */
-    align-items: center; /* 텍스트 수직 가운데 정렬 (오타 수정: 'centr' -> 'center') */
-    padding-bottom: 10px; /* 밑줄 위에 약간의 공간 추가 */
-    border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* 투명도를 가진 밑줄 */
-    margin-bottom: 10px; /* 밑줄 아래에 여백 추가 */
-    margin-top: 25px;    /* 위에 여백 추가 */
+    background-color: #ecf0f1;  /* 네비게이션 배경색 */
+    display: flex;                /* 플렉스 사용으로 항목들을 적절히 정렬 */
+    align-items: center;          /* 텍스트 수직 가운데 정렬 (오타 수정: 'centr' -> 'center') */
+    padding-bottom: 10px;         /* 밑줄 위에 약간의 공간 추가 */
+    margin-top: 25px;             /* 위에 여백 추가 */
 }
 
 .navigation-title {
-    display: flex; /* 버튼들을 수평으로 나열 */
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    gap: 10px; /* 버튼 사이에 간격 추가 */
+    display: flex;                  /* 버튼들을 수평으로 나열 */
+    justify-content: flex-start;    /* 왼쪽 정렬 */
+    gap: 10px;                      /* 버튼 사이에 간격 추가 */
 }
 
 .nav-item {
@@ -125,8 +123,8 @@
 
 .separator {
     width: 1px;
-    height: 30px;
+    height: 20px;
     background-color: #b6b4b4;
     margin: 0 5px;
-    margin-top: 7px;
+    margin-top: 12px;
   }
