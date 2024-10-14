@@ -274,6 +274,7 @@ const EvaluationTable = () => {
                                     <input className="eval-td-textarea"
                                         value={item.result}
                                         onChange={(event) => handleChange(index, event)}
+                                        style={{fontSize: '12px'}}
                                         placeholder="Type something here..." />
                                 </td>
                             </tr>

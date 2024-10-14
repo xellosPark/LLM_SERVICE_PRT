@@ -7,16 +7,16 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 const LLMTable = () => {
 
   const columns = [
-    { key: 'id', label: 'Id', minWidth: 10 },
+    { key: 'id', label: 'Id', minWidth: 1 },
     { key: 'time', label: 'Time', minWidth: 20 },
-    { key: 'model', label: 'Model / Data', minWidth: 50 },
-    { key: 'status', label: 'Status', minWidth: 10 },
+    { key: 'model', label: 'Model / Data', minWidth: 150 },
+    { key: 'status', label: 'Status', minWidth: 2 },
     { key: 'risk', label: 'Risk Mails', minWidth: 100 },
     { key: 'evResult', label: 'Evaluation Result', minWidth: 100 },
-    { key: 'resultFile', label: 'Result File', minWidth: 50 },
+    { key: 'resultFile', label: 'Result File', minWidth: 100 },
   ];  // 미리 정의된 테이블 헤더
   const datas = [
-      { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success', title: '2024-08023 14:54:11', jobId: '202408231454111782' },
+      { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '평가하기', risk: '-', resultFile: '-', status: 'Success', title: '2024-08023 14:54:11', jobId: '202408231454111782' },
       { id: 2, time: '2024-09-04 14:43:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
       { id: 3, time: '2024-09-14 07:33:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
       { id: 4, time: '2024-09-16 07:05:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Success' },
@@ -79,13 +79,13 @@ const LLMTable = () => {
   ];
 
   const [columnWidths, setColumnWidths] = useState({
-    id: 10,
-    time: 20,
-    model: 50,
-    status: 10,
-    risk: 150,
-    evResult: 100,
-    resultFile: 50,
+    id: 2,
+    time: 10,
+    model: 20,
+    status: 5,
+    risk: 10,
+    evResult: 10,
+    resultFile: 10,
   });
 
   // columnRefs를 빈 객체로 초기화합니다.
@@ -173,24 +173,24 @@ const LLMTable = () => {
     resizingState.current.diff = diff;
 
     const onMouseMove = (moveEvent) => {
-      // 보정된 위치에서 너비 계산
-      const newWidth =
-        resizingState.current.startWidth + (moveEvent.clientX - resizingState.current.startX) - resizingState.current.diff;
+        // 보정된 위치에서 너비 계산
+        const newWidth =
+            resizingState.current.startWidth + (moveEvent.clientX - resizingState.current.startX) - resizingState.current.diff;
 
-      setColumnWidths((prevWidths) => ({
-        ...prevWidths,
-        [column.key]: newWidth > column.minWidth ? newWidth : column.minWidth,
-      }));
+        setColumnWidths((prevWidths) => ({
+            ...prevWidths,
+            [column.key]: newWidth > column.minWidth ? newWidth : column.minWidth,
+        }));
     };
 
     const onMouseUp = () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
     };
 
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
-  };
+};
 
    // 우클릭 이벤트 핸들러
    const handleRightClick = (event, rowData) => {
@@ -241,7 +241,7 @@ const LLMTable = () => {
                   ref={(el) => {
                     if (el) columnRefs.current[column.key] = el;
                   }}
-                  style={{ width: `${columnWidths[column.key]}px`, position: 'relative', backgroundColor: '#F8FAFC', position:'sticky', top: '0' }}
+                  style={{ width: `${columnWidths[column.key]}%`, position: 'relative', backgroundColor: '#F8FAFC', position:'sticky', top: '0' }}
                 >
                   {column.label}
                   <div
@@ -279,7 +279,10 @@ const LLMTable = () => {
                   <div className='status' style={getStatusStyle(item.status)}>{item.status} {item.status === 'Error' && (<span className='status-error'>?</span>)}</div>
                 </td>
                 <td>{item.risk}</td>
-                <td>{item.result}</td>
+                <td>{item.result === '평가하기' ? (
+                  <button className='result-button'>
+                    평가하기
+                  </button>) : item.result}</td>
                 
                 <td>{item.resultFile}</td>
                 

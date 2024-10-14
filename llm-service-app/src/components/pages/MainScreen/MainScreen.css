@@ -8,14 +8,17 @@
     padding: 20px;
     padding-top: 50px; /* 고정된 헤더 아래 여백 추가 */
     background-color: #ecf0f1;
+    justify-content: center;
+    align-items: center;
 }
 
 .maintitle {
-    display: flex;
     align-items: center; /* 텍스트 수직 가운데 정렬 */
     color: #222;
     border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* 투명도가 적용된 밑줄 */
-    padding-top: 10px;
+    padding: 20px;
+    margin: 14px 0px;
+    font-size: 15PX;
 }
 
 .fail-loading {
@@ -40,6 +43,8 @@
     display: flex;                  /* 버튼들을 수평으로 나열 */
     justify-content: flex-start;    /* 왼쪽 정렬 */
     gap: 10px;                      /* 버튼 사이에 간격 추가 */
+    justify-content: center; /* 내용물 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
 }
 
 .nav-item {
@@ -123,8 +128,12 @@
 
 .separator {
     width: 1px;
-    height: 20px;
+    height: 15px;
     background-color: #b6b4b4;
     margin: 0 5px;
-    margin-top: 12px;
+  }
+
+  .nav-icon {
+    display: inline-block;
+    margin-right: 4px;
   }

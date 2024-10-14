@@ -42,7 +42,7 @@
   width: 150px; /* 동일한 버튼 너비 설정 */
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  margin: 5px;
+  margin: 5px 15px 15px 5px;
   }
   
   .newaddbutton:hover {
