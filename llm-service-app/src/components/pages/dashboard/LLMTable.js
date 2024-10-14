@@ -115,7 +115,8 @@ const LLMTable = () => {
   const getStatusStyle = (status) => {
       const baseStyle = {          // margin 추가
           borderRadius: '8px',    // border-radius 추가
-          padding: '2px 0px'      // padding도 함께 추가 가능
+          padding: '2px 0px',      // padding도 함께 추가 가능
+          margin: '0px 10px'
         };
       switch (status) {
       case 'Running':
