@@ -43,11 +43,10 @@ const CreateInspection = () => {
                 />
 
                 <div className="file-details">
-                  <p className="file-name file-margin">메일 정보</p>
+                  <p className="file-names file-margin">메일 정보</p>
                 </div>
                 <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailInfo')}>
                   <img
-
                     src="https://img.icons8.com/?size=50&id=17137&format=png&color=000000"
                     alt="csvfileOpen"
                     className="csvfileOpen-icon"
@@ -75,7 +74,7 @@ const CreateInspection = () => {
               />
 
               <div className="file-details">
-                <p className="file-name file-margin">메일 본문</p>
+                <p className="file-names file-margin">메일 본문</p>
               </div>
               <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailContent')}>
                 <img
@@ -106,7 +105,7 @@ const CreateInspection = () => {
               />
 
               <div className="file-details">
-                <p className="file-name">자료요청 시스템 정보</p>
+                <p className="file-names">자료요청 시스템 정보</p>
               </div>
               <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-senduser')}>
                 <img
@@ -129,6 +128,7 @@ const CreateInspection = () => {
           />
 
           <div className="field-wrapper ">
+            <img src="https://img.icons8.com/?size=40&id=2290&format=png&color=000000" alt="txtfile"></img>
             <label>제거 키워드 정보</label>
             <div className="custom-field-wrapper">
               <div className="flex-row">
@@ -153,6 +153,8 @@ const CreateInspection = () => {
                 <div className="file-upload-list">{fileNames.senduser ? fileNames.senduser : 'txt파일만 업로드 가능합니다.'}</div>
               </div>
 
+              <br />
+
               {/* 제목 */}
               <div className="flex-row">
                 <label className="file-delete-label">제목</label>
@@ -172,6 +174,8 @@ const CreateInspection = () => {
                 />
                 <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt파일만 업로드 가능합니다.'}</div>
               </div>
+
+              <br />
 
               {/* 실수취인 */}
               <div className="flex-row">

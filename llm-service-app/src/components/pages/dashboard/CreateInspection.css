@@ -28,27 +28,37 @@
   border-radius: 5px;
   margin-left: 20px;
   background-color: #f7f7f7;
+  width: auto;
+  max-width: 1550px;
+  font-size: 14px;
+}
+
+.field-wrapper  > img {
+  margin: 0px 10px;
 }
 
 .field-wrapper > label {
   display: flex;
   border-radius: 10px;
-  justify-content: center; 
+  justify-content: left; 
   align-items: center; 
-  min-width: 200px;
+  min-width: 100px;
   padding: 10px;
-  margin-right: 30px;
-  width: 180px;
+  margin-right: 5px;
+  width: 140px;
   color: #222;
   height: 30px;
+  
 }
   /* 새로운 필드 그룹을 위한 Flex 설정 */
 .custom-field-wrapper {
   display: flex;
   flex-direction: column; /* 세로 정렬 */
+  margin: 10px 0px;
 }
 
 .file-upload-list {
+  display: inline-block;
   color: #888;
   flex: 1; /* 자동으로 남은 공간 차지 */
   margin-left: 18px;
@@ -68,7 +78,8 @@
 .flex-row {
   display: flex;
   align-items: center; /* 항목들을 수직 중앙 정렬 */
-  margin-bottom: 10px;
+  margin: 3px 0px;
+  padding: 2px;
 }
 
 /* 라벨 스타일 */
@@ -89,10 +100,10 @@
 .dropdown {
   display: block;
   width: 60%;
-  padding: 10px;
+  padding: 14px 10px;
   border-radius: 10px;
   border: 1px solid #ced4da;
-  font-size: 14px;
+  font-size: 16px;
   background-color: #f7f7f7;
   color: #495057;
   appearance: none;
@@ -232,13 +243,14 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     border-radius: 8px;
     padding: 10px;
     margin: 10px 20px;
-    width: 100%;
-    max-width: 600px;
+    max-width: 1530px;
   }
   
   .file-info {
     display: flex;
     align-items: center;
+    max-width: 1530px;
+    font-size: 14px;
   }
   
   .file-icon {
@@ -254,15 +266,14 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     border: none;
   }
   
-  .file-name {
-    font-size: 16px;
+  .file-names {
     font-weight: bold;
     margin: 0;
     border: none;
   }
 
   .file-margin {
-    margin-right: 80px;
+    margin-right: 70px;
   }
   
   .file-modified {

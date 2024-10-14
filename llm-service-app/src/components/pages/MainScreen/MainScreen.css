@@ -15,7 +15,7 @@
 .maintitle {
     align-items: center; /* 텍스트 수직 가운데 정렬 */
     color: #222;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* 투명도가 적용된 밑줄 */
+    /* border-bottom: 2px solid rgba(0, 0, 0, 0.2); 투명도가 적용된 밑줄 */
     padding: 20px;
     margin: 14px 0px;
     font-size: 15PX;
