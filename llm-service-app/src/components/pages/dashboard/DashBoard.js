@@ -44,7 +44,7 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
                     {/* 하단 버튼 */}
                     <button className="icon-button-add">
                       {/*  아이콘 설정 */}
-                      <img src="https://img.icons8.com/ios-filled/50/c9415e/plus-math.png" alt="add function icon" />
+                      <img src="https://img.icons8.com/ios-filled/50/BB0841/plus-math.png" alt="add function icon" />
                       신규 점검 생성
                     </button>
                   </div>

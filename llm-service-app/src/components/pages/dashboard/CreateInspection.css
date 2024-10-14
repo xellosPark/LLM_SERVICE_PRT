@@ -146,7 +146,7 @@
 
 .icon-button-run {
   display: inline-block;
-  background-color: #c9415e; /* 버튼 배경 색을 파란색으로 설정 */
+  background-color: #BB0841; /* 버튼 배경 색을 파란색으로 설정 */
   border: none;
   border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
@@ -184,7 +184,7 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
 
 .icon-button-edit {
   display: inline-block;
-  background-color: #e25977; /* 버튼 배경 색을 파란색으로 설정 */
+  background-color: #BB0841; /* 버튼 배경 색을 파란색으로 설정 */
   border: none;
   border-radius: 25px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
   color: white; /* 글자 색을 흰색으로 설정 */
