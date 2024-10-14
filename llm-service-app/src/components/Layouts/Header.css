@@ -62,15 +62,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #a754a2; /* 파란색 배경 */
+    background-color: #FBFAFC; /* 파란색 배경 */
     color: #eee;
-    border: 2px solid #9305af;   /* 점선 추가 */
-    padding: 10px 20px;
-    border-radius: 50px; /* 둥근 모서리 */
-    width: 150px; /* 버튼 넓이 설정 */
+    border: none;    
+    color: #888;
     position: relative;
-    margin-right: 25px;
+    margin-right: 40px;
     cursor: pointer;
+    padding: 4px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 3px;
+    
   }
 
   .NewlogOut-button:hover {
@@ -106,18 +109,17 @@
    .Huserinfo {
     display: flex;
     align-items: center;
-    background-color: #f5f4f4;    /* 연한 파란색 배경 */
     color: rgb(75, 75, 75);
     padding: 4px 10px;
     border-radius: 50px;
-    font-weight: bold;
-    border: 2px solid #bebdbd;   /* 점선 추가 */
-    margin-right: 25px;
+    border: none;   /* 점선 추가 */
+    margin-right: 2px;
+    font-size: 14px;
   }
    .icon-half-human {
     width: 15px;    /* 아이콘 너비 */
     height: 15px;    /* 아이콘 높이 */
-    margin-right: 10px;    /* 텍스트와 아이콘 간격 */
+    margin-right: 2px;    /* 텍스트와 아이콘 간격 */
     fill: rgb(131, 186, 250);    /* 아이콘 색상 */
   }
    .userinfo-text {

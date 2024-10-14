@@ -53,12 +53,12 @@ function Header({ onLogout, setActivePage }) {
             user ? (
               <span className='dark-mode'>{user.name}</span>
             ) : (
-              <span className='dark-mode'>User Info</span>
+              <span className='dark-mode'>User Info님</span>
             )
           } 
       </label>
     
-        {/* <button className="NewlogOut-button" onClick={onLogout}> */}
+        <button className="NewlogOut-button" onClick={onLogout}> 
           {/* 로그인 아이콘 */}
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="icon-lock" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z" />
@@ -76,7 +76,8 @@ function Header({ onLogout, setActivePage }) {
           {/* <svg xmlns="http://www.w3.org/2000/svg" className="icon-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg> */}
-        {/* </button> */}
+          로그아웃
+        </button> 
         
       </div>
     </header>

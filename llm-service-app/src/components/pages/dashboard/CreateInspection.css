@@ -101,7 +101,7 @@
   display: block;
   width: 60%;
   padding: 14px 10px;
-  border-radius: 10px;
+  border-radius: 60px;
   border: 1px solid #ced4da;
   font-size: 16px;
   background-color: #f7f7f7;
@@ -120,19 +120,30 @@
   display: flex;
   justify-content: space-between;
 }
+
 .csv-open-btn{
   display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
   align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
   padding: 5px 10px; /* 버튼의 내부 여백 설정 */
-  font-size: 18px; /* 글자 크기 설정 */
+  font-size: 15px; /* 글자 크기 설정 */
   margin-right: 10px;
   cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
   margin-left: 40px;
-  border: solid 1px;
-  border-radius: 5px;
+  border: none;
+  background-color: #F7F7F7;
 }
+
 .action-icon {
   margin-right: 8px; /* 아이콘과 텍스트 사이의 마진 */
+}
+
+.icon-button{
+  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
+  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
+  font-size: 15px; /* 글자 크기 설정 */
+  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+  border: none;
+  background-color: #F7F7F7;
 }
 
 .icon-button-run {
@@ -271,6 +282,6 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   }
   
   .csvfileOpen-icon {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
   }

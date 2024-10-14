@@ -16,8 +16,8 @@
 }
 
 .icon-button-add img {
-    width: 15px; /* 아이콘 크기 줄이기 */
-    height: 15px; /* 아이콘 높이 줄이기 */
+    width: 10px; /* 아이콘 크기 줄이기 */
+    height: 10px; /* 아이콘 높이 줄이기 */
     margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 설정 */
     border-radius: 50%; /* 아이콘을 완전히 둥글게 만듦 (원형) */
     background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
@@ -39,7 +39,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
   transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
   margin-right: 10px;
-  width: 150px; /* 동일한 버튼 너비 설정 */
+  width: 120px; /* 동일한 버튼 너비 설정 */
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   margin: 5px 15px 15px 5px;
