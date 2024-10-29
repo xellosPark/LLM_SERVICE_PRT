@@ -1,137 +1,334 @@
 import { useEffect, useState } from "react";
-import './CreateInspection.css'
+import { v4 as uuidv4 } from 'uuid';
+import io from 'socket.io-client';
+import axios from 'axios';
+import './CreateInspection.css';
+import { MailCheckStart, UploadFiles, createPath } from "../../api/mailCheckControllers";
+import { Navigate, useNavigate } from 'react-router-dom';
 
+const socket = io('http://165.244.190.28:5000', {
+    transports: ['websocket'],
+    reconnection: true,
+}); // 서버 주소 설정
+
+// const socket = io('http://165.244.190.28:5000', {
+//     path: '/socket.io'
+// }); // 서버 주소 설정
 
 const CreateInspection = () => {
-  // 각 파일 선택 버튼의 파일 이름을 객체로 상태 관리
-  const [fileNames, setFileNames] = useState({
-    mailInfo: '',
-    mailContent: '',
-    systemInfo: ''
-  });
+    const navigate = useNavigate();
+    const [fileNames, setFileNames] = useState({
+        mail_info_csv: '',
+        mail_body_zip: '',
+        data_request_system_xlsx: '',
+        title: '',
+        receiver: '',
+    });
 
-  // 파일 선택 핸들러 (각 버튼에 따라 파일 상태를 업데이트)
-  const handleFileChange = (event, fieldName) => {
-    const file = event.target.files[0];  // 첫 번째 파일만 선택
-    if (file) {
-      setFileNames((prevFileNames) => ({
-        ...prevFileNames,
-        [fieldName]: file.name  // 특정 필드에 파일 이름 저장
-      }));
+    const [files, setFiles] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [progress, setProgress] = useState([]); // 파일별 진행률 상태
+    const [uploadComplete, setUploadComplete] = useState(false); // 업로드 완료 여부 상태
+    const [totalProgress, setTotalProgress] = useState(0); // 전체 업로드 진행률 상태
+    const [uuid, setUuid] = useState(null); // UUID 상태
+    const [fileCount, setFileCount] = useState(0);
+    const [failFileCount, setFailFileCount] = useState(0);
+    const [uploadData, setUploadData] = useState(null);
+
+    useEffect(() => {
+        socket.on('uploadProgress', (progress) => {
+            console.log(`서버에서 받은 업로드 진행 상태: ${progress}%`);
+        });
+
+        return () => {
+            socket.off('uploadProgress');
+        };
+    }, []);
+
+    const handleDropChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
+
+    const handleFileChange = (event, fieldName) => {
+        const file = event.target.files[0];
+        if (file) {
+            setFileNames((prevFileNames) => ({
+                ...prevFileNames,
+                [fieldName]: file.name
+            }));
+        }
+    };
+
+    const getFormatUUID = () => {
+        const uuid = uuidv4();
+        console.log('uuid', uuid);
+        
+        // const alphaUUID = uuid.replace(/[^a-aZ-Z0-0]/g, ''); //알파벳과 숫자가 아닌 문자 제거
+        // console.log('alphaUUID', alphaUUID);
+        
+        return uuid.slice(0, 4); // 앞 4자리 추출
+    } 
+
+    const handleFile = (e) => {
+        const selectedFiles = Array.from(e.target.files);
+        setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // 기존 파일에 새 파일 추가
+        setProgress((prevProgress) => [...prevProgress, ...selectedFiles.map(() => 0)]); // 각 파일별 진행률 초기화
+        setUploadComplete(false);
+        setTotalProgress(0);
+        setFileCount(0);
+        setFailFileCount(0);
+    };
+
+    const updateTotalProgress = (individualProgress) => {
+        const total = individualProgress.reduce((sum, fileProgress) => sum + fileProgress, 0);
+        const averageProgress = total / individualProgress.length;
+        setTotalProgress(averageProgress);
+    };
+
+    const handleMailCheckStart = async () => {
+        if (fileNames.mail_info_csv === '' || fileNames.mail_info_csv === undefined) {
+            alert('csv 파일을 선택해주세요');
+            return;
+        }
+
+        if (fileNames.mail_body_zip === '' || fileNames.mail_body_zip === undefined) {
+            alert('zip 파일을 선택해주세요');
+            return;
+        }
+
+        if (fileNames.data_request_system_xlsx === '' || fileNames.data_request_system_xlsx === undefined) {
+            alert('xlsx 파일을 선택해주세요');
+            return;
+        }
+
+        if (fileNames.title === '' || fileNames.title === undefined) {
+            alert('title txt 파일을 선택해주세요');
+            return;
+        }
+
+        if (fileNames.receiver === '' || fileNames.receiver === undefined) {
+            alert('receiver txt 파일을 선택해주세요');
+            return;
+        }
+
+        if (selectedOption === '' || selectedOption === undefined) {
+            alert('모델을 선택해 주세요');
+            return;
+        }
+
+        const now = new Date();
+        const nowDate = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+        const createUuid = getFormatUUID();
+        //const newUuid = `${nowDate}${createUuid}`;
+        const newUuid = '202410281330329944';
+        setUuid(newUuid);
+        console.log('uuid', newUuid);
+        
+        const keywordTxt = { receiver: fileNames.receiver, title: fileNames.title };
+        const mailList = {
+            mail_info_csv: fileNames.mail_info_csv,
+            mail_body_zip: fileNames.mail_body_zip,
+            data_request_system_xlsx: fileNames.data_request_system_xlsx,
+            keyword_txt: keywordTxt,
+        };
+
+        const uploadDatas = {
+            service_name: 'mail_compliance_check',
+            job_id: newUuid,
+            user: 'jaeyeong.lee',
+            file_name_list: mailList,
+            model_name: selectedOption,
+        };
+
+        setUploadData(uploadDatas);
+
+        const timer = setTimeout(() => {
+            setFileCount(prevCount => prevCount + 5); // count 증가
+        }, 1000); // 1초 후 로그 출력
+        return () => clearTimeout(timer);
+        return;
+
+        socket.emit('sendUuid', { uuid: newUuid, type: fileNames }, (response) => {
+            if (response === 'UUID received') {
+                files.forEach((file, index) => {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    //formData.append('uuid', newUuid);
+
+                    axios.post(`http://165.244.190.28:5000/upload`, formData, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                        onUploadProgress: (progressEvent) => {
+                            const percentCompleted = Math.min(
+                                Math.round((progressEvent.loaded * 100) / progressEvent.total),
+                                90
+                            );
+                            setProgress((prevProgress) => {
+                                const newProgress = [...prevProgress];
+                                newProgress[index] = percentCompleted;
+                                updateTotalProgress(newProgress);
+                                return newProgress;
+                            });
+                            socket.emit('uploadProgress', percentCompleted);
+                        },
+                    })
+                        .then(() => {
+                            console.log(`파일 업로드 완료: ${file.name}`);
+                            const timer = setTimeout(() => {
+                                setProgress((prevProgress) => {
+                                    const newProgress = [...prevProgress];
+                                    newProgress[index] = 100;
+                                    updateTotalProgress(newProgress);
+                                    return newProgress;
+                                });
+                                setFileCount(prevCount => prevCount + 1); // count 증가
+                            }, 1000); // 1초 후 로그 출력
+                            // 컴포넌트가 언마운트될 때 타이머 정리
+                            return () => clearTimeout(timer);
+
+                        })
+                        .catch((error) => {
+                            console.error(`파일 업로드 실패: ${file.name}, 오류:`, error);
+                            setFailFileCount(prevCount => prevCount + 1);
+                        });
+                });
+
+            }
+        });
+    };
+
+    const SendMailCheckStart = async () => {
+        const result = await MailCheckStart(uploadData);
+        console.log('result', result);
+        navigate('/main'); // 메인 페이지로 이동
     }
-  };
 
-  // 파일 선택 버튼 클릭 시 숨겨진 파일 선택 창 트리거
-  const triggerFileSelect = (inputId) => {
-    document.getElementById(inputId).click();
-  };
+    useEffect(() => {
+        if (files.length === 0)
+            return;
+        console.log('fileCount', fileCount, failFileCount);
 
-  return (
-    <div className="create-container">
-      {/* 첫 번째 섹션 */}
-      <div className="section">
-        <div className="section-title">
-          <div className="title">Data</div>
+        if (files.length === (fileCount + failFileCount)) {
+            setUploadComplete(true);
+            setTotalProgress(100);
 
-          <div>
-            <div className="file-item">
-              <div className="file-info">
-                <img
-                  src="https://img.icons8.com/?size=100&id=2577&format=png&color=000000"
-                  alt="pdf icon"
-                  className="file-icon"
-                />
+            const timer = setTimeout(() => {
+                console.log('파일 업로드 성공');
+                SendMailCheckStart();
+                setFileCount(0);
+                setFailFileCount(0);
+            }, 1000); // 1초 후 로그 출력
 
-                <div className="file-details">
-                  <p className="file-names file-margin">메일 정보</p>
-                </div>
-                <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailInfo')}>
-                  <img
-                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                    alt="csvfileOpen"
-                    className="csvfileOpen-icon"
-                  />
-                </button>
+            // 컴포넌트가 언마운트될 때 타이머 정리
+            return () => clearTimeout(timer);
+        }
+    }, [fileCount, failFileCount])
 
-                <div className="file-upload-list">{fileNames.mailInfo ? fileNames.mailInfo : 'csv 파일만 업로드 가능합니다.'}</div>
-              </div>
-            </div>
-            <input
-              id="file-input-mailInfo"
-              type="file"
-              style={{ display: 'none' }}
-              onChange={(e) => handleFileChange(e, 'mailInfo')}
-              accept=".csv"
-            />
+    return (
+        <div className="create-container">
+            {/* 기존 UI */}
+            <div className="section">
+                <div className="section-title">
+                    <div className="title">Data</div>
+                    <div>
+                        <div className="file-item">
+                            <div className="file-info">
+                                <img
+                                    src="https://img.icons8.com/?size=100&id=2577&format=png&color=000000"
+                                    alt="pdf icon"
+                                    className="file-icon"
+                                />
+                                <div className="file-details">
+                                    <p className="file-names file-margin">메일 정보</p>
+                                </div>
 
-          </div>
-          <div className="file-item">
-            <div className="file-info">
-              <img
-                src="https://img.icons8.com/?size=100&id=312&format=png&color=000000"
-                alt="pdf icon"
-                className="file-icon"
-              />
+                                <button className="csv-open-btn" onClick={() => document.getElementById('file-input-mail_info_csv').click()}>
+                                    <img
+                                        src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                        alt="csvfileOpen"
+                                        className="csvfileOpen-icon"
+                                    />
+                                </button>
+                                <input
+                                    id="file-input-mail_info_csv"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => { handleFileChange(e, 'mail_info_csv'); handleFile(e, 'mail_info_csv'); }}
+                                    accept=".csv"
+                                    multiple
+                                />
+                                <div className="file-upload-list">{fileNames.mail_info_csv || 'csv 파일만 업로드 가능합니다.'}</div>
+                            </div>
+                        </div>
+                        {/* 다른 파일 입력 영역 */}
+                        <div className="file-item">
+                            <div className="file-info">
+                                <img
+                                    src="https://img.icons8.com/?size=100&id=312&format=png&color=000000"
+                                    alt="pdf icon"
+                                    className="file-icon"
+                                />
 
-              <div className="file-details">
-                <p className="file-names file-margin">메일 본문</p>
-              </div>
-              <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-mailContent')}>
-                <img
-                  src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                  alt="csvfileOpen"
-                  className="csvfileOpen-icon"
-                />
-              </button>
+                                <div className="file-details">
+                                    <p className="file-names file-margin">메일 본문</p>
+                                </div>
+                                <button className="csv-open-btn" onClick={() => document.getElementById('file-input-mail_body_zip').click()}>
+                                    <img
+                                        src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                        alt="csvfileOpen"
+                                        className="csvfileOpen-icon"
+                                    />
+                                </button>
 
-              <div className="file-upload-list">{fileNames.mailContent ? fileNames.mailContent : 'zip 파일만 업로드 가능합니다.'}</div>
+                                <div className="file-upload-list">{fileNames.mail_body_zip ? fileNames.mail_body_zip : 'zip 파일만 업로드 가능합니다.'}</div>
 
-            </div>
-            <input
-              id="file-input-mailContent"
-              type="file"
-              style={{ display: 'none' }}
-              onChange={(e) => handleFileChange(e, 'mailContent')}
-              accept=".zip"
-            />
+                            </div>
+                            <input
+                                id="file-input-mail_body_zip"
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={(e) => { handleFileChange(e, 'mail_body_zip'); handleFile(e, 'mail_body_zip'); }}
+                                accept=".zip"
+                                multiple
+                            />
 
-          </div>
-          <div className="file-item">
-            <div className="file-info">
-              <img
-                src="https://img.icons8.com/?size=100&id=2937&format=png&color=000000"
-                alt="pdf icon"
-                className="file-icon"
-              />
+                        </div>
+                        <div className="file-item">
+                            <div className="file-info">
+                                <img
+                                    src="https://img.icons8.com/?size=100&id=2937&format=png&color=000000"
+                                    alt="xlsx icon"
+                                    className="file-icon"
+                                />
 
-              <div className="file-details">
-                <p className="file-names">자료요청 시스템 정보</p>
-              </div>
-              <button className="csv-open-btn" onClick={() => triggerFileSelect('file-input-senduser')}>
-                <img
+                                <div className="file-details">
+                                    <p className="file-names">자료요청 시스템 정보</p>
+                                </div>
+                                <button className="csv-open-btn" onClick={() => document.getElementById('file-input-data_request_system_xlsx').click()}>
+                                    <img
 
-                  src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                  alt="csvfileOpen"
-                  className="csvfileOpen-icon"
-                />
-              </button>
+                                        src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                        alt="csvfileOpen"
+                                        className="csvfileOpen-icon"
+                                    />
+                                </button>
 
-              <div className="file-upload-list">{fileNames.systemInfo ? fileNames.systemInfo : 'xlsx 파일만 업로드 가능합니다.'}</div>
-            </div>
-          </div>
-          <input
-            id="file-input-systemInfo"
-            type="file"
-            style={{ display: 'none' }}
-            onChange={(e) => handleFileChange(e, 'systemInfo')}
-            accept=".xlsx"
-          />
+                                <div className="file-upload-list">{fileNames.data_request_system_xlsx ? fileNames.data_request_system_xlsx : 'xlsx 파일만 업로드 가능합니다.'}</div>
+                            </div>
+                        </div>
+                        <input
+                            id="file-input-data_request_system_xlsx"
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={(e) => { handleFileChange(e, 'data_request_system_xlsx'); handleFile(e, 'data_request_system_xlsx'); }}
+                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            multiple
+                        />
 
-          <div className="field-wrapper">
-            <img src="https://img.icons8.com/?size=40&id=2290&format=png&color=000000" alt="txtfile"></img>
-            <label>제거 키워드 정보</label>
-            <div className="custom-field-wrapper">
-              <div className="flex-row">
+                        <div className="field-wrapper">
+                            <img src="https://img.icons8.com/?size=40&id=2290&format=png&color=000000" alt="txtfile"></img>
+                            <label>제거 키워드 정보</label>
+                            <div className="custom-field-wrapper">
+                                {/* <div className="flex-row">
 
                 <label className="file-delete-label">보낸사람</label>
 
@@ -148,98 +345,119 @@ const CreateInspection = () => {
                   type="file"
                   style={{ display: 'none' }}
                   onChange={(e) => handleFileChange(e, 'senduser')}
-                  accept=".txt"
+                  accept="text/plain"
                 />
                 <div className="file-upload-list">{fileNames.senduser ? fileNames.senduser : 'txt파일만 업로드 가능합니다.'}</div>
               </div>
 
-              <br />
+              <br /> */}
 
-              {/* 제목 */}
-              <div className="flex-row">
-                <label className="file-delete-label">제목</label>
-                <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-title')}>
-                  <img
-                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                    alt="csvfileOpen"
-                    className="csvfileOpen-icon"
-                  />
-                </button>
-                <input
-                  id="file-input-title"
-                  type="file"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFileChange(e, 'title')}
-                  accept=".txt"
-                />
-                <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt파일만 업로드 가능합니다.'}</div>
-              </div>
+                                {/* 제목 */}
+                                <div className="flex-row">
+                                    <label className="file-delete-label">제목</label>
+                                    <button className="icon-button" onClick={() => document.getElementById('file-input-title').click()}>
+                                        <img
+                                            src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
+                                    <input
+                                        id="file-input-title"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'title'); handleFile(e, 'title'); }}
+                                        accept="text/plain"
+                                        multiple
+                                    />
+                                    <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt파일만 업로드 가능합니다.'}</div>
+                                </div>
 
-              <br />
+                                <br />
 
-              {/* 실수취인 */}
-              <div className="flex-row">
-                <label className="file-delete-label">실수취인</label>
+                                {/* 실수취인 */}
+                                <div className="flex-row">
+                                    <label className="file-delete-label">실수취인</label>
 
-                <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-user')}>
-                <img
-                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                    alt="csvfileOpen"
-                    className="csvfileOpen-icon"
-                  />
-                </button>
+                                    <button className="icon-button" type="button" onClick={() => document.getElementById('file-input-receiver').click()}>
+                                        <img
+                                            src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
 
-                <input
-                  id="file-input-user"
-                  type="file"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFileChange(e, 'user')}
-                  accept=".txt"
-                />
-                <div className="file-upload-list">{fileNames.user ? fileNames.user : 'txt파일만 업로드 가능합니다.'}</div>
-              </div>
+                                    <input
+                                        id="file-input-receiver"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'receiver'); handleFile(e, 'receiver'); }}
+                                        accept="text/plain"
+                                        multiple
+                                    />
+                                    <div className="file-upload-list">{fileNames.receiver ? fileNames.receiver : 'txt파일만 업로드 가능합니다.'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* 두 번째 섹션 */}
-      <div className="section">
-        <div className="section-title">
-          <div className="title">Model</div>
-          <select className="dropdown">
-            <option value="">Model을 선택하세요.</option>
-            <option value="model1">Gemma2:27b</option>
-          </select>
-        </div>
-      </div>
+            <div className="section">
+                <div className="section-title">
+                    <div className="title">Model</div>
+                    <select className="dropdown" value={selectedOption} onChange={handleDropChange}>
+                        <option value="" disabled>Model을 선택하세요.</option>
+                        <option value="Gemma2:27b">Gemma2:27b</option>
+                        <option value="gemma">gemma</option>
+                    </select>
+                </div>
+            </div>
 
-      {/*세 번째 섹션 */}
-      <div className="section">
-        <div className="section-title">
-          <div className="title">Prompt Engineering</div>
-          <button className="icon-button-edit">
-            {/* Run 아이콘 설정 */}
-            <img src="https://img.icons8.com/?size=100&id=71201&format=png&color=e25977" alt="edit icon" />
-            기술 자료 prompt 수정하기
-          </button>
-        </div>
-        <div className="run-button">
-          <div>
-            {/* 하단 버튼 */}
-            <button className="icon-button-run">
-              {/* Run 아이콘 설정 */}
-              <img src="https://img.icons8.com/ios-filled/50/c9415e/play.png" alt="run icon" />
-              점검 시작
-            </button>
-          </div>
-        </div>
-      </div>
+            {/*세 번째 섹션 */}
+            <div className="section">
+                <div className="section-title">
+                    <div className="title">Prompt Engineering</div>
+                    <button className="icon-button-edit">
+                        {/* Run 아이콘 설정 */}
+                        <img src="https://img.icons8.com/?size=100&id=71201&format=png&color=e25977" alt="edit icon" />
+                        기술 자료 prompt 수정하기
+                    </button>
+                </div>
+                <div className="run-button">
+                    <div>
+                        {/* 하단 버튼 */}
+                        <button className="icon-button-run" onClick={handleMailCheckStart}>
+                            {/* Run 아이콘 설정 */}
+                            <img src="https://img.icons8.com/ios-filled/50/c9415e/play.png" alt="run icon" />
+                            점검 시작
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    
+            <div className="section">
+                <div className="section-title">
+                    <div style={{ width: '100%', backgroundColor: '#ccc' }}>
+                        <div style={{ width: `${totalProgress}%`, height: '24px', backgroundColor: '#4caf50' }}></div>
+                    </div>
+                    <p>{totalProgress}%</p>
 
-    </div>
-  );
+                    <ul>
+                        {files.map((file, index) => (
+                            <li key={index}>
+                                {file.name} - 진행 상태: {progress[index]}%
+                                <div style={{ width: '100%', backgroundColor: '#ccc', marginTop: '5px' }}>
+                                    <div style={{ width: `${progress[index]}%`, height: '10px', backgroundColor: 'blue' }} />
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    {uploadComplete && <p>모든 파일 업로드 완료!</p>}
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default CreateInspection;

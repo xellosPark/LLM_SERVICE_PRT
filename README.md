@@ -6,6 +6,7 @@
 6.npm i cross-env
 7.npm install -g win-node-env
 8.npm install react-icons
+9.npm install uuid
 
 TTF와 OTF의 차이점 정리:
 특징	TTF (TrueType Font)	OTF (OpenType Font)

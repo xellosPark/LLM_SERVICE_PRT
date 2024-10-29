@@ -60,7 +60,7 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
       </div>
          {/* Conditionally render LLMTable or CreateInspection */}
       <div className="body-content">
-        {showCreateInspection ? <CreateInspection /> : <LLMTable />}
+        {showCreateInspection ? <CreateInspection setIsActivePage={setIsActivePage} /> : <LLMTable />}
       </div>
       
     </div>
