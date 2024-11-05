@@ -46,6 +46,8 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
           path="/main"
           element={isAuthenticated ? <MainScreen setActivePage={setActivePage} activePage={activePage} /> : <Navigate to="/" />}
         />
+        <Route path='/evaluation'
+        element={isAuthenticated ? <MainScreen setActivePage={setActivePage} activePage={activePage} /> : <Navigate to="/" /> } />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

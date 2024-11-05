@@ -44,7 +44,7 @@ import io from 'socket.io-client';
 
 export const MailCheckStart = async (mailItems) => {
     try {
-        const ip = `http://165.244.190.28:5000`;
+        const ip = `http://localhost:5000`;
         const response = await api.post(`${ip}/api/datas/mail-compliance-check/start`, mailItems);
     
         //const { statusCode, data } = response;
@@ -57,4 +57,33 @@ export const MailCheckStart = async (mailItems) => {
         }
         return undefined;
       }
+}
+
+export const promptFileLoad = async () => {
+  try {
+    const ip = `http://localhost:5000`;
+        const response = await api.post(`${ip}/api/datas/prompt`);
+        return response;
+  } catch (error) {
+    console.log('MailCheckStart Error Code ', error.status);
+      return error.status;
+  }
+}
+
+export const fileSave = async (fileNames) => {
+  console.log('filesave', fileNames);
+  
+  try {
+    const ip = `http://localhost:5000`;
+        const response = await api.post(`${ip}/api/datas/files`, fileNames);
+
+        
+        return response;
+  } catch (error) {
+    if (error.status === 500) {
+      console.log('MailCheckStart Error Code ', error.status);
+      return error.status;
+  }
+  return undefined;
+  }
 }

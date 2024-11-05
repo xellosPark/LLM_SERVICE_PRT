@@ -5,7 +5,7 @@ import axios from 'axios';
 import api from '../../api/api';
 import CreateInspection from './CreateInspection';
 
-const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
+const DashBoard = ({subPage, setSubPage, setIsActivePage, handleItemClick }) => {
   const [showCreateInspection, setShowCreateInspection] = useState(false);  // Manage visibility of the new section
 
   const handleTest = async () => {
@@ -43,7 +43,7 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
               <>
                 {/* <button onClick={handleTest}> test </button> */}
                 {/* <button className='new-button' onClick={handleCreate}>+  신규 점검 생성</button> */}
-                <div className="newaddbutton" onClick={handleCreate}>
+                <div className="newaddbutton" style={{marginRight: '-15px'}} onClick={handleCreate}>
                   <div>
                     {/* 하단 버튼 */}
                     <button className="icon-button-add">
@@ -60,7 +60,7 @@ const DashBoard = ({subPage, setSubPage, setIsActivePage }) => {
       </div>
          {/* Conditionally render LLMTable or CreateInspection */}
       <div className="body-content">
-        {showCreateInspection ? <CreateInspection setIsActivePage={setIsActivePage} /> : <LLMTable />}
+        {showCreateInspection ? <CreateInspection setIsActivePage={setIsActivePage} /> : <LLMTable handleItemClick={handleItemClick} />}
       </div>
       
     </div>

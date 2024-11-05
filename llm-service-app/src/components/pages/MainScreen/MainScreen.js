@@ -3,6 +3,7 @@ import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
 import Loading from '../../../logos/loading_light.png'
 import { BsChevronDoubleRight } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 
 function MainScreen({ setActivePage, activePage }) {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
@@ -11,6 +12,8 @@ function MainScreen({ setActivePage, activePage }) {
   //const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
   const [subPage, setSubPage] = useState('Default');
   const [isActivePage, setIsActivePage] = useState(false);
+
+  const navigate = useNavigate();
 
   // Toggle Sidebar function
   const toggleSidebar = () => {
@@ -34,7 +37,7 @@ function MainScreen({ setActivePage, activePage }) {
       case 'LLMOPS':
         setMainTitle("메일 Compliance 점검 - Evaluation");
         return lazy(() => import('../dashboard/EvalDashBoard'));
-      case 'Sub3':
+      case 'Evaluation':
         setMainTitle("메일 Compliance 점검 - Evaluation");
         return lazy(() => import('../dashboard/EvalDashBoard'));
       case 'Sub4':
@@ -133,7 +136,7 @@ function MainScreen({ setActivePage, activePage }) {
         }>
           {activePage === 'DashBoard' || activePage === 'PIEChatbot' ? (
             <>
-              {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} setIsActivePage={setIsActivePage} />}  {/* Load selected component */}
+              {ActiveComponent && <ActiveComponent subPage={subPage} setSubPage={setSubPage} setIsActivePage={setIsActivePage} handleItemClick={handleItemClick} />}  {/* Load selected component */}
             </>
           ) : (<>{ActiveComponent && <ActiveComponent />}</>)
           }

@@ -288,3 +288,116 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     width: 32px;
     height: 32px;
   }
+
+  
+  /* 모달 창 */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-prompt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 500px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
+  .progress-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .progress-item {
+    margin-bottom: 20px;
+  }
+  
+  .file-info {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .file-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .progress-text {
+    color: #555;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 25px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    background-color: #007bff;
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+  }
+    
+  .modal-prompt-close {
+    margin-top: 20px;
+    padding: 1rem 1.5rem;
+    background-color: #ff5a5a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .modal-prompt-close:hover {
+    background-color: #e04a4a;
+  }
+
+  .modal-prompt-save {
+    margin-top: 20px;
+    padding: 1rem 1.5rem;
+    background-color: #ffb85a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 40px;
+    font-size: 16px;
+  }
+  
+  .modal-prompt-save:hover {
+    background-color: #e0b04a;
+  }
+
+  

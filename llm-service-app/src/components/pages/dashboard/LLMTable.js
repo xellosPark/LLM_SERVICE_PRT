@@ -1,327 +1,291 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './LLMTable.css'
+import React, { useEffect, useState } from 'react';
+import { Paper, Menu, MenuItem, Tooltip } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import Pagination from '../Pagination/Pagination';
-import Modal from '../Modal/Modal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import './LLMTable.css';
+import { LoadChecksTable, LoadFilesTable } from '../../api/DBControllers';
+import FileTableModal from '../Modal/FileTableModal';
+import { LuDownload } from "react-icons/lu";
+import { HiQuestionMarkCircle } from "react-icons/hi2";
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 
-const LLMTable = () => {
-
-  const columns = [
-    { key: 'id', label: 'Id', minWidth: 1 },
-    { key: 'time', label: 'Time', minWidth: 20 },
-    { key: 'model', label: 'Model / Data', minWidth: 20 },
-    { key: 'status', label: 'Status', minWidth: 2 },
-    { key: 'risk', label: 'Risk Mails', minWidth: 10 },
-    { key: 'evResult', label: 'Evaluation Result', minWidth: 10 },
-    { key: 'resultFile', label: 'Result File', minWidth: 10 },
-  ];  // 미리 정의된 테이블 헤더
-  const datas = [
-      { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '평가하기', risk: '-', resultFile: '-', status: 'Success', title: '2024-08023 14:54:11', jobId: '202408231454111782' },
-      { id: 2, time: '2024-09-04 14:43:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
-      { id: 3, time: '2024-09-14 07:33:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 4, time: '2024-09-16 07:05:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 5, time: '2024-09-19 19:10:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 6, time: '2024-08-31 14:50:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 7, time: '2024-08-24 15:17:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 8, time: '2024-09-19 13:40:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 9, time: '2024-09-06 14:58:03', model: 'Gemini-1.5', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Saving' },
-      { id: 10, time: '2024-09-16 05:30:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 11, time: '2024-09-17 08:53:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
-      { id: 12, time: '2024-09-04 00:41:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 13, time: '2024-09-12 05:28:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 14, time: '2024-08-27 23:41:03', model: 'Gemini-1.5', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Saving' },
-      { id: 15, time: '2024-09-09 15:13:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 16, time: '2024-09-07 10:05:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 17, time: '2024-09-04 02:38:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 18, time: '2024-09-14 07:41:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 19, time: '2024-09-16 11:32:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 20, time: '2024-09-19 01:11:03', model: 'Gemini-1.5', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Running' },
-      { id: 21, time: '2024-09-06 17:15:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 22, time: '2024-09-10 22:55:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 23, time: '2024-09-19 00:07:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 24, time: '2024-08-24 21:46:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 25, time: '2024-08-24 18:36:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 26, time: '2024-08-29 20:53:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 27, time: '2024-09-11 16:45:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 28, time: '2024-08-22 14:47:03', model: 'Gemma:7b', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Saving' },
-      { id: 29, time: '2024-09-16 16:35:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 30, time: '2024-09-02 18:29:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 1, time: '2024-08-24 17:02:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 2, time: '2024-09-04 14:43:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
-      { id: 3, time: '2024-09-14 07:33:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 4, time: '2024-09-16 07:05:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 5, time: '2024-09-19 19:10:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 6, time: '2024-08-31 14:50:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 7, time: '2024-08-24 15:17:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 8, time: '2024-09-19 13:40:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 9, time: '2024-09-06 14:58:03', model: 'Gemini-1.5', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Saving' },
-      { id: 10, time: '2024-09-16 05:30:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 11, time: '2024-09-17 08:53:03', model: 'GPT-4o', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Error' },
-      { id: 12, time: '2024-09-04 00:41:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 13, time: '2024-09-12 05:28:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 14, time: '2024-08-27 23:41:03', model: 'Gemini-1.5', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Saving' },
-      { id: 15, time: '2024-09-09 15:13:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 16, time: '2024-09-07 10:05:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 17, time: '2024-09-04 02:38:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 18, time: '2024-09-14 07:41:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 19, time: '2024-09-16 11:32:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 20, time: '2024-09-19 01:11:03', model: 'Gemini-1.5', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Running' },
-      { id: 21, time: '2024-09-06 17:15:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 22, time: '2024-09-10 22:55:03', model: 'Gemma:7b', result: '-', risk: '-', resultFile: '-', status: 'Success' },
-      { id: 23, time: '2024-09-19 00:07:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Running' },
-      { id: 24, time: '2024-08-24 21:46:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 25, time: '2024-08-24 18:36:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 26, time: '2024-08-29 20:53:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 27, time: '2024-09-11 16:45:03', model: 'GPT-4o', result: '-', risk: '-', resultFile: '-', status: 'Saving' },
-      { id: 28, time: '2024-08-22 14:47:03', model: 'Gemma:7b', result: '-', risk: '120건 / 821건', resultFile: '-', status: 'Saving' },
-      { id: 29, time: '2024-09-16 16:35:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Error' },
-      { id: 30, time: '2024-09-02 18:29:03', model: 'Gemini-1.5', result: '-', risk: '-', resultFile: '-', status: 'Saving' }
-  ];
-
-  const [columnWidths, setColumnWidths] = useState({
-    id: 2,
-    time: 5,
-    model: 10,
-    status: 2,
-    risk: 10,
-    evResult: 10,
-    resultFile: 10,
-  });
-
-  // columnRefs를 빈 객체로 초기화합니다.
-  const columnRefs = useRef({});
-  const resizingState = useRef({ startX: 0, startWidth: 0 });
-
-  const [data, setData] = useState(datas);
-
+const LLMTable = ({handleItemClick}) => {
+  const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(15);
+  const itemsPerPage = 10;
 
-  // 현재 페이지에 맞는 데이터를 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data ? data.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-  const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
+  const [menuPosition, setMenuPosition] = useState(null);
+  const navigate = useNavigate();
 
-  const [contextMenu, setContextMenu] = useState(null);
-  const menuRef = useRef(null); // 메뉴의 ref
+  const capitalizeFirstLetter = (str) => {
+   if (!str) return str; // 문자열이 빈 경우 바로 반환
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleIconClick = async (model) => {
+    // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
+    const fileData = await LoadFilesTable(model.job_id);
+    const data = { id: model.id, ...fileData }
+    
+    setSelectedRowData(data);
+    setIsModalOpen(true);
+  };
+
+  const timeReplace = (time) => {
+    // 특정 문자 집합 제거
+  let result = time.replace(/[TZ,]/g, ""); // "e", "o", ","를 모두 제거
+  return result;
+  }
+
+  const hanbleEvaluation = (data) => {
+    //localStorage.setItem('activeComponent', 'Evaluation');
+    localStorage.setItem('Job_Id', data.job_id);
+    localStorage.setItem('Evaluation_Start', true);
+    handleItemClick('Evaluation');
+  }
+
+  
 
   // 상태에 따라 배경색을 반환하는 함수
   const getStatusStyle = (status) => {
-      const baseStyle = {          // margin 추가
+      const baseStyle = {
+          display: 'flex',
           borderRadius: '8px',    // border-radius 추가
-          padding: '2px 0px',      // padding도 함께 추가 가능
-          margin: '0px 10px'
+          padding: '0px 0px',      // padding도 함께 추가 가능
+          maxWidth: '100px',
+          minWidth: '80px',
         };
       switch (status) {
-      case 'Running':
+      case 'running':
           return { ...baseStyle, backgroundColor: '#FFF8E3', color: '#F1A500',  border: '2px solid #F1A500' }; // 노란색 배경, 노란색 텍스트
-      case 'Success':
+      case 'success':
           return { ...baseStyle, backgroundColor: '#EEF5E9', color: '#527B5D', border: '2px solid #527B5D' }; // 초록색 배경, 초록색 텍스트
-      case 'Saving':
+      case 'saving':
           return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#4274D1', border: '2px solid #4274D1' }; // 파랑색 배경, 파랑색 텍스트
-      case 'Error':
+      case 'error':
           return { ...baseStyle, backgroundColor: '#FFEFEF', color: '#D9143B', border: '2px solid #D9143B' }; // 빨강색 배경, 빨강색 텍스트
       default:
           return {}; // 기본 스타일 (변경 없음)
       }
   };
 
-  const handleIconClick = (model) => {
-    console.log(`Icon clicked for model: ${model}`);
-    // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
-    setSelectedRowData(model);
-    setIsModalOpen(true);
-  };
+  const loadRiskMails = (rowData) => {
+    const data = rowData.risk_num === null && rowData.keyword_filtered_num === null ? '-' : rowData.risk_num === null ? `- / ${rowData.keyword_filtered_num}` :
+    rowData.keyword_filtered_num === null ? `${rowData.risk_num} / -` : `${rowData.risk_num} / ${rowData.keyword_filtered_num}`
+    return data + '건';
+  }
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // 정렬 기능 구현
-  const handleSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-
-    const sortedData = [...data].sort((a, b) => {
-      if (a[key] < b[key]) {
-        return direction === 'ascending' ? -1 : 1;
+  const columns = [
+    { field: 'id', headerName: 'Id', flex: 0.5, align: 'center', headerAlign: 'center',
+      renderCell: (params) => (
+        <div onContextMenu={(event) => handleCellClick(params, event)}>
+          {params.value}
+        </div>
+      ),
+     },
+    { field: 'created_time', headerName: 'Time', flex: 3, align: 'center', headerAlign: 'center',
+      
+            renderCell: (params) => (
+              <div onContextMenu={(event) => handleCellClick(params, event)}>
+                {params.value}
+              </div>
+            ),
+     },
+    { field: 'model_name', headerName: 'Model / Data', flex: 2, align: 'center', headerAlign: 'center',
+    renderCell: (params) => {
+        const rowData = params.row;
+        
+        return (
+          <>
+          <div onContextMenu={(event) => handleCellClick(params, event)}>
+            <span style={{cursor: 'pointer'}} onClick={() => handleIconClick(rowData)}>
+              {capitalizeFirstLetter(params.value)}
+              <FaExternalLinkAlt className='icon'/>         
+            </span>
+          </div>
+          
+          </>
+        );
       }
-      if (a[key] > b[key]) {
-        return direction === 'ascending' ? 1 : -1;
+    },
+    { field: 'status', headerName: 'Status', flex: 2, headerAlign: 'center',
+      renderCell: (params) => {
+        const rowData = params.row;
+        
+        return (
+          <>
+          <div onContextMenu={(event) => handleCellClick(params, event)}
+            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+            <div className='status' style={getStatusStyle(rowData.status)}>
+              {capitalizeFirstLetter(params.value)} {rowData.status === 'error' && 
+                <Tooltip style={{fontSize: '20px'}} title={<span style={{fontSize: '16px'}}>{rowData.message}</span>} arrow>
+                  <span>
+                    <HiQuestionMarkCircle className='status-error' />
+                  </span>
+                  
+                </Tooltip>
+                
+                }
+            </div>
+          </div>
+          </>
+        );
       }
-      return 0;
-    });
+    },
+    {field: 'risk', headerName: 'Risk Mails', flex: 2, align: 'center', headerAlign: 'center',
+      renderCell: (params) => {
+        const rowData = params.row;
+        return (
+          <>
+          <div onContextMenu={(event) => handleCellClick(params, event)}>
+          {params.value}
+            { rowData.status === 'success' ? loadRiskMails(rowData) : `-` }
+          </div>
+          
+          </>
+          
+        );
+      }
+    },
+    {
+      field: 'result', headerName: 'Evaluation Result', flex: 2, align: 'center', headerAlign: 'center',
+      renderCell: (params) => {
+          const rowData = params.row;
+          return (
+            <div onContextMenu={(event) => handleCellClick(params, event)}>
+              {params.value}
+              {rowData.status === 'success' ? (
+              <button className='result-button' onClick={() => hanbleEvaluation(rowData)}>
+                평가하기
+            </button>) : rowData.status === 'success'  ? <button></button> : '-'}
+            </div>
+            
+          );
+      }
+    },
+    { field: 'resultFile', headerName: 'Result File', flex: 2, align: 'center', headerAlign: 'center',
+      renderCell: (params) => {
+        const rowData = params.row;
+        
+        return (
+          <div onContextMenu={(event) => handleCellClick(params, event)}>
+            {params.value}
+            {
+              rowData.status === 'success' ? <LuDownload style={{fontSize: '18px', marginTop: '5px'}}/> : '-'
+            }
+          </div>
+        );
+      }
+     }
+];
 
-    setSortConfig({ key, direction });
-    setData(sortedData);
-  };
-
-  const startResizing = (e, column) => {
-    // 현재 열의 너비와 클릭 위치 간의 차이 보정
-    const boundingRect = columnRefs.current[column.key].getBoundingClientRect();
-    const diff = e.clientX - boundingRect.right;
-
-    resizingState.current.startX = e.clientX;
-    resizingState.current.startWidth = columnRefs.current[column.key].offsetWidth;
-    resizingState.current.diff = diff;
-
-    const onMouseMove = (moveEvent) => {
-        // 보정된 위치에서 너비 계산
-        const newWidth =
-            resizingState.current.startWidth + (moveEvent.clientX - resizingState.current.startX) - resizingState.current.diff;
-
-        setColumnWidths((prevWidths) => ({
-            ...prevWidths,
-            [column.key]: newWidth > column.minWidth ? newWidth : column.minWidth,
-        }));
-    };
-
-    const onMouseUp = () => {
-        document.removeEventListener("mousemove", onMouseMove);
-        document.removeEventListener("mouseup", onMouseUp);
-    };
-
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+const handleContextMenu = (event) => {
+  console.log('오른쪽 클릭');
+  event.preventDefault();
+  //event.stopPropagation();
 };
 
-   // 우클릭 이벤트 핸들러
-   const handleRightClick = (event, rowData) => {
-    event.preventDefault();
-    setContextMenu({
-      x: event.clientX,
-      y: event.clientY,
-      rowData,
-    });
-  };
+const handleCellClick = (params, event) => {
+  if (event.type === 'contextmenu') {
+    event.preventDefault(); // 기본 컨텍스트 메뉴 방지
+    setMenuPosition({ mouseX: event.clientX, mouseY: event.clientY }); // 마우스 클릭 위치 저장
+    setSelectedRowData(params.row); // 선택된 행 설정
+  }
+};
 
-  // 삭제 버튼 클릭 시 해당 행 삭제
-  const handleDelete = () => {
-    setData(data.filter(row => row.id !== contextMenu.rowData.id));
-    setContextMenu(null); // 메뉴 닫기
-  };
+const handleCloseMenu = () => {
+  setMenuPosition(null);
+  setSelectedRowData(null);
+};
 
-  // 메뉴 외부 클릭 시 닫기
-  const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setContextMenu(null); // 메뉴 닫기
-    }
-  };
+const handleDeleteRow = () => {
+  if (selectedRowData) {
+    setData((prevRows) => prevRows.filter((row) => row.id !== selectedRowData.id));
+    handleCloseMenu();
+  }
+};
+
+  const LoadTable = async () => {
+    const tableData = await LoadChecksTable();
+    setData(tableData);
+  }
 
   useEffect(() => {
-    // 메뉴가 열려 있을 때만 전역 클릭 이벤트를 등록
-    if (contextMenu) {
-      document.addEventListener('click', handleClickOutside);
-    } else {
-      document.removeEventListener('click', handleClickOutside);
-    }
-
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 정리
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [contextMenu]);
+        LoadTable();
+      }, []);
 
   return (
-    <div>
-      <div className="table-container">
-        <table className='fixed-table'>
-          <thead>
-              <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  ref={(el) => {
-                    if (el) columnRefs.current[column.key] = el;
-                  }}
-                  style={{ width: `${columnWidths[column.key]}%`, position: 'relative', backgroundColor: '#F8FAFC', position:'sticky', top: '0' }}
-                >
-                  {column.label}
-                  <div
-                    onMouseDown={(e) => startResizing(e, column)}
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      top: 0,
-                      width: "5px",
-                      height: "100%",
-                      cursor: "col-resize",
-                    }}
-                  />
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((item) => (
-              <tr key={item.id} onContextMenu={(e) => handleRightClick(e, item)}>
-                <td>{item.id}</td>
-                <td>
-                  {item.time}
-                  {/* 툴팁 추가: hover 시 전체 내용이 표시됨 */}
-                  <div className="tooltip">{item.time}</div>
-                </td>
-                <td>
-                  {item.model}
-                  <FaExternalLinkAlt className='icon'
-                        onClick={() => handleIconClick(item)}
-                      /> {/* 아이콘과 클릭 이벤트 */}
-                  <div className="tooltip">{item.model}</div>
-                </td>
-                <td>
-                  <div className='status' style={getStatusStyle(item.status)}>{item.status} {item.status === 'Error' && (<span className='status-error'>?</span>)}</div>
-                </td>
-                <td>{item.risk}</td>
-                <td>{item.result === '평가하기' ? (
-                  <button className='result-button'>
-                    평가하기
-                  </button>) : item.result}</td>
-                
-                <td>{item.resultFile}</td>
-                
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {
-          isModalOpen && (
-            <Modal data={selectedRowData} onClose={closeModal} />
-          )
-        }
-        {/* 커스텀 컨텍스트 메뉴 */}
-      {contextMenu && (
-        <div
-          ref={menuRef} // 메뉴에 대한 참조
-          style={{
-            position: 'absolute',
-            top: `${contextMenu.y}px`,
-            left: `${contextMenu.x}px`,
-            border: '1px solid gray',
-            zIndex: 1000,
-          }}
-        >
-          <button onClick={handleDelete} style={{border: 'none', background:'white', padding:' 10px'}}>삭제</button>
-        </div>
-      )}
-      </div>
+    <>
+      <Paper sx={{ width: "88vw", padding: "20px", maxWidth: "100%"}} onContextMenu={handleContextMenu}>
       
-      <div>
-        <Pagination
-          postsPerPage={itemsPerPage} // 페이지 당 포스트 수
-          totalPosts={data.length} // 전체 포스트 수
-          paginate={(pageNumber) => setCurrentPage(pageNumber)} // 페이지 번호를 변경하는 함수
-          currentPage={currentPage} // 현재 페이지 번호
+      <div style={{ height: 700, width: '100%' }}>
+        <DataGrid
+          rows={currentItems}
+          columns={columns}
+          pageSize={itemsPerPage}
+          autoHeight
+          hideFooter
+          disableColumnMenu
+          disableColumnResize
+          sx={{
+           
+            "& .MuiDataGrid-root": {
+              overflowX: "hidden", // 수평 스크롤을 제거하여 화면을 넘지 않도록 설정
+            },
+            "& .MuiDataGrid-cell": {
+              textOverflow: "ellipsis", // 텍스트가 넘칠 경우 말줄임표(...) 처리
+              overflow: "hidden",
+              whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
+            },
+            "& .MuiDataGrid-columnHeadersInner": {
+              "& .MuiDataGrid-columnSeparator--sideRight": {
+                display: "none", // 마지막 구분선을 숨겨서 오른쪽 끝에 표시되지 않도록 설정
+              },
+            },
+         
+          }}
         />
       </div>
-    </div>
+      <Menu
+        anchorReference="anchorPosition"
+        anchorPosition={menuPosition ? { top: menuPosition.mouseY, left: menuPosition.mouseX } : undefined}
+        open={Boolean(menuPosition)}
+        onClose={handleCloseMenu}
+      >
+        <MenuItem onClick={handleDeleteRow}>Delete</MenuItem>
+      </Menu>
+      <div className="pagination-container" style={{ textAlign: "center", marginTop: "20px" }}>
+        <Pagination
+          postsPerPage={itemsPerPage}
+          totalPosts={data?.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+      </div>
+    </Paper>
+
+    {
+      isModalOpen && (
+        <FileTableModal data={selectedRowData} onClose={closeModal} />
+      )
+    }
+    
+    </>
+    
   );
 };
 

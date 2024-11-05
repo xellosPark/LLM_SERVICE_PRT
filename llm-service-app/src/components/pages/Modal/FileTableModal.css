@@ -1,5 +1,5 @@
 /* 모달의 배경을 어둡게 처리 */
-.modal-overlay {
+.table-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,9 +13,9 @@
 }
 
 /* 모달 콘텐츠 */
-.modal-content {
+.table-modal-content {
   background: white;
-  padding: 20px;
+  padding: 25px 25px 20px 25px;
   border-radius: 8px;
   max-width: 600px;
   width: 100%;
@@ -24,7 +24,7 @@
 }
 
 /* X 버튼 스타일 */
-.close-button {
+.table-close-button {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -35,49 +35,63 @@
   cursor: pointer;
 }
 
-.close-button:hover {
+.table-close-button:hover {
   border-radius: 8px;
   background-color: #9A4444;
   color: white;
   border: none;
 }
 
-.modal-content-title {
+.table-modal-content-title {
   display: flex;
   justify-content: left;
   align-items: baseline;
+  margin-top: 10px;
 }
 
-.modal-content-title h2 {
+.table-modal-content-title h3 {
   margin-right: 5px;
 }
 
-.modal-content-model {
+.table-modal-content-title p {
+  font-size: 15px;
+}
+
+.table-modal-model {
+  margin-top: 30px;
+}
+
+.table-modal-label {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.table-modal-content-model {
   background-color: rgb(240, 240, 240);
   border-radius: 8px;
 }
 
-.modal-content-model p {
+.table-modal-content-model p {
   padding: 5px 5px 5px 10px;
   margin-top: 5px;
   color: gray;
 }
 
-.data-section {
+.table-data-section {
   display: flex;
   flex-direction: column;
   margin-top: 5px;
   gap: 5px;
 }
 
-.row {
+.table-row {
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 12px;
 }
 
-.data-row {
+.table-data-row {
   padding: 8px 20px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
@@ -87,7 +101,7 @@
   text-align: center;
 }
 
-.file-name {
+.table-file-name {
   background-color: #f8f8f8;
   border: 1px solid #e0e0e0;
   padding: 8px 20px;
@@ -100,8 +114,9 @@
   text-overflow: ellipsis; /* 넘치는 부분은 '...'으로 표시 */
 }
 
-.file-name:hover::after, .keyword-name:hover::after {
-  content: attr(data-tooltip); /* 툴팁으로 표시될 내용 */
+ /* 툴팁으로 표시될 내용 */
+/* .table-file-name:hover::after, .table-keyword-name:hover::after {
+  content: attr(data-tooltip);
   position: absolute;
   background-color: #333;
   color: #fff;
@@ -114,11 +129,11 @@
   z-index: 100;
   opacity: 0;
   transition: opacity 0.3s ease;
-  pointer-events: none; /* 마우스 포인터가 툴팁에 영향을 미치지 않게 */
+  pointer-events: none;
   opacity: 1;
-}
+} */
 
-.data-delete {
+.table-data-delete {
   padding: 8px 20px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
@@ -130,20 +145,20 @@
   text-align: center;
 }
 
-.keywords-row {
+.table-keywords-row {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
 }
 
-.keywords {
+.table-keywords {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.keyword {
+.table-keyword {
   background-color: #717D9E;
   padding: 10px 20px;
   border-radius: 20px;
@@ -153,7 +168,7 @@
   text-align: center;
 }
 
-.keyword-name {
+.table-keyword-name {
   background-color: #f8f8f8;
   border: 1px solid #e0e0e0;
   padding: 8px 20px;
@@ -161,14 +176,14 @@
   width: 100%;
 }
 
-.modal-close {
+.table-modal-close {
   display: flex;
   justify-content: right;
   align-items: center;
   margin-top: 8px;
 }
 
-.modal-close-button {
+.table-modal-close-button {
   cursor: pointer;
   padding: 8px 16px;
   background-color: #9A4444;
@@ -177,6 +192,6 @@
   border-radius: 4px;
 }
 
-.modal-close-button:hover {
+.table-modal-close-button:hover {
   background-color: #664343;
 }

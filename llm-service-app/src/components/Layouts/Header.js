@@ -13,6 +13,7 @@ function Header({ onLogout, setActivePage }) {
   const handleClickLogo = () => {
     setActivePage('main'); // 메인 페이지 활성화
     navigate('/main'); // 메인 페이지로 이동
+    localStorage.setItem('activeComponent', 'DashBoard'); 
     // return (
     //   <Navigate to={"/main"} />
     // )
