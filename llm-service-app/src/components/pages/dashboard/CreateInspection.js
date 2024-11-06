@@ -6,7 +6,7 @@ import './CreateInspection.css';
 import { MailCheckStart, fileSave, promptFileLoad } from "../../api/mailCheckControllers";
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const socket = io('http://localhost:5000', {
+const socket = io('http://165.244.190.28:5000', {
     transports: ['websocket'],
     reconnection: true,
 }); // 서버 주소 설정
@@ -154,20 +154,20 @@ const CreateInspection = () => {
             return;
         }
 
-        if (fileNames.data_request_system_xlsx === '' || fileNames.data_request_system_xlsx === undefined) {
-            alert('xlsx 파일을 선택해주세요');
-            return;
-        }
+        // if (fileNames.data_request_system_xlsx === '' || fileNames.data_request_system_xlsx === undefined) {
+        //     alert('xlsx 파일을 선택해주세요');
+        //     return;
+        // }
 
-        if (fileNames.title === '' || fileNames.title === undefined) {
-            alert('title txt 파일을 선택해주세요');
-            return;
-        }
+        // if (fileNames.title === '' || fileNames.title === undefined) {
+        //     alert('title txt 파일을 선택해주세요');
+        //     return;
+        // }
 
-        if (fileNames.receiver === '' || fileNames.receiver === undefined) {
-            alert('receiver txt 파일을 선택해주세요');
-            return;
-        }
+        // if (fileNames.receiver === '' || fileNames.receiver === undefined) {
+        //     alert('receiver txt 파일을 선택해주세요');
+        //     return;
+        // }
 
         if (selectedOption === '' || selectedOption === undefined) {
             alert('모델을 선택해 주세요');
@@ -209,7 +209,7 @@ const CreateInspection = () => {
                     formData.append('file', file);
                     //formData.append('uuid', createUuid);
 
-                    axios.post(`http://localhost:5000/upload`, formData, {
+                    axios.post(`http://165.244.190.28:5000/upload`, formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                         onUploadProgress: (progressEvent) => {
                             const percentCompleted = Math.min(

@@ -1,18 +1,43 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
-import Pagination from '../Pagination/Pagination'; // Pagination 컴포넌트 경로
+import Pagination from '../Pagination/Pagination';
 import './EvaluationTable.css';
 
-const EvaluationTable = ({ headers, rows, tabName }) => {
-    // 컴포넌트가 렌더링될 때 `headers`와 `rows`를 콘솔에 출력
-    // useEffect(() => {
-    //     console.log('Received headers:', headers);
-    //     console.log('Received rows:', rows);
-    //     console.log('Current tab name:', tabName);
-    // }, [headers, rows]);
+// 버튼 포커스 방지용으로 React.memo 적용 및 포커스 제거
+const ToggleButton = React.memo(({ isRisk, onClick }) => (
+    <button
+        onClick={(e) => {
+            e.preventDefault(); // 기본 이벤트 방지
+            e.target.blur(); // 버튼 클릭 시 포커스를 제거하여 깜빡임 방지
+            onClick();
+        }}
+        style={{
+            width: '100px',
+            height: '30px',
+            color: 'white',
+            backgroundColor: isRisk ? 'red' : 'gray',
+            border: 'none',
+            borderRadius: '5px',
+            transition: 'background-color 0.3s ease',
+            cursor: 'pointer',
+        }}
+    >
+        {isRisk ? 'Risk' : 'No Risk'}
+    </button>
+));
 
+const EvaluationTable = ({ tabName }) => {
+    const [datas, setDatas] = useState([]);
+    const [buttonStates, setButtonStates] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+    const [sortModel, setSortModel] = useState([{ field: 'no', sort: 'asc' }]);
+    const tooltipRef = useRef(null);
+    const [tooltip, setTooltip] = useState({ visible: false, content: '', top: 0, left: 0 });
+
+    // Custom styling for DataGrid
     const CustomDataGrid = styled(DataGrid)({
         '& .MuiDataGrid-columnHeaders': {
             fontSize: '12px',
@@ -26,11 +51,11 @@ const EvaluationTable = ({ headers, rows, tabName }) => {
         '& .MuiDataGrid-columnHeader[data-field="spacer"]': {
             backgroundColor: '#ECF0F1',
             border: 'none',
-            minWidth: '50px', // 최소 너비 설정
-            maxWidth: '50px', // 최대 너비 설정
-            cursor: 'default', // 크기 조절 불가능 표시
-            borderTop: '2px solid #ECF0F1', // 상단 테두리 색상
-            borderBottom: '2px solid #ECF0F1', // 하단 테두리 색상
+            minWidth: '50px',
+            maxWidth: '50px',
+            cursor: 'default',
+            borderTop: '2px solid #ECF0F1',
+            borderBottom: '2px solid #ECF0F1',
         },
         '& .MuiDataGrid-cell': {
             borderRight: '1px solid rgba(224, 224, 224, 1)',
@@ -40,79 +65,277 @@ const EvaluationTable = ({ headers, rows, tabName }) => {
         '& .MuiDataGrid-cell:last-child': {
             borderRight: 'none',
         },
-        // Specific style for the 'spacer' column cells
         '& .MuiDataGrid-cell.spacer-cell': {
-            borderTop: '2px solid #ECF0F1', // 셀 상단 테두리 색상
-            borderBottom: '2px solid #ECF0F1', // 셀 하단 테두리 색상
-            borderLeft: 'none', // Optionally remove the left border
-            borderRight: 'none', // Optionally remove the right border
+            borderTop: '2px solid #ECF0F1',
+            borderBottom: '2px solid #ECF0F1',
             backgroundColor: '#ECF0F1',
-            boxShadow: 'none',
         },
     });
 
-    // `rows` 데이터를 기반으로 `datas` 구조로 변환
-    const datas = rows.map((row, index) => ({
-        id: index + 1, // 고유 식별자
-        no: index + 1, // 번호
-        file: row[0] || ``, // 'file' 데이터, 없을 시 기본값 설정
-        send: row[1] || ``, // '보낸사람/사용자' 데이터
-        receive: row[2] || ``, // '받는사람/대화상대/호스트' 데이터
-        title: row[3] || ``, // '제목' 데이터
-        time: row[4] || ``, // '시각' 데이터, 없을 시 기본값 설정
-        fileName: row[5] || ``, // '파일이름' 데이터
-        reference: row[6] || ``, // '참조인' 데이터
-        hiddenRef: row[7] || ``, // '실수취인' 데이터
-        analyzeFiles: row[8] || ``, //'파일 분석 여부' 데이터
-        name: row[9] || ``, //'이름' 데이터
-        mainContent: row[10] || ``, // '본문' 데이터
-        content: row[11] || ``, //'판단 근거 문장' 데이터
-        // complianceRisk: tabName === 'Tab1' ? 'Risk' : 'No Risk', // Tab1일 경우 'Risk', 그렇지 않으면 'No Risk'
-        // result: row[8] || (index % 3 === 0 ? 'Success' : 'Error'), // '평가 기록' 데이터, 기본값 설정
-    }));
+    // 로컬 스토리지에서 데이터 로드 함수
+    const loadDatasFromLocalStorage = () => {
+        const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        const currentSheetData = storedData.find(sheetData => {
+            if (tabName === "Tab1") return sheetData.sheet === "High Risk - 기술 자료 요청";
+            if (tabName === "Tab2") return sheetData.sheet === "Potential Risk - 일반 자료 요청";
+            if (tabName === "Tab3") return sheetData.sheet === "No Risk - 자료 요청 없음";
+            return false;
+        });
 
-    // 페이지네이션 상태 정의
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 12; // 페이지당 표시할 항목 수
+        if (currentSheetData) {
+            const loadedData = currentSheetData.rows.map((row, index) => {
+                const complianceRisk = tabName === "Tab3" ? row[11] : row[12];
+                const MoveColor = tabName === "Tab3" ? row[12] : row[13];
+        
+                return {
+                    id: index + 1,
+                    no: index + 1,
+                    file: row[0] || '',
+                    send: row[1] || '',
+                    receive: row[2] || '',
+                    title: row[3] || '',
+                    time: row[4] || '',
+                    fileName: row[5] || '',
+                    reference: row[6] || '',
+                    hiddenRef: row[7] || '',
+                    analyzeFiles: row[8] || '',
+                    name: row[9] || '',
+                    mainContent: row[10] || '',
+                    content: (tabName === "Tab3") ? '' : (row[11] || ''),
+                    complianceRisk: complianceRisk,
+                    MoveColor: MoveColor  // 'MoveColor' property to indicate conditional styling
+                };
+            });
+            setDatas(loadedData);
+            setButtonStates(loadedData.map(data => data.complianceRisk === 'Risk'));
+        }
+    };
 
-    // 정렬 상태 관리
-    const [sortModel, setSortModel] = useState([{ field: 'no', sort: 'asc' }]);
+    useEffect(() => {
+        setCurrentPage(1);
+        loadDatasFromLocalStorage();
+    }, [tabName]);
 
-    const [tooltip, setTooltip] = useState({ visible: false, content: '', top: 0, left: 0 });
-    const tooltipRef = useRef(null);
-
-    // 정렬된 데이터를 반환하는 함수
     const getSortedData = () => {
         if (sortModel.length === 0) return datas;
         const { field, sort } = sortModel[0];
-        const sortedData = [...datas].sort((a, b) => {
+        return [...datas].sort((a, b) => {
             if (a[field] < b[field]) return sort === 'asc' ? -1 : 1;
             if (a[field] > b[field]) return sort === 'asc' ? 1 : -1;
             return 0;
         });
-        return sortedData;
     };
 
     const sortedData = getSortedData();
-
-    // 현재 페이지에 해당하는 데이터 슬라이스
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
-    // 페이지 변경 핸들러
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // 버튼 클릭 상태 관리
-    const [buttonStates, setButtonStates] = useState(
-        datas.map((data) => data.complianceRisk === 'Risk')
-    );
+    // 토글 기능: 버튼 포커스 제거와 debounce 추가로 깜빡임 최소화
+    const handleToggle = useCallback((index) => {
+        setButtonStates((prevButtonStates) => {
+            const updatedButtonStates = [...prevButtonStates];
+            updatedButtonStates[index] = !updatedButtonStates[index];
 
-    // 버튼 토글 핸들러
-    const handleToggle = (index) => {
-        const updatedStates = [...buttonStates];
-        updatedStates[index] = !updatedStates[index];
-        setButtonStates(updatedStates);
+            setDatas((prevDatas) => {
+                const updatedDatas = prevDatas.map((data, dataIndex) => {
+                    if (dataIndex === index) {
+                        const newRiskStatus = updatedButtonStates[index] ? 'Risk' : 'No Risk';
+                        return { ...data, complianceRisk: newRiskStatus };
+                    }
+                    return data;
+                });
+
+                // localStorage 동기화
+                let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+                allSheetData = allSheetData.map((sheetData) => {
+                    if (tabName === "Tab1" && sheetData.sheet === "High Risk - 기술 자료 요청") {
+                        sheetData.rows = sheetData.rows.map((row, rowIndex) => {
+                            if (rowIndex === index) row[12] = updatedButtonStates[index] ? 'Risk' : 'No Risk';
+                            return row;
+                        });
+                    } else if (tabName === "Tab2" && sheetData.sheet === "Potential Risk - 일반 자료 요청") {
+                        sheetData.rows = sheetData.rows.map((row, rowIndex) => {
+                            if (rowIndex === index) row[12] = updatedButtonStates[index] ? 'Risk' : 'No Risk';
+                            return row;
+                        });
+                    } else if (tabName === "Tab3" && sheetData.sheet === "No Risk - 자료 요청 없음") {
+                        sheetData.rows = sheetData.rows.map((row, rowIndex) => {
+                            if (rowIndex === index) row[11] = updatedButtonStates[index] ? 'Risk' : 'No Risk';
+                            return row;
+                        });
+                    }
+                    return sheetData;
+                });
+
+                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                loadDatasFromLocalStorage();
+
+                return updatedDatas;
+            });
+
+            return updatedButtonStates;
+        });
+    }, [tabName]);
+
+    // const handleApplyAction = async () => {  // async 추가
+    //     console.log("=== Apply 버튼 클릭됨 ===");
+
+    //     // localStorage에서 데이터 가져오기
+    //     let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+    //     const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
+    //     const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
+
+    //     if (highRiskSheetData && noRiskSheetData) {
+    //         // Step 1: High Risk에서 No Risk로 이동할 항목 필터링
+    //         const itemsToMove = highRiskSheetData.rows.filter(row => row[12] === 'No Risk');
+    //         console.log("이동할 항목:", itemsToMove);
+
+    //         // Step 2: High Risk 탭에서 이동할 항목 제거
+    //         highRiskSheetData.rows = highRiskSheetData.rows.filter(row => row[12] !== 'No Risk');
+    //         console.log("High Risk에서 제거된 후의 rows:", highRiskSheetData.rows);
+
+    //         // Step 3: 이동 항목을 No Risk 탭 상단에 추가하고, 배경색을 노란색으로 설정
+    //         itemsToMove.forEach(item => {
+    //             item[11] = item[12];        // No Risk 탭에서 사용할 컬럼에 상태 설정
+    //             item[12] = '';              // 원래 위치의 상태 초기화
+    //             item.MoveColor = 'move';      // 회색 배경을 위한 플래그 추가
+    //         });
+
+    //         noRiskSheetData.rows = [...itemsToMove, ...noRiskSheetData.rows];
+    //         console.log("No Risk 탭에 추가된 후의 rows:", noRiskSheetData.rows);
+
+    //         // Step 4: localStorage에 업데이트된 allSheetData 저장
+    //         localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+
+    //         // Step 5: 상태를 재로딩하여 적용
+    //         loadDatasFromLocalStorage();
+
+    //         // Step 6: 500ms 대기
+    //         await new Promise(resolve => setTimeout(resolve, 300)); // 대기 시간 추가
+    //     } else {
+    //         console.log("오류: 이동할 수 없습니다. 필수 데이터가 누락되었습니다.");
+    //     }
+    // };
+
+    const handleApplyAction = async () => {  // async 추가
+        console.log("=== Apply 버튼 클릭됨 ===");
+    
+        // localStorage에서 데이터 가져오기
+        let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
+        const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
+        const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "Potential Risk - 일반 자료 요청");
+    
+        if (tabName === "Tab1") {
+            // 기존 Tab1에서 No Risk로 이동하는 로직 (이전 코드 유지)
+            if (highRiskSheetData && noRiskSheetData) {
+                // Step 1: High Risk에서 No Risk로 이동할 항목 필터링
+                const itemsToMove = highRiskSheetData.rows.filter(row => row[12] === 'No Risk');
+                console.log("이동할 항목:", itemsToMove);
+    
+                // Step 2: High Risk 탭에서 이동할 항목 제거
+                highRiskSheetData.rows = highRiskSheetData.rows.filter(row => row[12] !== 'No Risk');
+                console.log("High Risk에서 제거된 후의 rows:", highRiskSheetData.rows);
+    
+                // Step 3: 이동 항목을 No Risk 탭 상단에 추가하고, 배경색을 노란색으로 설정
+                // itemsToMove.forEach(item => {
+                //     item[11] = item[12];     // No Risk 탭에서 사용할 컬럼에 상태 설정
+                //     item[12] = 'move';       // 원래 위치의 상태 초기화
+                //     item[13] = '';           // 회색 배경을 위한 플래그 추가
+                // });
+                itemsToMove.forEach(item => {
+                    const Movetype =  item[13];
+                    item[13] = item[11];      // 회색 배경을 위한 플래그 추가
+                    item[11] = item[12];         // No Risk 탭에서 사용할 컬럼에 상태 설정
+                    item[12] = Movetype === 'move' ? 'None' : 'move';               // 원래 위치의 상태 초기화
+                    
+                });
+    
+                noRiskSheetData.rows = [...itemsToMove, ...noRiskSheetData.rows];
+                console.log("No Risk 탭에 추가된 후의 rows:", noRiskSheetData.rows);
+    
+                // Step 4: localStorage에 업데이트된 allSheetData 저장
+                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+    
+                // Step 5: 상태를 재로딩하여 적용
+                loadDatasFromLocalStorage();
+    
+                // Step 6: 500ms 대기
+                await new Promise(resolve => setTimeout(resolve, 300)); // 대기 시간 추가
+            } else {
+                console.log("오류: 이동할 수 없습니다. 필수 데이터가 누락되었습니다.");
+            }
+    
+        } else if (tabName === "Tab2") {
+            // Tab2에서 High Risk로 이동하는 로직 추가
+            if (potentialRiskSheetData && highRiskSheetData) {
+                // Step 1: Potential Risk에서 High Risk로 이동할 항목 필터링
+                const itemsToMove = potentialRiskSheetData.rows.filter(row => row[12] === 'Risk');
+                console.log("Potential Risk에서 High Risk로 이동할 항목:", itemsToMove);
+    
+                // Step 2: Potential Risk 탭에서 이동할 항목 제거
+                potentialRiskSheetData.rows = potentialRiskSheetData.rows.filter(row => row[12] !== 'Risk');
+                console.log("Potential Risk에서 제거된 후의 rows:", potentialRiskSheetData.rows);
+    
+                // Step 3: 이동 항목을 High Risk 탭 상단에 추가하고, 배경색을 회색으로 설정
+                itemsToMove.forEach(item => {
+                    item[12] = item[12];         // High Risk 탭에서 사용할 컬럼에 상태 설정
+                    item[13] = 'move';     // 회색 배경을 위한 플래그 추가
+                });
+    
+                highRiskSheetData.rows = [...itemsToMove, ...highRiskSheetData.rows];
+                console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
+    
+                // Step 4: localStorage에 업데이트된 allSheetData 저장
+                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+    
+                // Step 5: 상태를 재로딩하여 적용
+                loadDatasFromLocalStorage();
+    
+                // Step 6: 500ms 대기
+                await new Promise(resolve => setTimeout(resolve, 500)); // 대기 시간 추가
+            } else {
+                console.log("오류: 이동할 수 없습니다. 필수 데이터가 누락되었습니다.");
+            }
+
+        } else if (tabName === "Tab3") {
+             // Tab3 (No Risk)에서 High Risk로 이동하는 로직 추가
+            if (noRiskSheetData && highRiskSheetData) {
+                // Step 1: No Risk에서 High Risk로 이동할 항목 필터링
+                const itemsToMove = noRiskSheetData.rows.filter(row => row[11] === 'Risk');
+                //console.log("No Risk에서 High Risk로 이동할 항목:", itemsToMove);
+
+                // Step 2: No Risk 탭에서 이동할 항목 제거
+                noRiskSheetData.rows = noRiskSheetData.rows.filter(row => row[11] !== 'Risk');
+                //console.log("No Risk에서 제거된 후의 rows:", noRiskSheetData.rows);
+
+                // Step 3: 이동 항목을 High Risk 탭 상단에 추가하고, 배경색을 회색으로 설정
+                itemsToMove.forEach(item => {
+                    const Movetype =  item[12];
+                    item[12] = item[11];
+                    item[11] = item[13];
+                    item[13] = Movetype === 'move' ? 'None' : 'move';
+                    
+                });
+
+                highRiskSheetData.rows = [...itemsToMove, ...highRiskSheetData.rows];
+                //console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
+
+                // Step 4: localStorage에 업데이트된 allSheetData 저장
+                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+
+                // Step 5: 상태를 재로딩하여 적용
+                loadDatasFromLocalStorage();
+
+                // Step 6: 500ms 대기
+                await new Promise(resolve => setTimeout(resolve, 500)); // 대기 시간 추가
+            } else {
+                console.log("오류: 이동할 수 없습니다. 필수 데이터가 누락되었습니다.");
+            }
+        }
     };
 
     const handleColumnClick = (event, content) => {
@@ -167,9 +390,6 @@ const EvaluationTable = ({ headers, rows, tabName }) => {
         }
       }, [tooltip.visible, tooltip.top]);
 
-
-
-    // columns 설정
     const columns = [
         { field: 'no', headerName: 'No', width: 1, sortable: true },
         { field: 'file', headerName: 'File', width: 1, sortable: true,
@@ -258,39 +478,24 @@ const EvaluationTable = ({ headers, rows, tabName }) => {
          },
         {
             field: 'spacer',
-            headerName: '', // No header name to hide the column header text
+            headerName: '',
             width: 50,
             sortable: false,
-            resizable: false, // 크기 조절 비활성화
+            resizable: false,
             renderCell: () => (
-                <div style={{
-                    backgroundColor: '#ECF0F1', // 배경색 지정
-                    width: '100%', // 셀의 전체 너비 채우기
-                    height: '100%', // 셀의 전체 높이 채우기
-                    border: 'none', // 테두리 제거
-                    boxShadow: 'none' // 그림자 제거
-                }}></div>
+                <div style={{ backgroundColor: '#ECF0F1', width: '100%', height: '100%', border: 'none' }}></div>
             ),
             cellClassName: 'spacer-cell'
         },
         {
             field: 'complianceRisk',
             headerName: 'Compliance Risk',
+            sortable: false,
             width: 200,
             renderHeader: () => (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>Compliance Risk</span>
-                    <button
-                        style={{
-                            padding: '5px 10px',
-                            marginLeft: '10px',
-                            backgroundColor: '#f0f0f0',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer'
-                        }}
-                        onClick={() => alert('버튼이 클릭되었습니다!')}
-                    >
+                    <button style={{ padding: '5px 10px', backgroundColor: '#f0f0f0', border: 'none', borderRadius: '5px' }} onClick={handleApplyAction}>
                         적용
                     </button>
                 </div>
@@ -298,42 +503,35 @@ const EvaluationTable = ({ headers, rows, tabName }) => {
             renderCell: (params) => {
                 const index = params.row.id - 1;
                 return (
-                    <button
+                    <ToggleButton
+                        isRisk={buttonStates[index]}
                         onClick={() => handleToggle(index)}
-                        style={{
-                            width: '100px',
-                            height: '30px',
-                            color: 'white',
-                            backgroundColor: buttonStates[index] ? 'red' : 'gray',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                            boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.2)',
-                        }}
-                    >
-                        {buttonStates[index] ? 'Risk' : 'No Risk'}
-                    </button>
+                    />
                 );
             }
         },
-        { field: 'result', headerName: '평가 기록(선택)', width: 200, sortable: true },
+       
     ];
 
     return (
         <div>
-            <Paper style={{ height: 700, width: '100%', border: "none" }}>
-                <CustomDataGrid
-                    rows={currentItems} // 현재 페이지의 데이터만 표시
-                    columns={columns} // 통합된 컬럼 설정
-                    pageSize={itemsPerPage} // 페이지당 항목 수
+            <Paper style={{ height: 580, width: '100%'}}>
+                <CustomDataGrid style={{ width: '1602px'}}
+                    rows={currentItems}
+                    columns={columns}
+                    pageSize={itemsPerPage}
                     autoHeight
-                    hideFooter // 기본 페이지네이션 푸터 숨김
-                    disableColumnMenu // 컬럼 메뉴 비활성화
+                    hideFooter
+                    disableColumnMenu
                     sortModel={sortModel}
+                    disableExtendRowFullWidth={true} // 테이블 폭을 고정
                     onSortModelChange={(model) => {
                         setSortModel(model);
-                        setCurrentPage(1); // 정렬 시 페이지를 첫 번째로 리셋
+                        setCurrentPage(1);
                     }}
+                    getRowClassName={(params) =>
+                        params.row.MoveColor === 'None' ? 'row-white' : 'row-gray'
+                    }
                 />
                 {tooltip.visible && (
                     <div
@@ -345,33 +543,10 @@ const EvaluationTable = ({ headers, rows, tabName }) => {
                     </div>
                 )}
             </Paper>
-
-            {/* 커스텀 페이지네이션 컴포넌트 */}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
                 <div className="pagination-container" style={{ textAlign: "center", flexGrow: 1 }}>
-                    <Pagination
-                        postsPerPage={itemsPerPage} // 페이지당 항목 수 전달
-                        totalPosts={datas.length}   // 전체 항목 수 전달
-                        paginate={paginate}         // 페이지 변경 핸들러 전달
-                        currentPage={currentPage}   // 현재 페이지 전달
-                    />
+                    <Pagination postsPerPage={itemsPerPage} totalPosts={datas.length} paginate={paginate} currentPage={currentPage} />
                 </div>
-
-                {/* Rating button */}
-                <button
-                    style={{
-                        padding: '10px 20px',
-                        backgroundColor: '#d9534f',
-                        color: '#ffffff',
-                        border: 'none',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        marginLeft: '15px'
-                    }}
-                    onClick={() => alert('평가하기 클릭')}
-                >
-                    평가 완료
-                </button>
             </div>
         </div>
     );

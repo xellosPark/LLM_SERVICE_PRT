@@ -32,6 +32,7 @@
   padding: 10px;
   border-radius: 0px 0px 8px 8px;
   height: calc(100vh - 240px); /* Mainscreen에서 남는 공간을 차지 */
+  justify-content: space-between;
 }
 .table-direct {
   display: flex;

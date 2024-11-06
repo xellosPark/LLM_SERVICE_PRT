@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Pagination from '../Pagination/Pagination';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import './LLMTable.css';
-import { LoadChecksTable, LoadFilesTable } from '../../api/DBControllers';
+import { LoadAllChecksTable, LoadFilesTable } from '../../api/DBControllers';
 import FileTableModal from '../Modal/FileTableModal';
 import { LuDownload } from "react-icons/lu";
 import { HiQuestionMarkCircle } from "react-icons/hi2";
@@ -220,7 +220,7 @@ const handleDeleteRow = () => {
 };
 
   const LoadTable = async () => {
-    const tableData = await LoadChecksTable();
+    const tableData = await LoadAllChecksTable();
     setData(tableData);
   }
 

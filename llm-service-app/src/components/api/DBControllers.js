@@ -1,6 +1,6 @@
 import api from './api'
 
-export const LoadChecksTable = async () => {
+export const LoadAllChecksTable = async () => {
     try {
         const ip = `http://localhost:5000`;
         const response = await api.get(`${ip}/api/datas/checks-table-data`);
@@ -13,6 +13,21 @@ export const LoadChecksTable = async () => {
         }
         return undefined;
       }
+}
+
+export const LoadChecjTable = async () => {
+  try {
+    const ip = `http://localhost:5000`;
+    const response = await api.get(`${ip}/api/datas/checks-table-data`);
+    
+    return response.data;
+  } catch (error) {
+    if (error.status === 500) {
+        console.log('MailCheckStart Error Code ', error.status);
+        return error.status;
+    }
+    return undefined;
+  }
 }
 
 

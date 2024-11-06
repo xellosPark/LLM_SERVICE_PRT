@@ -1,15 +1,15 @@
 import api from './api'
 
 
-export const LoadResultFile = async (job_id) => {
+export const LoadResultFile = async (job_id, sheet) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/datas/excel-data?job_id=${job_id}`);
-      if (!response.ok) {
-        throw new Error('시트 데이터를 가져오는 데 실패했습니다');
-      }
-      const dataJson = await response.json();
+    const response = await api.get(`http://localhost:5000/api/datas/excel-data?job_id=${job_id}&sheet=${sheet}`);
+      // if (!response.ok) {
+      //   throw new Error('시트 데이터를 가져오는 데 실패했습니다');
+      // }
+      //const dataJson = await response.json();
       //console.log('Fetched result:', dataJson); // 가져온 결과 로그 출력
-      return dataJson;
+      return response.data;
   } catch (error) {
     if (error.status === 500) {
       console.log('MailCheckStart Error Code ', error.status);
