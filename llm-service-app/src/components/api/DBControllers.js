@@ -15,7 +15,7 @@ export const LoadAllChecksTable = async () => {
       }
 }
 
-export const LoadChecjTable = async () => {
+export const LoadChecksRow = async (job_id) => {
   try {
     const ip = `http://localhost:5000`;
     const response = await api.get(`${ip}/api/datas/checks-table-data`);
@@ -44,4 +44,17 @@ export const LoadFilesTable = async (job_id) => {
         }
         return undefined;
       }
+}
+
+export const LoadJoinChecksEvalTable = async () => {
+  try {
+    const ip = `http://localhost:5000`;
+    const response = await api.get(`${ip}/api/datas/checks-eval-table-join`);
+    return response.data;
+  } catch (error) {
+    if (error.status === 500) {
+      console.log('LoadJoinChecksEvalTable Error Code ', error.status);
+      return error.status;
+    }
+  }
 }

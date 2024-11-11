@@ -28,7 +28,7 @@ const ToggleButton = React.memo(({ isRisk, onClick }) => (
     </button>
 ));
 
-const EvaluationTable = ({ tabName }) => {
+const EvaluationTable = ({ tabName, movedRows }) => {
     const [datas, setDatas] = useState([]);
     const [buttonStates, setButtonStates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -234,8 +234,8 @@ const EvaluationTable = ({ tabName }) => {
             if (highRiskSheetData && noRiskSheetData) {
                 // Step 1: High Risk에서 No Risk로 이동할 항목 필터링
                 const itemsToMove = highRiskSheetData.rows.filter(row => row[12] === 'No Risk');
-                console.log("이동할 항목:", itemsToMove);
-    
+                console.log("이동할 항목:", itemsToMove, itemsToMove.length);
+                
                 // Step 2: High Risk 탭에서 이동할 항목 제거
                 highRiskSheetData.rows = highRiskSheetData.rows.filter(row => row[12] !== 'No Risk');
                 console.log("High Risk에서 제거된 후의 rows:", highRiskSheetData.rows);
@@ -336,6 +336,7 @@ const EvaluationTable = ({ tabName }) => {
                 console.log("오류: 이동할 수 없습니다. 필수 데이터가 누락되었습니다.");
             }
         }
+        movedRows();
     };
 
     const handleColumnClick = (event, content) => {
@@ -390,116 +391,110 @@ const EvaluationTable = ({ tabName }) => {
         }
       }, [tooltip.visible, tooltip.top]);
 
-    const columns = [
-        { field: 'no', headerName: 'No', width: 1, sortable: true },
-        { field: 'file', headerName: 'File', width: 1, sortable: true,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'send', headerName: '보낸사람/사용자', width: 1, sortable: true,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'receive', headerName: '받는사람/대화상대/호스트', width: 1, sortable: true,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'title', headerName: '제목/서브 URL/인스턴트 메신저/웹하드', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'time', headerName: '시각', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'fileName', headerName: '파일이름', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'reference', headerName: '참조인', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'hiddenRef', headerName: '실수취인/숨은참조/POP3서버 ID', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'analyzeFiles', headerName: '파일 분석 여부', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'name', headerName: '이름', width: 1,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'mainContent', headerName: '본문', width: 400,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        { field: 'content', headerName: '판단 근거 문장', width: 400,
-            renderCell: (params) => (
-                <div onClick={(e) => handleColumnClick(e, params.value)}>
-                  {params.value}
-                </div>
-              ),
-         },
-        {
-            field: 'spacer',
-            headerName: '',
-            width: 50,
-            sortable: false,
-            resizable: false,
-            renderCell: () => (
-                <div style={{ backgroundColor: '#ECF0F1', width: '100%', height: '100%', border: 'none' }}></div>
-            ),
-            cellClassName: 'spacer-cell'
+      const columns = [
+        { field: 'no', headerName: 'Id', width: 40, minWidth: 0.5, sortable: false, //flex: 0.15, 
+            renderHeader: () => null
         },
+        
+        { field: 'file', headerName: 'File', width: 1,  minWidth: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+        },
+        { field: 'send', headerName: '보낸사람/사용자',  width: 1,  minWidth: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+        },
+        { field: 'receive', headerName: '받는사람/대화상대/호스트', width: 1,  minWidth: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+        },
+        { field: 'title', headerName: '제목/서브 URL/인스턴트 메신저/웹하드', width: 1,  minWidth: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+         },
+        { field: 'time', headerName: '시각', width: 1,  minWidth: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                {params.value}
+                </div>
+            ),
+        },
+        { field: 'fileName', headerName: '파일이름', width: 1, minWidth: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+        },
+        { field: 'reference', headerName: '참조인',minWidth: 1, width: 1, sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+        },
+        { field: 'hiddenRef', headerName: '실수취인/숨은참조/POP3서버 ID',minWidth: 1, width: 1,sortable: false, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+         },
+        { field: 'analyzeFiles', headerName: '파일 분석 여부', width: 1,sortable: false, minWidth: 1, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+        },
+        { field: 'name', headerName: <span className="light-gray">이름</span>, width: 1,sortable: false,minWidth: 1, //flex: 0.1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)} className="light-gray">
+                  {params.value}
+                </div>
+              ),
+         },
+        { field: 'mainContent', headerName: '본문',minWidth: 1, width: 850,sortable: false, //flex: 2,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+          },
+        { field: 'content', headerName: '판단 근거 문장',minWidth: 1, width: 430, sortable: false, //flex: 1,
+            renderCell: (params) => (
+                <div onClick={(e) => handleColumnClick(e, params.value)}>
+                  {params.value}
+                </div>
+              ),
+         },
         {
             field: 'complianceRisk',
             headerName: 'Compliance Risk',
             sortable: false,
-            width: 200,
+            // resizable: false,
+            minWidth: 1, width: 180, //flex: 0.5,
             renderHeader: () => (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Compliance Risk</span>
+                    Compliance Risk
                     <button style={{ padding: '5px 10px', backgroundColor: '#f0f0f0', border: 'none', borderRadius: '5px' }} onClick={handleApplyAction}>
                         적용
                     </button>
                 </div>
             ),
+            
             renderCell: (params) => {
                 const index = params.row.id - 1;
                 return (
@@ -508,15 +503,16 @@ const EvaluationTable = ({ tabName }) => {
                         onClick={() => handleToggle(index)}
                     />
                 );
+                
             }
         },
-       
     ];
 
     return (
         <div>
-            <Paper style={{ height: 580, width: '100%'}}>
-                <CustomDataGrid style={{ width: '1602px'}}
+            {/* <Paper sx={{ width: "80vw", padding: "25px", maxWidth: "100%", marginLeft: "30px"}}> */}
+            <Paper sx={{ width: "80vw", maxWidth: "100%" }}>
+                <DataGrid style={{width: '1700px', margin: '0 auto' }}
                     rows={currentItems}
                     columns={columns}
                     pageSize={itemsPerPage}
@@ -543,7 +539,7 @@ const EvaluationTable = ({ tabName }) => {
                     </div>
                 )}
             </Paper>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px' }}>
                 <div className="pagination-container" style={{ textAlign: "center", flexGrow: 1 }}>
                     <Pagination postsPerPage={itemsPerPage} totalPosts={datas.length} paginate={paginate} currentPage={currentPage} />
                 </div>

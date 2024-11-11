@@ -7,7 +7,6 @@
     display: flex;
     list-style: none;
     padding: 0;
-    margin-top: 20px;
   }
   
   .page-item {
@@ -35,6 +34,9 @@
   }
   
   .page-item.active button {
-    background-color: #BB0841;
-    color: white;
+    /* background-color: #ccc5c8; */
+    color: rgb(194, 26, 65);
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: -1px;
   }

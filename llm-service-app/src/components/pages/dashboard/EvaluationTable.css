@@ -119,3 +119,7 @@
   .row-gray {
     background-color: #EEEEEE !important;
   }
+
+  .light-gray {
+    color: lightgray;
+  }

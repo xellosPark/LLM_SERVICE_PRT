@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -29,7 +29,7 @@
   
   /* 라이트 모드 (기본) */
   .header.light-mode {
-    background-color: #FBFAFC;
+    background-color: #ffffff;
     color: #222;
     font-size: 14px;
   }
@@ -50,7 +50,9 @@
   }
 
   .logo.light-mode, .logo.dark-mode {
-    width: 70px;
+    width: 120px;
+    /* margin-top: 10px; */
+    margin-left: 2px;
     background-position: center;
   }
 
@@ -62,15 +64,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #FBFAFC; /* 파란색 배경 */
+    background-color: #ffffff;
     color: #eee;
     border: none;    
-    color: #888;
+    color: rgb(146, 146, 146);
     position: relative;
     margin-right: 40px;
     cursor: pointer;
     padding: 4px 10px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     margin-top: 3px;
     
@@ -114,17 +116,18 @@
     border-radius: 50px;
     border: none;   /* 점선 추가 */
     margin-right: 2px;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: bold;
   }
    .icon-half-human {
-    width: 15px;    /* 아이콘 너비 */
-    height: 15px;    /* 아이콘 높이 */
-    margin-right: 2px;    /* 텍스트와 아이콘 간격 */
-    fill: rgb(131, 186, 250);    /* 아이콘 색상 */
+    width: 17px;    /* 아이콘 너비 */
+    height: 17px;    /* 아이콘 높이 */
+    margin-right: 5px;    /* 텍스트와 아이콘 간격 */
+    fill: rgb(255, 255, 255);    /* 아이콘 색상 */
   }
    .userinfo-text {
-    font-size: 12px;
-    color: #222;    /* 연한 파란색 텍스트 */
+    font-size: 16px;
+    color: #222;
   }
 
   .llm-logo-button {

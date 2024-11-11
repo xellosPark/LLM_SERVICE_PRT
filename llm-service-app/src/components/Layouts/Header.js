@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './Header.css'; // CSS 파일 불러오기
-import lightLogo from '../../logos/test_logo.jfif';
+// import lightLogo from '../../logos/test_logo.jfif';
+// import lightLogo from '../../logos/prai-gen_logo_square.png';
+import lightLogo from '../../logos/prai-gen_logo_line.png';
 import darkLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_white_rgb.png';
 import { UserContext } from '../useContext/UserContext';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -54,7 +56,7 @@ function Header({ onLogout, setActivePage }) {
             user ? (
               <span className='dark-mode'>{user.name}</span>
             ) : (
-              <span className='dark-mode'>User Info님</span>
+              <span className='dark-mode'>김나경 님</span>
             )
           } 
       </label>

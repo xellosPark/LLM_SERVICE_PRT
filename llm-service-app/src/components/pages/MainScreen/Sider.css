@@ -2,9 +2,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 110px;
+    width: 155px;
     /* background-color: #343A40; */
-    background-color: white;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(192, 192, 192);
     /* color: #C2C7D0; */
     color: #979292;
     padding: 5px 5px 10px 5px;
@@ -13,7 +14,7 @@
   }
   
   .sider.collapsed {
-    width: 40px; /* 사이드바가 접힌 상태일 때의 너비 */
+    width: 50px; /* 사이드바가 접힌 상태일 때의 너비 */
   }
   
   .sidemenu {
@@ -26,27 +27,25 @@
   .minimizeButton {
     padding: 10px 5px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13.5px;
     transition: background-color 0.3s ease;
     align-items: center;
     justify-content: center;
   }
    
   .menuItem:hover, .minimizeButton:hover {
-    background-color: #F8E5EB;
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
-    color: #EA337C; /* #EAD8B1 rgb(247, 243, 45); */
+    color: #000000; /* #EAD8B1 rgb(247, 243, 45); */
   }
   
   .custom-icon-size {
-    font-size: 13px; /* Adjust the icon size here */
-    /* margin-right: 3px;
-    margin-left: 2px; */
-    margin: 5px 2px 5px 3px;
+    font-size: 14px; /* Adjust the icon size here */
+    margin: 5px 7px 5px 10px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
   }
 
   .custom-icon-ssize {
-    font-size: 12px; /* Adjust the icon size here */
+    font-size: 14px; /* Adjust the icon size here */
     margin-right: 5px;
     margin-left: 1px;
     

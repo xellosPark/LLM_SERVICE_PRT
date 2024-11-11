@@ -2,8 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
 import Loading from '../../../logos/loading_light.png'
-import { BsChevronDoubleRight } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { BsChevronRight } from "react-icons/bs";
 
 function MainScreen({ setActivePage, activePage }) {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
@@ -12,8 +11,6 @@ function MainScreen({ setActivePage, activePage }) {
   //const [activePage, setActivePage] = useState('DashBoard'); // 현재 페이지 상태 추가
   const [subPage, setSubPage] = useState('Default');
   const [isActivePage, setIsActivePage] = useState(false);
-
-  const navigate = useNavigate();
 
   // Toggle Sidebar function
   const toggleSidebar = () => {
@@ -26,19 +23,19 @@ function MainScreen({ setActivePage, activePage }) {
     setActivePage(componentName);  // 페이지 상태 업데이트
     switch (componentName) {
       // case 'DashBoard':
-      //   setMainTitle("메일 Compliance 점검  / PIE 챗봇");
+      //   setMainTitle("Mail Compliance 점검  / PIE 챗봇");
       //   return lazy(() => import('../dashboard/DashBoard'));
       case 'DashBoard':
-        setMainTitle("메일 Compliance 점검");  // 메일 Compliance 점검 타이틀
+        setMainTitle("Mail Compliance 점검");  // Mail Compliance 점검 타이틀
         return lazy(() => import('../dashboard/DashBoard'));
       case 'PIEChatbot':
         setMainTitle("PIE 챗봇");  // PIE 챗봇 타이틀
         return lazy(() => import('../dashboard/PIEChatbot')); // 새로운 PIE Chatbot 컴포넌트
       case 'LLMOPS':
-        setMainTitle("메일 Compliance 점검 - Evaluation");
-        return lazy(() => import('../dashboard/EvalDashBoard'));
+        setMainTitle("LLMOPS");
+        return lazy(() => import('../dashboard/LLMOPS'));
       case 'Evaluation':
-        setMainTitle("메일 Compliance 점검 - Evaluation");
+        setMainTitle("Mail Compliance 점검 - Evaluation");
         return lazy(() => import('../dashboard/EvalDashBoard'));
       case 'Sub4':
         setMainTitle("Sub4");
@@ -98,7 +95,7 @@ function MainScreen({ setActivePage, activePage }) {
                 isActivePage === false ? (
                   <>
                     <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
-                      메일 Compliance 점검
+                      Mail Compliance 점검
                     </button>
                     <div className="separator"></div>
                     <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
@@ -108,9 +105,9 @@ function MainScreen({ setActivePage, activePage }) {
                 ) : (
                   <>
                     <button onClick={() => handleItemClick('DashBoard')} className="nav-item-create">
-                      메일 Compliance 점검
+                      Mail Compliance 점검
                     </button>
-                    <BsChevronDoubleRight className="nav-item-create-header" />
+                    <BsChevronRight className="nav-item-create-header" />
                     
                     
                     <div className="nav-item-create-active">신규 점검 생성</div>

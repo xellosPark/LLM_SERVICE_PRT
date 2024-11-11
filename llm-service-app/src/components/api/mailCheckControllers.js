@@ -65,7 +65,7 @@ export const promptFileLoad = async () => {
         const response = await api.post(`${ip}/api/datas/prompt`);
         return response;
   } catch (error) {
-    console.log('MailCheckStart Error Code ', error.status);
+    console.log('MailCheckStart Error Code ', error, error.status);
       return error.status;
   }
 }
@@ -81,7 +81,7 @@ export const fileSave = async (fileNames) => {
         return response;
   } catch (error) {
     if (error.status === 500) {
-      console.log('MailCheckStart Error Code ', error.status);
+      console.log('MailCheckStart Error Code ', error, error.status);
       return error.status;
   }
   return undefined;

@@ -1,5 +1,5 @@
 /* 모달의 배경을 어둡게 처리 */
-.table-modal-overlay {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,9 +13,9 @@
 }
 
 /* 모달 콘텐츠 */
-.table-modal-content {
+.modal-content {
   background: white;
-  padding: 25px 25px 20px 25px;
+  padding: 20px;
   border-radius: 8px;
   max-width: 600px;
   width: 100%;
@@ -24,7 +24,7 @@
 }
 
 /* X 버튼 스타일 */
-.table-close-button {
+.close-button {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -35,70 +35,51 @@
   cursor: pointer;
 }
 
-.table-close-button:hover {
+.close-button:hover {
   border-radius: 8px;
   background-color: #9A4444;
   color: white;
   border: none;
 }
 
-.table-modal-content-title {
+.modal-content-title {
   display: flex;
   justify-content: left;
   align-items: baseline;
-  margin-top: 10px;
-  font-weight: border;
 }
 
-.table-modal-content-title h3 {
+.modal-content-title h2 {
   margin-right: 5px;
 }
 
-.table-modal-content-title p {
-  font-size: 15px;
-  font-weight: bolder;
-}
-
-.table-modal-model {
-  margin-top: 30px;
-}
-
-.table-modal-label {
-  margin-top: 20px;
-  margin-bottom: 7px;
-}
-
-.table-modal-content-model {
-  background-color: #f8f8f8;
+.modal-content-model {
+  background-color: rgb(240, 240, 240);
   border-radius: 8px;
-  /* margin-bottom: 20px; */
 }
 
-.table-modal-content-model p {
+.modal-content-model p {
   padding: 5px 5px 5px 10px;
   margin-top: 5px;
   color: gray;
-  font-size: 13px;
 }
 
-.table-data-section {
+.data-section {
   display: flex;
   flex-direction: column;
   margin-top: 5px;
   gap: 5px;
-  margin-bottom: 20px;
 }
 
-.table-row {
+.row {
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 12px;
 }
 
-.table-data-row {
+.data-row {
   padding: 8px 20px;
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
@@ -106,22 +87,21 @@
   text-align: center;
 }
 
-.table-file-name {
+.file-name {
   background-color: #f8f8f8;
-  /* border: 1px solid #e0e0e0; */
+  border: 1px solid #e0e0e0;
   padding: 8px 20px;
   border-radius: 4px;
   width: 100%;
   max-width: 395px;
+
   white-space: nowrap; /* 텍스트를 한 줄로 고정 */
   overflow: hidden; /* 넘치는 내용은 숨김 */
   text-overflow: ellipsis; /* 넘치는 부분은 '...'으로 표시 */
-  color: gray;
 }
 
- /* 툴팁으로 표시될 내용 */
-/* .table-file-name:hover::after, .table-keyword-name:hover::after {
-  content: attr(data-tooltip);
+.file-name:hover::after, .keyword-name:hover::after {
+  content: attr(data-tooltip); /* 툴팁으로 표시될 내용 */
   position: absolute;
   background-color: #333;
   color: #fff;
@@ -134,13 +114,13 @@
   z-index: 100;
   opacity: 0;
   transition: opacity 0.3s ease;
-  pointer-events: none;
+  pointer-events: none; /* 마우스 포인터가 툴팁에 영향을 미치지 않게 */
   opacity: 1;
-} */
+}
 
-.table-data-delete {
+.data-delete {
   padding: 8px 20px;
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
@@ -150,45 +130,45 @@
   text-align: center;
 }
 
-.table-keywords-row {
+.keywords-row {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
 }
 
-.table-keywords {
+.keywords {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.table-keyword {
-  background-color: rgb(233, 243, 255);
-  padding: 7px 20px;
+.keyword {
+  background-color: #717D9E;
+  padding: 10px 20px;
   border-radius: 20px;
-  color: rgb(0, 0, 0);
+  color: white;
+  font-weight: bold;
   width: 70px;
   text-align: center;
 }
 
-.table-keyword-name {
+.keyword-name {
   background-color: #f8f8f8;
-  /* border: 1px solid #e0e0e0; */
+  border: 1px solid #e0e0e0;
   padding: 8px 20px;
   border-radius: 4px;
   width: 100%;
-  color: gray;
 }
 
-.table-modal-close {
+.modal-close {
   display: flex;
   justify-content: right;
   align-items: center;
   margin-top: 8px;
 }
 
-.table-modal-close-button {
+.modal-close-button {
   cursor: pointer;
   padding: 8px 16px;
   background-color: #9A4444;
@@ -197,6 +177,6 @@
   border-radius: 4px;
 }
 
-.table-modal-close-button:hover {
+.modal-close-button:hover {
   background-color: #664343;
 }

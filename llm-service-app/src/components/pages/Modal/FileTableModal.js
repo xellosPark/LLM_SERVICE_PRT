@@ -3,6 +3,12 @@ import "./FileTableModal.css"; // 모달에 대한 스타일을 별도 파일로
 
 const FileTableModal = ({ data, onClose }) => {
   if (!data) return null;
+
+  const timeReplace = (time) => {
+    // 특정 문자 집합 제거
+    let result = time.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
+    return result;
+  }
   
   return (
     <div className="table-modal-overlay" onClick={onClose}>
@@ -10,7 +16,10 @@ const FileTableModal = ({ data, onClose }) => {
         <button className="table-close-button" onClick={onClose}>
           &times;
         </button>
-        <div className="table-modal-content-title"><h3>[{data.id}] {data[0]?.uploaded_time || 'Nan'}</h3><p>(Job Id: {data[0]?.job_id || 'Nan'})</p></div>
+        <div className="table-modal-content-title">
+          <h3>[{data.id}] {timeReplace(data[0]?.uploaded_time) || 'Nan'}</h3>
+          <p style={{ color: 'gray', fontSize: '12px', fontWeight: 'normal', marginLeft: '7px' }}>(Job Id : {data[0]?.job_id || 'Nan'})</p>
+        </div>
         <div className="table-modal-model">Model</div>
         <div className="table-modal-content-model"><p>{data[0]?.model_name || 'Nan'}</p></div>
 
@@ -44,9 +53,9 @@ const FileTableModal = ({ data, onClose }) => {
           </div>
         </div>
 
-        <div className="table-modal-close">
+        {/* <div className="table-modal-close">
         <button className="table-modal-close-button" onClick={onClose}>Close</button>
-        </div>
+        </div> */}
         
       </div>
     </div>

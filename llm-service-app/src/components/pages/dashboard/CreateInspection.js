@@ -5,8 +5,10 @@ import axios from 'axios';
 import './CreateInspection.css';
 import { MailCheckStart, fileSave, promptFileLoad } from "../../api/mailCheckControllers";
 import { Navigate, useNavigate } from 'react-router-dom';
+import Upload from '../../../logos/file_upload.png'
+import Modify from '../../../logos/modify_prompt.png'
 
-const socket = io('http://165.244.190.28:5000', {
+const socket = io('ws://165.244.190.28:5000', {
     transports: ['websocket'],
     reconnection: true,
 }); // 서버 주소 설정
@@ -38,15 +40,22 @@ const ModalPrompt = ({setIsPromteModalOpen, isPromptModalOpen, setPromptContent,
         <>
             <div className="modal-prompt-overlay">
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <h2>Prompt 수정</h2>
+                    <h2>기술자료 prompt 수정하기</h2>
                     <div>
-                        <textarea style={{width: '450px', height: '300px', fontSize: '16px' }}
+                        <textarea style={{
+                            width: '570px', 
+                            height: '580px', 
+                            fontSize: '16px', 
+                            border: '1px solid lightgray',
+                            paddingTop: '10px', 
+                            paddingLeft: '10px',
+                        }}
                         rows={10}
                         value={promptContent} onChange={handlePromptChange} />
                     </div>
-                    <div>
-                    <button className="modal-prompt-save" onClick={saveModal}>저장</button>
-                    <button className="modal-prompt-close" onClick={closeModal}>닫기</button>
+                    <div class="modal-prompt-button-container">
+                        <button className="modal-prompt-save" onClick={saveModal}>Save</button>
+                        <button className="modal-prompt-close" onClick={closeModal}>Close</button>
                     </div>
                 </div>
             </div>
@@ -145,32 +154,32 @@ const CreateInspection = () => {
 
     const handleMailCheckStart = async () => {
         if (fileNames.mail_info_csv === '' || fileNames.mail_info_csv === undefined) {
-            alert('csv 파일을 선택해주세요');
+            alert('csv 파일을 업로드해주세요.');
             return;
         }
 
         if (fileNames.mail_body_zip === '' || fileNames.mail_body_zip === undefined) {
-            alert('zip 파일을 선택해주세요');
+            alert('zip 파일을 업로드해주세요.');
             return;
         }
 
         // if (fileNames.data_request_system_xlsx === '' || fileNames.data_request_system_xlsx === undefined) {
-        //     alert('xlsx 파일을 선택해주세요');
+        //     alert('xlsx 파일을 업로드해주세요.');
         //     return;
         // }
 
         // if (fileNames.title === '' || fileNames.title === undefined) {
-        //     alert('title txt 파일을 선택해주세요');
+        //     alert('제목 txt 파일을 업로드해주세요.');
         //     return;
         // }
 
         // if (fileNames.receiver === '' || fileNames.receiver === undefined) {
-        //     alert('receiver txt 파일을 선택해주세요');
+        //     alert('실수취인 txt 파일을 업로드해주세요.');
         //     return;
         // }
 
         if (selectedOption === '' || selectedOption === undefined) {
-            alert('모델을 선택해 주세요');
+            alert('모델을 선택해주세요.');
             return;
         }
 
@@ -288,25 +297,25 @@ const CreateInspection = () => {
 
     return (
         <div className="create-container">
-            {/* 기존 UI */}
+            {/* Data 섹션 */}
             <div className="section">
                 <div className="section-title">
                     <div className="title">Data</div>
                     <div>
-                        <div className="file-item">
-                            <div className="file-info">
-                                <img
-                                    src="https://img.icons8.com/?size=100&id=2577&format=png&color=000000"
-                                    alt="pdf icon"
-                                    className="file-icon"
-                                />
-                                <div className="file-details">
-                                    <p className="file-names file-margin">메일 정보</p>
-                                </div>
 
-                                <button className="csv-open-btn" onClick={() => document.getElementById('file-input-mail_info_csv').click()}>
+                        {/* 메일 정보 */}
+                        <div className="file-item">
+                            {/* 메일 정보 박스 */}
+                            <div className="file-details">
+                                <p className="file-names">
+                                    <span className="red-star">* </span>메일 정보
+                                </p>
+                            </div>
+                            {/* csv 버튼 박스 */}
+                            <div className="file-info">
+                                <button className="open-btn" onClick={() => document.getElementById('file-input-mail_info_csv').click()}>
                                     <img
-                                        src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                        src={Upload}
                                         alt="csvfileOpen"
                                         className="csvfileOpen-icon"
                                     />
@@ -322,177 +331,147 @@ const CreateInspection = () => {
                                 <div className="file-upload-list">{fileNames.mail_info_csv || 'csv 파일만 업로드 가능합니다.'}</div>
                             </div>
                         </div>
-                        {/* 다른 파일 입력 영역 */}
+                        
+                        {/* 메일 본문 */}
                         <div className="file-item">
-                            <div className="file-info">
-                                <img
-                                    src="https://img.icons8.com/?size=100&id=312&format=png&color=000000"
-                                    alt="pdf icon"
-                                    className="file-icon"
-                                />
-
-                                <div className="file-details">
-                                    <p className="file-names file-margin">메일 본문</p>
-                                </div>
-                                <button className="csv-open-btn" onClick={() => document.getElementById('file-input-mail_body_zip').click()}>
-                                    <img
-                                        src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                                        alt="csvfileOpen"
-                                        className="csvfileOpen-icon"
-                                    />
-                                </button>
-
-                                <div className="file-upload-list">{fileNames.mail_body_zip ? fileNames.mail_body_zip : 'zip 파일만 업로드 가능합니다.'}</div>
-
+                            {/* 메일 본문 박스 */}
+                            <div className="file-details">
+                                <p className="file-names">
+                                    <span className="red-star">* </span>메일 본문
+                                </p>
                             </div>
-                            <input
-                                id="file-input-mail_body_zip"
-                                type="file"
-                                style={{ display: 'none' }}
-                                onChange={(e) => { handleFileChange(e, 'mail_body_zip'); handleFile(e, 'mail_body_zip'); }}
-                                accept=".zip"
-                                multiple
-                            />
-
-                        </div>
-                        <div className="file-item">
+                            {/* zip 버튼 박스 */}
                             <div className="file-info">
-                                <img
-                                    src="https://img.icons8.com/?size=100&id=2937&format=png&color=000000"
-                                    alt="xlsx icon"
-                                    className="file-icon"
-                                />
-
-                                <div className="file-details">
-                                    <p className="file-names">자료요청 시스템 정보</p>
-                                </div>
-                                <button className="csv-open-btn" onClick={() => document.getElementById('file-input-data_request_system_xlsx').click()}>
+                                <button className="open-btn" onClick={() => document.getElementById('file-input-mail_body_zip').click()}>
                                     <img
-
-                                        src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
+                                        src={Upload}
                                         alt="csvfileOpen"
                                         className="csvfileOpen-icon"
                                     />
                                 </button>
+                                <input
+                                    id="file-input-mail_body_zip"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => { handleFileChange(e, 'mail_body_zip'); handleFile(e, 'mail_body_zip'); }}
+                                    accept=".zip"
+                                    multiple
+                                />
+                                <div className="file-upload-list">{fileNames.mail_body_zip ? fileNames.mail_body_zip : 'zip 파일만 업로드 가능합니다.'}</div>
+                            </div>
+                        </div>
 
+                        {/* 자료요청 시스템 정보 */}
+                        <div className="file-item">
+                            {/* 자료요청 시스템 정보 박스 */}
+                            <div className="file-details">
+                                <p className="file-names">자료요청 시스템 정보</p>
+                            </div>
+                            {/* xlsx 버튼 박스 */}
+                            <div className="file-info">
+                                <button className="open-btn" onClick={() => document.getElementById('file-input-data_request_system_xlsx').click()}>
+                                    <img
+                                        src={Upload}
+                                        alt="csvfileOpen"
+                                        className="csvfileOpen-icon"
+                                    />
+                                </button>
+                                <input
+                                    id="file-input-data_request_system_xlsx"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => { handleFileChange(e, 'data_request_system_xlsx'); handleFile(e, 'data_request_system_xlsx'); }}
+                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                    multiple
+                                />
                                 <div className="file-upload-list">{fileNames.data_request_system_xlsx ? fileNames.data_request_system_xlsx : 'xlsx 파일만 업로드 가능합니다.'}</div>
                             </div>
                         </div>
-                        <input
-                            id="file-input-data_request_system_xlsx"
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={(e) => { handleFileChange(e, 'data_request_system_xlsx'); handleFile(e, 'data_request_system_xlsx'); }}
-                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            multiple
-                        />
 
-                        <div className="field-wrapper">
-                            <img src="https://img.icons8.com/?size=40&id=2290&format=png&color=000000" alt="txtfile"></img>
-                            <label>제거 키워드 정보</label>
-                            <div className="custom-field-wrapper">
-                                {/* <div className="flex-row">
-
-                <label className="file-delete-label">보낸사람</label>
-
-                <button className="icon-button" type="button" onClick={() => triggerFileSelect('file-input-senduser')}>
-                  <img
-                    src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                    alt="csvfileOpen"
-                    className="csvfileOpen-icon"
-                  />
-                </button>
-
-                <input
-                  id="file-input-senduser"
-                  type="file"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFileChange(e, 'senduser')}
-                  accept="text/plain"
-                />
-                <div className="file-upload-list">{fileNames.senduser ? fileNames.senduser : 'txt파일만 업로드 가능합니다.'}</div>
-              </div>
-
-              <br /> */}
-
-                                {/* 제목 */}
-                                <div className="flex-row">
-                                    <label className="file-delete-label">제목</label>
-                                    <button className="icon-button" onClick={() => document.getElementById('file-input-title').click()}>
-                                        <img
-                                            src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                                            alt="csvfileOpen"
-                                            className="csvfileOpen-icon"
-                                        />
-                                    </button>
-                                    <input
-                                        id="file-input-title"
-                                        type="file"
-                                        style={{ display: 'none' }}
-                                        onChange={(e) => { handleFileChange(e, 'title'); handleFile(e, 'title'); }}
-                                        accept="text/plain"
-                                        multiple
+                        {/* 제거 키워드 정보 - 실수취인 */}
+                        <div className="file-item">
+                            {/* 제거 키워드 정보 박스 */}
+                            <div className="file-details">
+                                <p className="file-names">제거 키워드 정보</p>
+                            </div>
+                            {/* 실수취인 박스 */}
+                            <label className="file-delete-label" style={{ display: 'flex', justifyContent: 'center' }}>실수취인</label>
+                            {/* 실수취인 txt 버튼 박스 */}
+                            <div className="file-info">
+                                <button className="open-btn" onClick={() => document.getElementById('file-input-receiver').click()}>
+                                    <img
+                                        src={Upload}
+                                        alt="csvfileOpen"
+                                        className="csvfileOpen-icon"
                                     />
-                                    <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt파일만 업로드 가능합니다.'}</div>
-                                </div>
+                                </button>
+                                <input
+                                    id="file-input-receiver"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => { handleFileChange(e, 'receiver'); handleFile(e, 'receiver'); }}
+                                    accept="text/plain"
+                                    multiple
+                                />
+                                <div className="file-upload-list">{fileNames.receiver ? fileNames.receiver : 'txt 파일만 업로드 가능합니다.'}</div>
+                            </div>
+                        </div>
 
-                                <br />
-
-                                {/* 실수취인 */}
-                                <div className="flex-row">
-                                    <label className="file-delete-label">실수취인</label>
-
-                                    <button className="icon-button" type="button" onClick={() => document.getElementById('file-input-receiver').click()}>
-                                        <img
-                                            src="https://img.icons8.com/?size=100&id=37784&format=png&color=BB0841"
-                                            alt="csvfileOpen"
-                                            className="csvfileOpen-icon"
-                                        />
-                                    </button>
-
-                                    <input
-                                        id="file-input-receiver"
-                                        type="file"
-                                        style={{ display: 'none' }}
-                                        onChange={(e) => { handleFileChange(e, 'receiver'); handleFile(e, 'receiver'); }}
-                                        accept="text/plain"
-                                        multiple
+                        {/* 제거 키워드 정보 - 제목 */}
+                        <div className="file-item">
+                            {/* 빈 박스 */}
+                            <div className="file-details-empty">
+                                <p className="file-names"> </p>
+                            </div>
+                            {/* 제목 박스 */}
+                            <label className="file-delete-label" style={{ display: 'flex', justifyContent: 'center' }}>제목</label>
+                            {/* 제목 txt 버튼 박스 */}
+                            <div className="file-info">
+                                <button className="open-btn" onClick={() => document.getElementById('file-input-title').click()}>
+                                    <img
+                                        src={Upload}
+                                        alt="csvfileOpen"
+                                        className="csvfileOpen-icon"
                                     />
-                                    <div className="file-upload-list">{fileNames.receiver ? fileNames.receiver : 'txt파일만 업로드 가능합니다.'}</div>
-                                </div>
+                                </button>
+                                <input
+                                    id="file-input-title"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => { handleFileChange(e, 'title'); handleFile(e, 'title'); }}
+                                    accept="text/plain"
+                                    multiple
+                                />
+                                <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt 파일만 업로드 가능합니다.'}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {/* Model 섹션 */}
             <div className="section">
                 <div className="section-title">
                     <div className="title">Model</div>
                     <select className="dropdown" value={selectedOption} onChange={handleDropChange}>
-                        <option value="" disabled>Model을 선택하세요.</option>
-                        <option value="Gemma2:27b">Gemma2:27b</option>
+                        <option value="" disabled>사용할 model을 선택하세요.</option>
                         <option value="gemma">gemma</option>
+                        <option value="exaone">exaone</option>
                     </select>
                 </div>
             </div>
 
-            {/*세 번째 섹션 */}
+            {/* Prompt Engineering 섹션 + 점검 시작 버튼 */}
             <div className="section">
                 <div className="section-title">
                     <div className="title">Prompt Engineering</div>
                     <button className="icon-button-edit" onClick={handleEditPrompt}>
-                        {/* Run 아이콘 설정 */}
-                        <img src="https://img.icons8.com/?size=100&id=71201&format=png&color=e25977" alt="edit icon" />
-                        기술 자료 prompt 수정하기
+                        <img src={Modify} alt="edit icon" />기술자료 prompt 수정하기
                     </button>
                 </div>
                 <div className="run-button">
                     <div>
-                        {/* 하단 버튼 */}
                         <button className="icon-button-run" onClick={handleMailCheckStart}>
-                            {/* Run 아이콘 설정 */}
-                            <img src="https://img.icons8.com/ios-filled/50/c9415e/play.png" alt="run icon" />
                             점검 시작
                         </button>
                     </div>
