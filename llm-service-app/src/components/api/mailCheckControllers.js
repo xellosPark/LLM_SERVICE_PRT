@@ -65,7 +65,7 @@ export const promptFileLoad = async () => {
         const response = await api.post(`${ip}/api/datas/prompt`);
         return response;
   } catch (error) {
-    console.log('MailCheckStart Error Code ', error.status);
+    console.log('MailCheckStart Error Code ', error, error.status);
       return error.status;
   }
 }

@@ -3,6 +3,12 @@ import "./FileTableModal.css"; // 모달에 대한 스타일을 별도 파일로
 
 const FileTableModal = ({ data, onClose }) => {
   if (!data) return null;
+
+  const timeReplace = (time) => {
+    // 특정 문자 집합 제거
+    let result = time.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
+    return result;
+  }
   
   return (
     <div className="table-modal-overlay" onClick={onClose}>

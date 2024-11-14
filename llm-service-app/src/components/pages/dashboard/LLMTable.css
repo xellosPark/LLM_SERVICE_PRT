@@ -105,3 +105,19 @@
   .result-button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* 버튼에 그림자 추가 */
   }
+
+  .MuiDataGrid-cell:focus, .MuiDataGrid-cell:focus-within, .MuiDataGrid-cell.mui-focus,
+  .MuiDataGrid-columnHeader:focus, .MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-columnHeader.mui-focus {
+      outline: none !important;
+      box-shadow: none !important;
+  }
+
+  .eval_result {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .eval_result > span {
+    border-bottom: solid 1px;
+  }
