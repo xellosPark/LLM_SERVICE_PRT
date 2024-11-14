@@ -24,7 +24,7 @@ const ToggleButton = React.memo(({ isRisk, onClick }) => (
     </button>
 ));
 
-const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
+const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, isTab4Visible }) => {
     const [datas, setDatas] = useState([]);
     const [buttonStates, setButtonStates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,29 +44,44 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     const resizingState = useRef({ startX: 0, startWidth: 0, containerWidth: 0 });
 
     const loadDatasFromLocalStorage = () => {
-        const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        const storedData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
         const currentSheetData = storedData.find(sheetData => {
             if (tabName === "Tab1") return sheetData.sheet === "High Risk - 기술 자료 요청";
             if (tabName === "Tab2") return sheetData.sheet === "Potential Risk - 일반 자료 요청";
             if (tabName === "Tab3") return sheetData.sheet === "No Risk - 자료 요청 없음";
+            if (tabName === "Tab4") return sheetData.sheet === "최종 Risk";
             return false;
         });
 
         if (currentSheetData) {
-            const loadedData = currentSheetData.rows.map((row, index) => {
-                const rowData = { id: index + 1, no: index + 1 };
+            const loadedData = tabName === "Tab4"
+                ? currentSheetData.rows.map((row, index) => {
+                    // Tab4일 경우의 로직
+                    const rowData = { id: index + 1, no: index + 1 };
 
-                row.forEach((value, i) => {
-                    // field0, field1... 형태로 row[i+4] 값을 저장
-                    rowData[`field${i}`] = row[i + 5] || '';
+                    row.forEach((value, i) => {
+                        // Tab4에서는 field0, field1... 형태로 row[i] 값을 저장
+                        rowData[`field${i}`] = row[i] || '';
+                    });
+
+                    return rowData;
+                })
+                : currentSheetData.rows.map((row, index) => {
+                    // Tab4가 아닐 경우의 기존 로직
+                    const rowData = { id: index + 1, no: index + 1 };
+
+                    row.forEach((value, i) => {
+                        // field0, field1... 형태로 row[i+4] 값을 저장
+                        rowData[`field${i}`] = row[i + 5] || '';
+                    });
+
+                    // 추가 필드 설정
+                    rowData.complianceRisk = row[2] || '';
+                    rowData.MoveColor = row[3] || '';
+
+                    return rowData;
                 });
 
-                // 추가 필드 설정
-                rowData.complianceRisk = row[2] || '';
-                rowData.MoveColor = row[3] || '';
-
-                return rowData;
-            });
 
             setDatas(loadedData);
             setButtonStates(loadedData.map(data => data.complianceRisk === 'Risk'));
@@ -90,11 +105,12 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     };
 
     const getColumnsFromHeaders = (tabName) => {
-        const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        const storedData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
         const sheetMap = {
             "Tab1": "High Risk - 기술 자료 요청",
             "Tab2": "Potential Risk - 일반 자료 요청",
-            "Tab3": "No Risk - 자료 요청 없음"
+            "Tab3": "No Risk - 자료 요청 없음",
+            "Tab4": "최종 Risk"
         };
         const currentSheetData = storedData.find(sheetData => sheetData.sheet === sheetMap[tabName]);
 
@@ -107,7 +123,9 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 });
             });
         }
-        columns.push({ key: 'complianceRisk', label: 'Compliance Risk' });
+        if (tabName !== "Tab4" && isTab4Visible === false) {
+            columns.push({ key: 'complianceRisk', label: 'Compliance Risk' });
+        }
         return columns;
     };
 
@@ -118,12 +136,12 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     }, [tabName]);
 
     const startResizing = (e, columnKey) => {
-        // "Compliance Risk" 열의 크기 조정을 비활성화
+           // "Compliance Risk" 열의 크기 조정을 비활성화
         if (columnKey === 'complianceRisk') return;
 
         const containerWidth = 1400;
         console.log("Table Container Width:", containerWidth); // 테이블 전체 너비 출력
-
+        
         const startWidth = columnRefs.current[columnKey] ? columnRefs.current[columnKey].offsetWidth : 0;
         const startX = e.clientX;
 
@@ -143,6 +161,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                         updatedWidths[key] *= scalingFactor;
                     }
                 });
+
                 return updatedWidths;
             });
         };
@@ -164,70 +183,70 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
     const handleApplyAction = async () => {  // async 추가
         console.log("=== Apply 버튼 클릭됨 ===");
-
+    
         // localStorage에서 데이터 가져오기
-        let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        let allSheetData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
         const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
         const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
         const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "Potential Risk - 일반 자료 요청");
-
+    
         if (tabName === "Tab1") {
             // 기존 Tab1에서 No Risk로 이동하는 로직 (이전 코드 유지)
             if (highRiskSheetData && noRiskSheetData) {
                 // Step 1: High Risk에서 No Risk로 이동할 항목 필터링
                 const itemsToMove = highRiskSheetData.rows.filter(row => row[2] === 'No Risk');
                 console.log("이동할 항목:", itemsToMove);
-
+    
                 // Step 2: High Risk 탭에서 이동할 항목 제거
                 highRiskSheetData.rows = highRiskSheetData.rows.filter(row => row[2] !== 'No Risk');
                 console.log("High Risk에서 제거된 후의 rows:", highRiskSheetData.rows);
-
-
+    
+               
                 itemsToMove.forEach(item => {
-                    const Movetype = item[3];
+                    const Movetype =  item[3];
                     item[3] = Movetype === 'move' ? 'None' : 'move';               // 원래 위치의 상태 초기화
                 });
-
+    
                 noRiskSheetData.rows = [...itemsToMove, ...noRiskSheetData.rows];
                 //console.log("No Risk 탭에 추가된 후의 rows:", noRiskSheetData.rows);
-
+    
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
-
+                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+    
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
-
+    
                 // Step 6: 500ms 대기
                 await new Promise(resolve => setTimeout(resolve, 300)); // 대기 시간 추가
             } else {
                 console.log("오류: 이동할 수 없습니다. 필수 데이터가 누락되었습니다.");
             }
-
+    
         } else if (tabName === "Tab2") {
             // Tab2에서 High Risk로 이동하는 로직 추가
             if (potentialRiskSheetData && highRiskSheetData) {
                 // Step 1: Potential Risk에서 High Risk로 이동할 항목 필터링
                 const itemsToMove = potentialRiskSheetData.rows.filter(row => row[2] === 'Risk');
                 console.log("Potential Risk에서 High Risk로 이동할 항목:", itemsToMove);
-
+    
                 // Step 2: Potential Risk 탭에서 이동할 항목 제거
                 potentialRiskSheetData.rows = potentialRiskSheetData.rows.filter(row => row[2] !== 'Risk');
                 console.log("Potential Risk에서 제거된 후의 rows:", potentialRiskSheetData.rows);
-
+    
                 // Step 3: 이동 항목을 High Risk 탭 상단에 추가하고, 배경색을 회색으로 설정
                 itemsToMove.forEach(item => {
                     item[3] = 'move';     // 회색 배경을 위한 플래그 추가
                 });
-
+    
                 highRiskSheetData.rows = [...itemsToMove, ...highRiskSheetData.rows];
                 console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
-
+    
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
-
+                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+    
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
-
+    
                 // Step 6: 500ms 대기
                 await new Promise(resolve => setTimeout(resolve, 500)); // 대기 시간 추가
             } else {
@@ -235,7 +254,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
             }
 
         } else if (tabName === "Tab3") {
-            // Tab3 (No Risk)에서 High Risk로 이동하는 로직 추가
+             // Tab3 (No Risk)에서 High Risk로 이동하는 로직 추가
             if (noRiskSheetData && highRiskSheetData) {
                 // Step 1: No Risk에서 High Risk로 이동할 항목 필터링
                 const itemsToMove = noRiskSheetData.rows.filter(row => row[2] === 'Risk');
@@ -247,7 +266,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
                 // Step 3: 이동 항목을 High Risk 탭 상단에 추가하고, 배경색을 회색으로 설정
                 itemsToMove.forEach(item => {
-                    const Movetype = item[3];
+                    const Movetype =  item[3];
                     item[3] = Movetype === 'move' ? 'None' : 'move';
                 });
 
@@ -255,7 +274,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 //console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
 
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -285,7 +304,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 });
 
                 // localStorage 동기화
-                let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+                let allSheetData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
                 allSheetData = allSheetData.map((sheetData) => {
                     if (tabName === "Tab1" && sheetData.sheet === "High Risk - 기술 자료 요청") {
                         sheetData.rows = sheetData.rows.map((row, rowIndex) => {
@@ -306,7 +325,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                     return sheetData;
                 });
 
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
                 //loadDatasFromLocalStorage();
 
                 return updatedDatas;
@@ -359,7 +378,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
     return (
         <div>
-            <div style={{ width: '1400px' }}> {/* Fixed width for the table container */}
+            <div style={{ width: '1400px'}}> {/* Fixed width for the table container */}
                 <table className="eval-table" ref={tableRef}>
                     <thead>
                         <tr>
@@ -411,22 +430,22 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                     <tbody>
                         {currentItems.map((row, rowIndex) => (
                             <tr key={rowIndex} className={row.MoveColor === 'move' ? 'row-gray' : 'row-white'}>
-                                {selectedColumns.map((column, colIndex) => (
-                                    <td
-                                        key={colIndex}
-                                        onClick={(e) => handleColumnClick(e, row[column.key])} // 각 셀 클릭 시 handleColumnClick 호출
-                                    >
-                                        {column.key === 'complianceRisk' ? (
-                                            <ToggleButton
-                                                isRisk={buttonStates[rowIndex]}
-                                                onClick={() => handleToggle(rowIndex)}
-                                            />
-                                        ) : (
-                                            row[column.key]
-                                        )}
-                                    </td>
-                                ))}
-                            </tr>
+                            {selectedColumns.map((column, colIndex) => (
+                                <td
+                                    key={colIndex}
+                                    onClick={(e) => handleColumnClick(e, row[column.key])} // 각 셀 클릭 시 handleColumnClick 호출
+                                >
+                                    {column.key === 'complianceRisk' ? (
+                                        <ToggleButton
+                                            isRisk={buttonStates[rowIndex]}
+                                            onClick={() => handleToggle(rowIndex)}
+                                        />
+                                    ) : (
+                                        row[column.key]
+                                    )}
+                                </td>
+                            ))}
+                        </tr>
                         ))}
                     </tbody>
                 </table>
@@ -449,22 +468,23 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                     <Pagination postsPerPage={itemsPerPage} totalPosts={datas.length} paginate={paginate} currentPage={currentPage} />
                 </div>
                 <div>
-                    <button
-                        style={{
-                            padding: '10px 20px',
-                            backgroundColor: '#d9534f',
-                            color: '#ffffff',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                            marginLeft: '15px'
-                        }}
+        <button
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#d9534f',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginLeft: '15px'
+          }}
 
-                        onClick={() => handleEvalEnd()}> 평가완료</button>
-                </div>
+          onClick={isTab4Visible ? () => handleEdit() : () => handleEvalEnd()}>  {isTab4Visible ? '수정하기' : '평가완료'}
+        </button>
+      </div>
             </div>
         </div>
     );
 };
 
-export default EvaluationTable;
+export default EvaluationTableView;

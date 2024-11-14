@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import './EvalDashBoard.css';
-import EvaluationTable from "./EvaluationTable";
+import EvaluationTable from "./EvaluaionTableView";
 import { LoadResultFile, SendEvalData } from "../../api/evaluationController";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { LoadChecksRow } from "../../api/DBControllers";
@@ -10,10 +10,12 @@ const requestTypes = [
   { level: 'High Risk', request: 'High Risk - 기술 자료 요청', riskLabel: 'Risk' },
   { level: 'Potential Risk', request: 'Potential Risk - 일반 자료 요청', riskLabel: 'No Risk' },
   { level: 'No Risk', request: 'No Risk - 자료 요청 없음', riskLabel: 'No Risk' },
+  { level: '최종', request: '최종 Risk', riskLabel: 'none' },
 ];
 
-const EvalDashBoard = () => {
-  const [activeTab, setActiveTab] = useState('Tab1'); // 현재 활성 탭 상태
+const EvalDashBoardView = () => {
+    console.log('여기 확인 ');
+  const [activeTab, setActiveTab] = useState('Tab4'); // 현재 활성 탭 상태
   const [allSheetData, setAllSheetData] = useState([]); // 모든 시트 데이터 상태
   const [error, setError] = useState(null); // 에러 상태
   const [loading, setLoading] = useState(false); // 로딩 상태
@@ -21,6 +23,7 @@ const EvalDashBoard = () => {
   const [riskCount, setRiskCount] = useState({});
   const [movedRisk, setMovedRisk] = useState({});
   const navigate = useNavigate();
+  const [isTab4Visible, setIsTab4Visible] = useState(true); // Tab4 표시 여부를 관리하는 상태
 
   // 컴포넌트가 마운트될 때 로컬 저장소에서 데이터 불러오기
   useEffect(() => {
@@ -28,20 +31,20 @@ const EvalDashBoard = () => {
     setJobId(job_id);
     //const evalStart = localStorage.getItem('Evaluation_Start');
     //if (evalStart === 'true') {
-      //console.log('한번만 들어오냐?');
-
-      //localStorage.setItem('Evaluation_Start', false);
-      fetchAllSheetData();
+    //  console.log('한번만 들어오냐?');
+    //setActiveTab('Tab1');
+    //  localStorage.setItem('Evaluation_Start', false);
+    fetchAllSheetData();
     //} else {
-    //  const storedData = localStorage.getItem('allSheetData');
-     // if (storedData) {
+    //  const storedData = localStorage.getItem('allSheetFinal');
+    //  if (storedData) {
         
-     //   setAllSheetData(JSON.parse(storedData));
-     //   console.log('로컬 저장소에서 불러온 모든 시트 데이터:', JSON.parse(storedData));
+        //setAllSheetData(JSON.parse(storedData));
+       // console.log('로컬 저장소에서 불러온 모든 시트 데이터:', JSON.parse(storedData));
       //}
     //}
 
-    
+    //LoadChecksRowData(job_id);
   }, []); // 빈 배열로 의존성을 설정하여 컴포넌트 마운트 시 한 번만 실행
 
   const LoadChecksRowData = async (job_id) => {
@@ -71,9 +74,12 @@ const EvalDashBoard = () => {
 
       for (const sheet of sheets) {
         console.log(`"${sheet}" 시트에서 데이터 가져오는 중`); // 각 시트의 데이터 가져오기 로그
-        const result = await LoadResultFile(jobId, sheet, 'checks');
+        const result = await LoadResultFile(jobId, sheet, 'evaluations');
         
-
+        if (result === undefined) {
+            setIsTab4Visible(false);
+            continue;
+        }
         //const result = await responce.json();
 
         // 각 행의 마지막에 riskLabel 추가
@@ -100,7 +106,7 @@ const EvalDashBoard = () => {
             rowWithLabel.unshift(sheet);
             rowWithLabel.unshift(rowIndex + 1);
           }
-        
+          
           return rowWithLabel;
         });
         //console.log(`"${sheet}" 시트의 모든 행에 리스크 레이블이 추가되었습니다.`, rowsWithRiskLabel); // 해당 시트 완료 로그
@@ -108,10 +114,9 @@ const EvalDashBoard = () => {
       }
 
       // 로컬 스토리지에 데이터 저장
-      localStorage.setItem('allSheetData', JSON.stringify(allData));
+      localStorage.setItem('allSheetFinal', JSON.stringify(allData));
       setAllSheetData(allData);
       console.log('Risk 라벨이 포함된 모든 시트 데이터:', allData); // 전체 데이터 로그 출력
-
     } catch (err) {
       setError(err.message); // 에러 메시지 설정
       console.error('모든 시트 데이터를 가져오는 동안 오류가 발생했습니다:', err); // 에러 로그 출력
@@ -127,6 +132,16 @@ const EvalDashBoard = () => {
     console.log(`활성 탭이 "${tab}"로 설정되었습니다`); // 활성 탭 로그
   };
 
+  // const handleHideTab4OFF = () => {
+  //   setIsTab4Visible(false); // 버튼을 클릭하면 Tab4를 숨김
+  //   setActiveTab('Tab1');
+  // };
+
+  // const handleHideTab4ON = () => {
+  //   setIsTab4Visible(true); // 버튼을 클릭하면 Tab4를 숨김
+  //   setActiveTab('Tab4');
+  // };
+
   const movedRows = () => {
     const data = {
       risk: {},
@@ -136,7 +151,7 @@ const EvalDashBoard = () => {
       m_potential : {},
       m_no_risk : {},
     };
-    const allSheetData = JSON.parse(localStorage.getItem('allSheetData'));
+    const allSheetData = JSON.parse(localStorage.getItem('allSheetFinal'));
 
     if (allSheetData && Array.isArray(allSheetData)) {
       // 각 requestType을 순회하며 해당 데이터를 필터링합니다.
@@ -180,7 +195,8 @@ const EvalDashBoard = () => {
     const tabMapping = {
       'Tab1': 'High Risk - 기술 자료 요청',
       'Tab2': 'Potential Risk - 일반 자료 요청',
-      'Tab3': 'No Risk - 자료 요청 없음'
+      'Tab3': 'No Risk - 자료 요청 없음',
+      "Tab4": "최종 Risk"
     };
     return allSheetData.find(data => data.sheet === tabMapping[tabName]); // 선택된 탭에 해당하는 데이터 반환
   };
@@ -191,7 +207,7 @@ let moveItemsArray = [];
 
 const LoadMoveVal = () => {
    // 로컬스토리지에서 allSheetData 가져오기
-  const allSheetData = JSON.parse(localStorage.getItem('allSheetData'));
+  const allSheetData = JSON.parse(localStorage.getItem('allSheetFinal'));
 
   // 결과를 저장할 변수
   let itemsToMove = [];
@@ -270,7 +286,7 @@ const LoadMoveVal = () => {
       service_name: "mail_compliance_check", 
       job_id: jobId, 
       user: "nakyeongkim", 
-      evaluation_type: "new", 
+      evaluation_type: "modification", 
       keyword_filtered_num: riskCount.keyword_filtered_num, 
       data_request_system_xlsx_name: "자료현황_1721372445487.xlsx", 
       change_list: {
@@ -293,6 +309,15 @@ const LoadMoveVal = () => {
     }
   }
 
+  const handleEdit = async () => {
+    if (isTab4Visible === false) {
+      setIsTab4Visible(true);
+    } else {
+      setIsTab4Visible(false);
+      setActiveTab('Tab1');
+    }
+  }
+
   const formatData = (value) => {
     return typeof value === 'object' && Object.keys(value).length === 0 ? 0 : value;
   }
@@ -300,6 +325,14 @@ const LoadMoveVal = () => {
   return (
     <div style={{ margin: '10px' }}>
       <div className="tab-buttons">
+      {isTab4Visible && (
+            <button
+                className={activeTab === 'Tab4' ? 'active' : ''}
+                onClick={() => handleTabClick('Tab4')}
+            >
+                최종 Risk
+            </button>
+        )}
         <button
           className={activeTab === 'Tab1' ? 'active' : ''}
           onClick={() => handleTabClick('Tab1')}
@@ -318,26 +351,36 @@ const LoadMoveVal = () => {
         >
           No Risk - 자료 요청 없음
         </button>
+
+        {/* <button onClick={handleHideTab4OFF}>Tab4 지우기 </button>
+        <button onClick={handleHideTab4ON}>Tab4 출력 </button> */}
         {/* <button onClick={fetchAllSheetData}>모든 시트 데이터 가져오기</button> */}
       </div>
 
       <div className="tab-wrapper">
-        {['Tab1', 'Tab2', 'Tab3'].includes(activeTab) && (
+        {['Tab1', 'Tab2', 'Tab3', 'Tab4'].includes(activeTab) && (
           <>
             <div style={{display: 'flex', justifyContent:'space-between', maxWidth: '1700px'}}>
-            <div className="tab-container">
-              <img src="https://img.icons8.com/?size=45&id=80613&format=png&color=000000" alt="tab" />
+            {
+              activeTab !== 'Tab4' && (
+                <div className="tab-container">
+                  <img src="https://img.icons8.com/?size=45&id=80613&format=png&color=000000" alt="tab" />
 
-              <div className="tab-title">
-                {activeTab === 'Tab1' && 'High Risk'}
-                {activeTab === 'Tab2' && 'Potential Risk'}
-                {activeTab === 'Tab3' && 'No Risk'}
-                <div className="tab-title-span">{ 
-                  activeTab === 'Tab1' ? `${riskCount?.risk + formatData(movedRisk?.risk) - formatData(movedRisk?.m_risk)} / ${riskCount.keyword_filtered_num}` : 
-                  activeTab === 'Tab2' ? `${riskCount?.potential - formatData(movedRisk?.m_potential)} / ${riskCount.keyword_filtered_num}` : 
-                  `${riskCount?.no_risk + formatData(movedRisk?.no_risk) - formatData(movedRisk?.m_no_risk)} / ${riskCount.keyword_filtered_num}`}</div>
-              </div>
-            </div>
+                  <div className="tab-title">
+                    {activeTab === 'Tab1' && 'High Risk'}
+                    {activeTab === 'Tab2' && 'Potential Risk'}
+                    {activeTab === 'Tab3' && 'No Risk'}
+                    {activeTab === 'Tab3' && '최종'}
+                    <div className="tab-title-span">{ 
+                      activeTab === 'Tab1' ? `${riskCount?.risk + formatData(movedRisk?.risk) - formatData(movedRisk?.m_risk)} / ${riskCount.keyword_filtered_num}` : 
+                      activeTab === 'Tab2' ? `${riskCount?.potential - formatData(movedRisk?.m_potential)} / ${riskCount.keyword_filtered_num}` : 
+                      activeTab === 'Tab3' ? `${riskCount?.no_risk + formatData(movedRisk?.no_risk) - formatData(movedRisk?.m_no_risk)} / ${riskCount.keyword_filtered_num}` :
+                      ''}</div>
+                  </div>
+                </div>
+              )
+            }
+            
             {/* <div>
               <button 
                 style={{
@@ -366,6 +409,8 @@ const LoadMoveVal = () => {
                     tabName={activeTab}
                     movedRows={movedRows}
                     handleEvalEnd={handleEvalEnd}
+                    handleEdit={handleEdit}
+                    isTab4Visible={isTab4Visible}
                   />
                  ) : (
                   <div>데이터를 불러오는 중이거나 데이터가 없습니다.</div>
@@ -375,11 +420,8 @@ const LoadMoveVal = () => {
           </>
         )}
       </div>
-      
-      {error && <div className="error">{error}</div>}
-      {loading && <div className="loading">로딩 중...</div>}
     </div>
   );
 };
 
-export default EvalDashBoard;
+export default EvalDashBoardView;

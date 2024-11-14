@@ -37,6 +37,9 @@ function MainScreen({ setActivePage, activePage }) {
       case 'Evaluation':
         setMainTitle("Mail Compliance 점검 - Evaluation");
         return lazy(() => import('../dashboard/EvalDashBoard'));
+        case 'Final':
+          setMainTitle("Mail Compliance 점검 - Final");
+          return lazy(() => import('../dashboard/EvalDashBoardView'));
       case 'Sub4':
         setMainTitle("Sub4");
         return lazy(() => import('../Sub4/Sub4'));
@@ -117,11 +120,29 @@ function MainScreen({ setActivePage, activePage }) {
 
             </div>
           </div>
-        ) : (
-          <div className="maintitle">
-            <div>{MainTitle}</div>
-          </div>
-        )}
+        ) :
+          activePage === 'Evaluation' || activePage === 'Final' ? (
+            <div className="navigation-bar">
+              <div className="navigation-title">
+                <>
+                  <button onClick={() => handleItemClick('DashBoard')} className="nav-item-create">
+                    {MainTitle}
+                  </button>
+                </>
+              </div>
+            </div>
+          ) : (
+              <div className="navigation-bar">
+                <div className="navigation-title">
+                  <>
+                    <div className="maintitle">
+                      <div>{MainTitle}</div>
+                    </div>
+                  </>
+                </div>
+              </div>
+            )
+        }
 
 
         <Suspense fallback={
