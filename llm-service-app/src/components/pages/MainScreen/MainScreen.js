@@ -2,8 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Sider from './Sider'; // Sider component
 import './MainScreen.css';  // Import the new CSS file
 import Loading from '../../../logos/loading_light.png'
-import { BsChevronDoubleRight } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { BsChevronRight } from "react-icons/bs";
 
 function MainScreen({ setActivePage, activePage }) {
   const [isCollapsed, setIsCollapsed] = useState(false);  // Sidebar state
@@ -13,7 +12,21 @@ function MainScreen({ setActivePage, activePage }) {
   const [subPage, setSubPage] = useState('Default');
   const [isActivePage, setIsActivePage] = useState(false);
 
-  const navigate = useNavigate();
+  const [navigationStack, setNavigationStack] = useState([]); // 네비게이션 히스토리를 저장하는 상태
+
+  // 항목 클릭을 처리하고 네비게이션 스택을 업데이트하는 함수
+  const handleItemClick = (componentName) => {
+    setActivePage(componentName); // 활성 페이지 업데이트
+
+    // 이전 스택에 새 컴포넌트 이름을 추가하여 네비게이션 스택 저장
+    setNavigationStack((prevStack) => [...prevStack, componentName]);
+  };
+
+  // 전체 네비게이션 스택을 로그로 출력하는 함수
+  const logNavigationStack = () => {
+    console.log("🔍 현재 네비게이션 스택:", navigationStack);
+  };
+
 
   // Toggle Sidebar function
   const toggleSidebar = () => {
@@ -26,20 +39,23 @@ function MainScreen({ setActivePage, activePage }) {
     setActivePage(componentName);  // 페이지 상태 업데이트
     switch (componentName) {
       // case 'DashBoard':
-      //   setMainTitle("메일 Compliance 점검  / PIE 챗봇");
+      //   setMainTitle("Mail Compliance 점검  / PIE 챗봇");
       //   return lazy(() => import('../dashboard/DashBoard'));
       case 'DashBoard':
-        setMainTitle("메일 Compliance 점검");  // 메일 Compliance 점검 타이틀
+        setMainTitle("Mail Compliance 점검");  // Mail Compliance 점검 타이틀
         return lazy(() => import('../dashboard/DashBoard'));
       case 'PIEChatbot':
         setMainTitle("PIE 챗봇");  // PIE 챗봇 타이틀
         return lazy(() => import('../dashboard/PIEChatbot')); // 새로운 PIE Chatbot 컴포넌트
       case 'LLMOPS':
-        setMainTitle("메일 Compliance 점검 - Evaluation");
-        return lazy(() => import('../dashboard/EvalDashBoard'));
+        setMainTitle("LLMOPS");
+        return lazy(() => import('../dashboard/LLMOPS'));
       case 'Evaluation':
-        setMainTitle("메일 Compliance 점검 - Evaluation");
+        setMainTitle("Mail Compliance 점검 - Evaluation");
         return lazy(() => import('../dashboard/EvalDashBoard'));
+        case 'Final':
+          setMainTitle("Mail Compliance 점검 - Final");
+          return lazy(() => import('../dashboard/EvalDashBoardView'));
       case 'Sub4':
         setMainTitle("Sub4");
         return lazy(() => import('../Sub4/Sub4'));
@@ -52,19 +68,19 @@ function MainScreen({ setActivePage, activePage }) {
     }
   };
 
-  // Handle menu item click
-  const handleItemClick = (componentName) => {
-    setSubPage('Default');
-    setIsActivePage(false);
-    const Component = loadComponent(componentName);
-    if (Component) {
-      setActiveComponent(() => Component);
-      //setMainTitle(componentName); // 헤더 제목 설정
-      localStorage.setItem('activeComponent', componentName);  // Save selected component in localStorage
-    } else {
-      console.error(`Component not found: ${componentName}`);
-    }
-  };
+  // // Handle menu item click
+  // const handleItemClick = (componentName) => {
+  //   setSubPage('Default');
+  //   setIsActivePage(false);
+  //   const Component = loadComponent(componentName);
+  //   if (Component) {
+  //     setActiveComponent(() => Component);
+  //     //setMainTitle(componentName); // 헤더 제목 설정
+  //     localStorage.setItem('activeComponent', componentName);  // Save selected component in localStorage
+  //   } else {
+  //     console.error(`Component not found: ${componentName}`);
+  //   }
+  // };
 
   // Restore last selected component on page refresh
   useEffect(() => {
@@ -85,6 +101,7 @@ function MainScreen({ setActivePage, activePage }) {
         isCollapsed={isCollapsed}
         onToggle={toggleSidebar}
         onItemClick={handleItemClick}  // Change component on Sider menu click
+        logNavigationStack={logNavigationStack} // 로그 함수 전달
       />
       <div className="content">
         {/* <div className="maintitle">
@@ -98,7 +115,7 @@ function MainScreen({ setActivePage, activePage }) {
                 isActivePage === false ? (
                   <>
                     <button onClick={() => handleItemClick('DashBoard')} className={`nav-item ${activePage === 'DashBoard' ? 'active' : ''}`}>
-                      메일 Compliance 점검
+                      Mail Compliance 점검
                     </button>
                     <div className="separator"></div>
                     <button onClick={() => handleItemClick('PIEChatbot')} className={`nav-item ${activePage === 'PIEChatbot' ? 'active' : ''}`}>
@@ -108,9 +125,9 @@ function MainScreen({ setActivePage, activePage }) {
                 ) : (
                   <>
                     <button onClick={() => handleItemClick('DashBoard')} className="nav-item-create">
-                      메일 Compliance 점검
+                      Mail Compliance 점검
                     </button>
-                    <BsChevronDoubleRight className="nav-item-create-header" />
+                    <BsChevronRight className="nav-item-create-header" />
                     
                     
                     <div className="nav-item-create-active">신규 점검 생성</div>
@@ -120,11 +137,29 @@ function MainScreen({ setActivePage, activePage }) {
 
             </div>
           </div>
-        ) : (
-          <div className="maintitle">
-            <div>{MainTitle}</div>
-          </div>
-        )}
+        ) :
+          activePage === 'Evaluation' || activePage === 'Final' ? (
+            <div className="navigation-bar">
+              <div className="navigation-title">
+                <>
+                  <button onClick={() => handleItemClick('DashBoard')} className="nav-item-create">
+                    {MainTitle}
+                  </button>
+                </>
+              </div>
+            </div>
+          ) : (
+              <div className="navigation-bar">
+                <div className="navigation-title">
+                  <>
+                    <div className="maintitle">
+                      <div>{MainTitle}</div>
+                    </div>
+                  </>
+                </div>
+              </div>
+            )
+        }
 
 
         <Suspense fallback={

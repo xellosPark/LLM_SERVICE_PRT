@@ -1,9 +1,9 @@
 import api from './api'
 
 
-export const LoadResultFile = async (job_id, sheet) => {
+export const LoadResultFile = async (job_id, sheet, type) => {
   try {
-    const response = await api.get(`http://localhost:5000/api/datas/excel-data?job_id=${job_id}&sheet=${sheet}`);
+    const response = await api.get(`http://localhost:5000/api/datas/excel-data?job_id=${job_id}&sheet=${sheet}&type=${type}`);
       // if (!response.ok) {
       //   throw new Error('시트 데이터를 가져오는 데 실패했습니다');
       // }
@@ -17,7 +17,6 @@ export const LoadResultFile = async (job_id, sheet) => {
   }
   return undefined;
   }
-  
 }
 
 export const SendEvalData = async (data) => {

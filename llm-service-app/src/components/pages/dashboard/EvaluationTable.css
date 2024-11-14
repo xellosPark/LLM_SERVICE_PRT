@@ -1,125 +1,132 @@
 .eval-table-container {
-    overflow-y: auto;
-    height: calc(100vh - 305px); /* Mainscreen에서 남는 공간을 차지 */
-  }
+  overflow-y: auto;
+  height: calc(100vh - 305px); /* Mainscreen에서 남는 공간을 차지 */
+}
+
+/* Pagination 고정 (하단에 고정) */
+.pagination-container {
+  text-align: center;
+}
+
+.eval-table {
+  width: 100%;
+  table-layout: fixed; /* 열 너비를 고정 */
+  border-collapse: collapse;
+}
+
+.eval-table th {
+  z-index: 2;               /* 내용보다 위에 위치 */
+  padding: 8px;
+  border-right: 1px solid #ddd; /* 테두리 설정 */
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  color: #787682;
+  user-select:none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.eval-table td {
+  padding: 8px;
+  border-right: 1px solid #ddd; /* 테두리 설정 */
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  white-space: nowrap;     /* 한 줄로 표시 */
+  max-width: 150px;        /* 각 td의 최대 너비 */
+  overflow: hidden;        /* 내용이 넘칠 경우 숨김 처리 */
+  text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
+  position: relative;      /* 툴팁 위치를 설정하기 위한 relative 설정 */
+  font-size: 13px;
+}
+
+/* hover 시 툴팁 표시 */
+.eval-table td:hover .tooltip {
+  display: block;              /* hover 시 툴팁을 보여줌 */
+  background-color: #F8FAFC;
+}
+
+/* ID 열 설정 이렇게도 사용가능 */
+/* .fixed-table td.id-column {
+  max-width: 10px;
+} */
+
+.eval-table th {
+  background-color: #F8FAFC;
   
-  /* Pagination 고정 (하단에 고정) */
-  .pagination-container {
-    text-align: center;
-  }
-  
-  .eval-table {
-    width: 100%;
-    table-layout: fixed; /* 열 너비를 고정 */
-    border-collapse: collapse;
-  }
-  
-  .eval-table th {
-    z-index: 2;               /* 내용보다 위에 위치 */
-    padding: 8px;
-    border-right: 1px solid #ddd; /* 테두리 설정 */
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    color: #787682;
-    user-select:none;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 14px;
-    font-weight: lighter;
-  }
+}
+/* 짝수 행 배경색 */
+.eval-table tr {
+  background-color: white;
+}
 
-  .eval-table td {
-    padding: 8px;
-    border-right: 1px solid #ddd; /* 테두리 설정 */
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    white-space: nowrap;     /* 한 줄로 표시 */
-    max-width: 150px;        /* 각 td의 최대 너비 */
-    overflow: hidden;        /* 내용이 넘칠 경우 숨김 처리 */
-    text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
-    position: relative;      /* 툴팁 위치를 설정하기 위한 relative 설정 */
-    font-size: 13px;
-  }
+/* 홀수 행 배경색 */
+/* .eval-table tr:nth-child(odd) {
+  background-color: #ffffff; 
+} */
 
-  /* hover 시 툴팁 표시 */
-  .eval-table td:hover .tooltip {
-    display: block;              /* hover 시 툴팁을 보여줌 */
-    background-color: #F8FAFC;
-  }
+.eval-table tr:hover {
+  background-color: #ddd;
+}
 
-  /* ID 열 설정 이렇게도 사용가능 */
-  /* .fixed-table td.id-column {
-    max-width: 10px;
-  } */
+.eval-table td:nth-last-child(1) {
+  border-right: none;
+}
 
-  .eval-table th {
-    background-color: #F8FAFC;
-  }
+.eval-icon {
+  margin-left: 10px;
+  cursor: pointer;
+}
 
-  .eval-table th:nth-last-child(3) {
-    background-color: #ECF0F1;
-    border: none;
-  }
+.eval-tooltip {
+  font-size: 15px;
+  background-color: #FFEDD5;
+  color: black;
+  padding: 14px;
+  border-radius: 6px;
+  max-width: 800px;
+  position: absolute;
+  z-index: 1000;
+  white-space: normal; /* 자동 줄바꿈 설정 */
+  max-height: 450px; /* 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤만 활성화 */
+  overflow-x: hidden; /* 가로 스크롤 비활성화 */
+  word-wrap: break-word; /* 긴 단어 줄바꿈 */
+  line-height: 20px;
+}
 
-  /* 짝수 행 배경색 */
-  .eval-table tr {
-    background-color: white;
-  }
-
-  /* 홀수 행 배경색 */
-  /* .eval-table tr:nth-child(odd) {
-    background-color: #ffffff; 
-  } */
-
-  .eval-table tr:hover {
-    background-color: #ddd;
-  }
-
-  .eval-table td:nth-last-child(4) {
-    border-right: none;
-  }
-
-  .eval-table td:nth-last-child(3) {
-    background-color: #ECF0F1;
-    border: none;
-  }
-
-  .eval-table td:nth-last-child(1) {
-    border-right: none;
-  }
-
-  .eval-icon {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-
-  .eval-tooltip {
-    font-size: 12px;
-    background-color: #FFEDD5;
-    color: black;
-    padding: 14px;
-    border-radius: 6px;
-    max-width: 800px;
-    position: absolute;
-    z-index: 1000;
-    white-space: normal; /* 자동 줄바꿈 설정 */
-    max-height: 450px; /* 최대 높이 설정 */
-    overflow-y: auto; /* 세로 스크롤만 활성화 */
-    overflow-x: hidden; /* 가로 스크롤 비활성화 */
-    word-wrap: break-word; /* 긴 단어 줄바꿈 */
-    line-height: 20px;
-  }
-
-  .row-white {
-    background-color: #FFFFFF !important;
-  }
+/* MoveColor가 'None'일 때 적용할 배경색 (흰색) */
+.row-white {
+  background-color: #FFFFFF !important;
+}
 
 /* MoveColor가 'None'이 아닐 때 적용할 배경색 (회색) */
-  .row-gray {
-    background-color: #EEEEEE !important;
-  }
+.row-gray {
+  background-color: #EEEEEE !important;
+}
 
-  .light-gray {
-    color: lightgray;
-  }
+/* DataGrid 헤더 셀 클릭 시 포커스 및 포커스-위드인 테두리 제거 */
+.MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-columnHeader:focus-within {
+outline: none !important; /* 기본 포커스 테두리 제거 */
+box-shadow: none !important; /* 그림자 제거 */
+
+}
+
+
+.MuiDataGrid-cell:focus,
+.MuiDataGrid-cell:focus-within,
+.MuiDataGrid-cell.Mui-focused {
+outline: none !important;
+box-shadow: none !important; 
+
+}
+
+.content-cell-divider {
+border-right: 1px solid #d3d3d3; /* Light gray vertical line */
+padding-right: 4px;
+}
+
+
