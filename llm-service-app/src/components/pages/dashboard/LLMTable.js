@@ -4,11 +4,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import Pagination from '../Pagination/Pagination';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import './LLMTable.css';
-import { LoadAllChecksTable, LoadFilesTable, LoadJoinChecksEvalTable } from '../../api/DBControllers';
+import { DeleteRow, LoadAllChecksTable, LoadChecksRow, LoadEvaluationRow, LoadFilesTable, LoadJoinChecksEvalTable } from '../../api/DBControllers';
 import FileTableModal from '../Modal/FileTableModal';
 import { LuDownload } from "react-icons/lu";
 import { HiQuestionMarkCircle } from "react-icons/hi2";
 import { Navigate, useNavigate, Link } from 'react-router-dom';
+import { DownloadResultFile } from '../../api/fileControllers';
 
 const LLMTable = ({handleItemClick}) => {
   const [data, setData] = useState(null);
@@ -47,7 +48,9 @@ const LLMTable = ({handleItemClick}) => {
 
   const timeReplace = (time) => {
     // 특정 문자 집합 제거
-    let result = time.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
+    const date = new Date(time);
+    const result = date.toISOString().split('.')[0].replace('T', ' ');
+    //const formattedDate = result.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
     return result;
   }
 
@@ -57,9 +60,7 @@ const LLMTable = ({handleItemClick}) => {
     localStorage.setItem('Evaluation_Start', true);
     handleItemClick('Evaluation');
   }
-
   
-
   // 상태에 따라 배경색을 반환하는 함수
   const getStatusStyle = (status) => {
       const baseStyle = {
@@ -83,8 +84,45 @@ const LLMTable = ({handleItemClick}) => {
   };
 
   const loadRiskMails = (rowData) => {
-    const data = `${rowData.risk_num ? rowData.risk_num : '-'} / ${rowData.keyword_filtered_num ? rowData.keyword_filtered_num : '-'}`
+     let data = null;
+    if (rowData.evaluations_status === 'success') {
+      data = `${rowData.evaluations_risk_num ? rowData.evaluations_risk_num : '-'} / ${rowData.keyword_filtered_num ? rowData.keyword_filtered_num : '-'}`
+    } else {
+      data = `${rowData.risk_num ? rowData.risk_num : '-'} / ${rowData.keyword_filtered_num ? rowData.keyword_filtered_num : '-'}`
+    }
+    
     return data + '건';
+  }
+
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    const milliseconds = Math.floor((seconds % 1) * 100);
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+  }
+
+  function handleFinalEvaluation(data) {
+    localStorage.setItem('Job_Id', data.job_id);
+    localStorage.setItem('Evaluation_Start', true);
+    handleItemClick('Final');
+  
+  }
+
+  const handleDownload = async (job_id, type) => {
+    console.log('download', type, job_id);
+    
+    let result = null;
+    if (type === 'checks') {
+      result = await LoadChecksRow(job_id);
+    } else {
+      result = await LoadEvaluationRow(job_id);
+    }
+
+    console.log('result',result, result[0].result_file_name);
+    
+    await DownloadResultFile(job_id, result[0].result_file_name);
   }
 
   const columns = [
@@ -103,7 +141,7 @@ const LLMTable = ({handleItemClick}) => {
               </div>
             ),
      },
-    { field: 'model_name', headerName: 'Model / Data', flex: 2, align: 'center', headerAlign: 'center', sortable: false,
+    { field: 'llm_id', headerName: 'Model / Data', flex: 2, align: 'center', headerAlign: 'center', sortable: false,
     renderCell: (params) => {
         const rowData = params.row;
         
@@ -120,7 +158,7 @@ const LLMTable = ({handleItemClick}) => {
         );
       }
     },
-    { field: 'checks_status', headerName: 'Status', flex: 2, headerAlign: 'center', sortable: false,
+    { field: 'status', headerName: 'Status', flex: 2, headerAlign: 'center', sortable: false,
       renderCell: (params) => {
         const rowData = params.row;
         
@@ -128,15 +166,28 @@ const LLMTable = ({handleItemClick}) => {
           <>
           <div onContextMenu={(event) => handleCellClick(params, event)}
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
-            <div className='status' style={getStatusStyle(rowData.checks_status)}>
-              {capitalizeFirstLetter(params.value)} {rowData.checks_status === 'error' && 
-                <Tooltip style={{fontSize: '20px'}} title={<span style={{fontSize: '16px'}}>{rowData.message}</span>} arrow>
+            <div className='status' style={getStatusStyle(rowData.status)}>
+              {capitalizeFirstLetter(params.value)} {rowData.status === 'error' && 
+                <Tooltip style={{fontSize: '20px'}} title={<span style={{fontSize: '16px'}}>{ rowData.checks_status === 'error' ? rowData.checks_message : rowData.evaluations_message}</span>} arrow>
                   <span>
                     <HiQuestionMarkCircle className='status-error' />
                   </span>
                 </Tooltip>
                 }
             </div>
+          </div>
+          </>
+        );
+      }
+    },
+    { field: 'elapsed_time', headerName: 'progress time', flex: 2, headerAlign: 'center', sortable: false,
+      renderCell: (params) => {
+        const rowData = params.row;
+        return (
+          <>
+          <div onContextMenu={(event) => handleCellClick(params, event)}
+            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+            {rowData.elapsed_time ? formatTime(rowData.elapsed_time) : '-'}
           </div>
           </>
         );
@@ -149,7 +200,7 @@ const LLMTable = ({handleItemClick}) => {
           <>
           <div onContextMenu={(event) => handleCellClick(params, event)}>
           {params.value}
-            { rowData.checks_status === 'success' ? loadRiskMails(rowData) : `-` }
+            { rowData.status === 'success' ? loadRiskMails(rowData) : `-` }
           </div>
           
           </>
@@ -164,12 +215,18 @@ const LLMTable = ({handleItemClick}) => {
           return (
             <div onContextMenu={(event) => handleCellClick(params, event)}>
               {params.value}
-              {rowData.checks_status === 'success' && rowData.evaluations_status === 'success' ? (
-                <button className='eval_result'><span>{rowData.evaluation_result.toFixed(2)+'%'}</span></button>
-              ) : rowData.checks_status === 'success' ? (
-              <button className='result-button' onClick={() => hanbleEvaluation(rowData)}>
+              {rowData.evaluations_status === 'success' ? (
+                // <button className='eval_result'>
+                // 평가가 완료된 경우: 평가 결과를 버튼으로 표시하고 클릭 시 handleFinalEvaluation 함수 호출
+                <button className='eval_result'
+                 onClick={() => handleFinalEvaluation(rowData)}>
+                  <span>
+                    {rowData.evaluation_result.toFixed(2) + '%'} 
+                  </span>
+                </button>
+              ) : rowData.checks_status === 'success' && rowData.evaluations_status === null ? <button className='result-button' onClick={() => hanbleEvaluation(rowData)}>
                 평가하기
-            </button>) : rowData.status === 'success' ? <button></button> : '-'}
+            </button> : '-'}
             </div>
             
           );
@@ -183,8 +240,8 @@ const LLMTable = ({handleItemClick}) => {
           <div onContextMenu={(event) => handleCellClick(params, event)}>
             {params.value}
             {
-              rowData.checks_status === 'success' && rowData.evaluations_status === 'success' ? <LuDownload style={{fontSize: '18px', marginTop: '5px'}}/> :
-              rowData.checks_status === 'success' ? <LuDownload style={{fontSize: '18px', marginTop: '5px'}}/> : '-'
+              rowData.evaluations_status === 'success' ? <button className='download-btn' onClick={() => handleDownload(rowData.job_id, 'evaluations')}><span><LuDownload style={{fontSize: '18px'}} /></span></button> :
+              rowData.checks_status === 'success' && rowData.evaluations_status === null ? <button className='download-btn' onClick={() => handleDownload(rowData.job_id, 'checks')}><LuDownload style={{fontSize: '18px', marginTop: '5px'}}/></button> : '-'
             }
           </div>
         );
@@ -211,10 +268,18 @@ const handleCloseMenu = () => {
   setSelectedRowData(null);
 };
 
-const handleDeleteRow = () => {
-  if (selectedRowData) {
-    setData((prevRows) => prevRows.filter((row) => row.id !== selectedRowData.id));
+const handleDeleteRow = async () => {
+  console.log('selectedRowData', selectedRowData);
+
+  
+  const result = await DeleteRow(selectedRowData.job_id);
+  // if (selectedRowData) {
+  //   setData((prevRows) => prevRows.filter((row) => row.id !== selectedRowData.id));
+  //console.log('result', result);
+  
+  if (result.status === 201) {
     handleCloseMenu();
+    await LoadTable();
   }
 };
 
@@ -247,7 +312,6 @@ const handleDeleteRow = () => {
           disableColumnMenu
           disableColumnResize
           sx={{
-           
             "& .MuiDataGrid-root": {
               overflowX: "hidden", // 수평 스크롤을 제거하여 화면을 넘지 않도록 설정
             },
@@ -261,7 +325,16 @@ const handleDeleteRow = () => {
                 display: "none", // 마지막 구분선을 숨겨서 오른쪽 끝에 표시되지 않도록 설정
               },
             },
-         
+            '& .MuiDataGrid-row:hover': {
+              backgroundColor: 'transparent',
+            },
+            '& .Mui-selected': {
+              backgroundColor: 'transparent !important',
+            },
+            '& .MuiDataGrid-cell:focus': {
+              outline: 'none',
+            },
+
           }}
         />
       </div>

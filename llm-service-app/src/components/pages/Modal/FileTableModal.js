@@ -6,7 +6,9 @@ const FileTableModal = ({ data, onClose }) => {
 
   const timeReplace = (time) => {
     // 특정 문자 집합 제거
-    let result = time.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
+    const date = new Date(time);
+    //let repleTime = time.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
+    const result = date.toISOString().split('.')[0].replace('T', ' ');
     return result;
   }
   

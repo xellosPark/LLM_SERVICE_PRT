@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
 import axios from 'axios';
 import './CreateInspection.css';
-import { MailCheckStart, fileSave, promptFileLoad } from "../../api/mailCheckControllers";
+import { MailCheckStart, fileSave, promptFileLoad, promptFileUpdate } from "../../api/mailCheckControllers";
 import { Navigate, useNavigate } from 'react-router-dom';
 import Upload from '../../../logos/file_upload.png'
 import Modify from '../../../logos/modify_prompt.png'
@@ -16,8 +16,6 @@ const socket = io('ws://165.244.190.28:5000', {
 const ModalPrompt = ({setIsPromteModalOpen, isPromptModalOpen, setPromptContent, promptContent}) => {
 
     useEffect(() => {
-        console.log('실행되긴하나?', isPromptModalOpen);
-        
         if (isPromptModalOpen === true) {
             console.log('promptContentssss', promptContent);
             
@@ -28,7 +26,7 @@ const ModalPrompt = ({setIsPromteModalOpen, isPromptModalOpen, setPromptContent,
     }
 
     const saveModal = () => {
-
+        promptFileUpdate(promptContent);
         setIsPromteModalOpen(false); //마지막에 닫기
     }
 
@@ -87,7 +85,6 @@ const CreateInspection = () => {
     const [promptContent, setPromptContent] = useState("");
 
     useEffect(() => {
-        promptLoad();
 
         socket.on('uploadProgress', (progress) => {
             console.log(`서버에서 받은 업로드 진행 상태: ${progress}%`);
@@ -121,6 +118,8 @@ const CreateInspection = () => {
                 [fieldName]: file.name
             }));
         }
+        //console.log('filedName', fieldName, fileNames);
+        
     };
 
     const getFormatUUID = () => {
@@ -136,14 +135,76 @@ const CreateInspection = () => {
         return `${formattedDate}${uuidPart}` //uuid.slice(0, 4); // 앞 4자리 추출
     }
 
-    const handleFile = (e) => {
+    // const handleFile = (e, fileName) => {
+    //     const selectedFiles = Array.from(e.target.files);
+    //     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // 기존 파일에 새 파일 추가
+    //     setProgress((prevProgress) => [...prevProgress, ...selectedFiles.map(() => 0)]); // 각 파일별 진행률 초기화
+    //     setUploadComplete(false);
+    //     setTotalProgress(0);
+    //     setFileCount(0);
+    //     setFailFileCount(0);
+    //     console.log('fileName', fileName, files, progress);
+        
+    // };
+
+    const handleFile = (e, fieldName) => {
         const selectedFiles = Array.from(e.target.files);
-        setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // 기존 파일에 새 파일 추가
-        setProgress((prevProgress) => [...prevProgress, ...selectedFiles.map(() => 0)]); // 각 파일별 진행률 초기화
-        setUploadComplete(false);
-        setTotalProgress(0);
-        setFileCount(0);
-        setFailFileCount(0);
+        console.log("선택된 파일 목록:", selectedFiles); // 선택된 파일의 전체 목록을 배열로 출력
+        console.log("선택된 파일 개수:", selectedFiles.length); // 선택된 파일 개수 출력
+    
+        if (selectedFiles.length > 0) {
+            const file = selectedFiles[0]; // 첫 번째 파일을 사용
+    
+            setFiles((prevFiles) => {
+                const updatedFiles = [...prevFiles]; // 이전 파일 배열을 복사하여 새로운 배열 생성
+    
+                // fieldName에 따라 특정 인덱스의 파일을 설정
+                if (fieldName === 'mail_info_csv') {
+                    console.log("처리 중: mail_info_csv");
+                    updatedFiles[0] = file; // 'mail_info_csv'의 경우 인덱스 0에 파일 추가
+                } else if (fieldName === 'mail_body_zip') {
+                    console.log("처리 중: mail_body_zip");
+                    updatedFiles[1] = file; // 'mail_body_zip'의 경우 인덱스 1에 파일 추가
+                } else if (fieldName === 'data_request_system_xlsx') {
+                    console.log("처리 중: data_request_system_xlsx");
+                    updatedFiles[2] = file; // 'data_request_system_xlsx'의 경우 인덱스 2에 파일 추가
+                } else if (fieldName === 'receiver') {
+                    console.log("처리 중: receiver");
+                    updatedFiles[3] = file; // 'receiver'의 경우 인덱스 3에 파일 추가
+                } else if (fieldName === 'title') {
+                    console.log("처리 중: title");
+                    updatedFiles[4] = file; // 'title'의 경우 인덱스 4에 파일 추가
+                } else {
+                    console.log("알 수 없는 필드:", fieldName);
+                }
+    
+                console.log("업데이트된 파일 목록:", updatedFiles); // 파일이 업데이트된 배열을 출력
+                return updatedFiles; // 새로운 배열을 반환하여 상태 업데이트
+            });
+    
+            // 파일마다 진행률 배열을 초기화
+            setProgress((prevProgress) => {
+                const updatedProgress = [...prevProgress]; // 기존 진행률 배열 복사
+                if (fieldName === 'mail_info_csv') {
+                    updatedProgress[0] = 0; // 인덱스 0 진행률 초기화
+                } else if (fieldName === 'mail_body_zip') {
+                    updatedProgress[1] = 0; // 인덱스 1 진행률 초기화
+                } else if (fieldName === 'data_request_system_xlsx') {
+                    updatedProgress[2] = 0; // 인덱스 2 진행률 초기화
+                } else if (fieldName === 'receiver') {
+                    updatedProgress[3] = 0; // 인덱스 3 진행률 초기화
+                } else if (fieldName === 'title') {
+                    updatedProgress[4] = 0; // 인덱스 4 진행률 초기화
+                }
+                console.log("초기화된 파일 진행률:", updatedProgress); // 초기화된 진행률 배열 출력
+                return updatedProgress;
+            });
+    
+            setUploadComplete(false); // 업로드 완료 상태 초기화
+            setTotalProgress(0); // 전체 진행률 초기화
+            setFileCount(0); // 파일 개수 초기화
+            setFailFileCount(0); // 실패한 파일 개수 초기화
+        }
     };
 
     const updateTotalProgress = (individualProgress) => {
@@ -269,6 +330,7 @@ const CreateInspection = () => {
     }
 
     const handleEditPrompt = async () => {
+        await promptLoad();
         console.log('prompt', promptContent);
         
         setIsPromteModalOpen(true);
