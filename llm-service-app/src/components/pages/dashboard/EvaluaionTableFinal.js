@@ -36,7 +36,7 @@ const ToggleButton = React.memo(({ isRisk, onClick }) => {
     );
 });
 
-const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, isTab4Visible }) => {
+const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, isTab4Visible }) => {
     const [datas, setDatas] = useState([]);
     const [buttonStates, setButtonStates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -46,9 +46,9 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
 
     // Initial column widths, setting a default width of 100px for each column
     const [columnWidths, setColumnWidths] = useState({
-        no: 5,
-        complianceRisk: 110,
-        default: 1
+        no: 7,
+        complianceRisk: 90,
+        default: 0.5
     });
 
     const tableRef = useRef(null);
@@ -110,18 +110,18 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
                     if (currentSheetData.headers) {
                         const initialWidths = currentSheetData.headers.reduce((acc, header, index) => {
                             if (header === "본문") {
-                                acc[`field${index}`] = 400; // "본문" 헤더는 너비를 400px로 설정
+                                acc[`field${index}`] = 500; // "본문" 헤더는 너비를 400px로 설정
                             } else if (header === "판단 근거 문장") {
-                                acc[`field${index}`] = 300; // "판단 근거 문장" 헤더는 너비를 300px로 설정
+                                acc[`field${index}`] = 400; // "판단 근거 문장" 헤더는 너비를 300px로 설정
                             } else if (header === "No") {
-                                acc[`field${index}`] = 5; // "판단 근거 문장" 헤더는 너비를 300px로 설정
+                                acc[`field${index}`] = 7; // "판단 근거 문장" 헤더는 너비를 300px로 설정
                             } else if (header === "자료요청 시스템 제목") {
                                 // 데이터 존재 여부에 따라 너비를 조건부로 설정
-                                acc[`field${index}`] = hasDataInRequestedTitleColumn ? 100 : 1;
+                                acc[`field${index}`] = hasDataInRequestedTitleColumn ? 200 : 0.5;
                             } else if (header === '자료요청 시스템 사용 확률') {
-                                acc[`field${index}`] = hasDataInRequestedTitleColumn2 ? 100 : 1;
+                                acc[`field${index}`] = hasDataInRequestedTitleColumn2 ? 200 : 0.5;
                             } else if (header === '자료요청 시스템 제목') {
-                                acc[`field${index}`] = 100;
+                                acc[`field${index}`] = 200;
                             } else {
                                 acc[`field${index}`] = columnWidths.default; // 기타 헤더는 기본 너비를 사용
                             }
@@ -129,9 +129,9 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
                         }, {});
 
                         if (tabName === 'Tab3') {
-                            initialWidths.complianceRisk = 93;
+                            initialWidths.complianceRisk = 100;
                         } else {
-                            initialWidths.complianceRisk = 150;
+                            initialWidths.complianceRisk = 100;
                         }
                         setColumnWidths(prev => ({ ...prev, ...initialWidths }));
                     }
@@ -169,6 +169,7 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
 
     useLayoutEffect(() => {
         loadDatasFromLocalStorage();
+        setCurrentPage(1);
     }, [tabName]);
 
     const startResizing = (e, columnKey) => {
@@ -186,7 +187,7 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
         const columnRightEdge = columnRefs.current[columnKey].getBoundingClientRect().right;
          //     const startX = e.clientX;
     //     const offset = startX - columnRightEdge + 200; // 마우스 포인터와 열 경계선의 차이
-        const startX = e.clientX + 150;
+        const startX = e.clientX + 100;
     
         console.log("열 시작 너비:", startWidth); // 디버그: 시작 너비 확인
         console.log("마우스 시작 X 좌표:", startX); // 디버그: 마우스 시작 X 좌표
@@ -195,7 +196,7 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
     
         const onMouseMove = (moveEvent) => {
             const deltaX = moveEvent.clientX - resizingState.current.startX;
-            const newWidth = Math.max(resizingState.current.startWidth + deltaX, 10); // 최소 너비 10px
+            let newWidth = Math.max(resizingState.current.startWidth + deltaX, 10); // 최소 너비 10px
 
             //'no'열의 최대 너비를 10px로 제한
             if (columnKey === 'no' && newWidth > 10) {
@@ -443,22 +444,23 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
 
     return (
         <div>
-            <div style={{ width: '1400px'}}> {/* Fixed width for the table container */}
+            <div className='eval-div' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '95%' }}> {/* Fixed width for the table container */}
                 <table className="eval-table" ref={tableRef}>
                     <thead>
                         <tr>
-                            {selectedColumns.map((column) => (
+                            {selectedColumns.map((column, inde) => (
                                 <th
+                                    className={isTab4Visible === true ? 'eval-col-thead-padding' : 'elval-col-nopadding'}
                                     key={column.key}
                                     ref={(el) => {
                                         if (el) columnRefs.current[column.key] = el;
                                     }}
                                     style={{
                                         width: `${columnWidths[column.key] || columnWidths.default}px`,
-                                        position: 'relative'
+                                        position: 'relative',
                                     }}
                                 >
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div style={{ textAlign: 'center', alignItems: 'center' }}>
                                         <span>{column.label}</span>
                                         {column.key === 'complianceRisk' && (
                                             <button
@@ -485,7 +487,7 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
                                                 top: 0,
                                                 width: '5px',
                                                 height: '100%',
-                                                backgroundColor: 'transparent'
+                                                backgroundColor: 'transparent',
                                             }}
                                         />
                                     </div>
@@ -498,6 +500,7 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
                             <tr key={rowIndex} className={row.MoveColor === 'move' ? 'row-gray' : 'row-white'}>
                             {selectedColumns.map((column, colIndex) => (
                                 <td
+                                    className={isTab4Visible === true ? 'eval-col-tbody-padding' : 'elval-col-nopadding'}
                                     key={colIndex}
                                     onClick={(e) => handleColumnClick(e, row[column.key])} // 각 셀 클릭 시 handleColumnClick 호출
                                 >
@@ -564,4 +567,4 @@ const EvaluationTableView = ({ tabName, movedRows, handleEvalEnd, handleEdit, is
     );
 };
 
-export default EvaluationTableView;
+export default EvaluationTableFinal;

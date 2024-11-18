@@ -24,11 +24,11 @@ const ToggleButton = React.memo(({ isRisk, onClick }) => {
                 borderRadius: '10px',
                 transition: 'background-color 0.3s ease, opacity 0.3s ease', // opacity 변화에 대한 부드러운 전환 효과 추가
                 cursor: 'pointer',
-                // fontSize: '13px',
-                // fontWeight: 'bold',
-                // boxShadow: isRisk ? '2px 2px 5px rgba(0, 0, 0, 0.5)' : '1px 1px 3px rgba(0, 0, 0, 0.3)',
-                // padding: '5px',
-                // opacity: isHovered ? 0.8 : 1, // 마우스 후버 시 투명도 조절
+                fontSize: '13px',
+                fontWeight: 'bold',
+                boxShadow: isRisk ? '2px 2px 5px rgba(0, 0, 0, 0.5)' : '1px 1px 3px rgba(0, 0, 0, 0.3)',
+                padding: '5px',
+                opacity: isHovered ? 0.8 : 1, // 마우스 후버 시 투명도 조절
             }}
         >
             {isRisk ? 'Risk' : 'No Risk'}
@@ -133,6 +133,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
     useLayoutEffect(() => {
         loadDatasFromLocalStorage();
+        setCurrentPage(1);
     }, [tabName]);
 
     const startResizing = (e, columnKey) => {
@@ -149,7 +150,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
         const startWidth = columnRefs.current[columnKey] ? columnRefs.current[columnKey].offsetWidth : 0;
         const columnRightEdge = columnRefs.current[columnKey].getBoundingClientRect().right;
          //     const startX = e.clientX;
-    //     const offset = startX - columnRightEdge + 200; // 마우스 포인터와 열 경계선의 차이
+        //     const offset = startX - columnRightEdge + 200; // 마우스 포인터와 열 경계선의 차이
         const startX = e.clientX + 150;
     
         console.log("열 시작 너비:", startWidth); // 디버그: 시작 너비 확인
@@ -159,7 +160,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     
         const onMouseMove = (moveEvent) => {
             const deltaX = moveEvent.clientX - resizingState.current.startX;
-            const newWidth = Math.max(resizingState.current.startWidth + deltaX, 10); // 최소 너비 10px
+            let newWidth = Math.max(resizingState.current.startWidth + deltaX, 10); // 최소 너비 10px
 
             //'no'열의 최대 너비를 10px로 제한
             if (columnKey === 'no' && newWidth > 10) {
@@ -415,6 +416,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                         <tr>
                             {selectedColumns.map((column) => (
                                 <th
+                                    className='th-center'
                                     key={column.key}
                                     ref={(el) => {
                                         if (el) columnRefs.current[column.key] = el;

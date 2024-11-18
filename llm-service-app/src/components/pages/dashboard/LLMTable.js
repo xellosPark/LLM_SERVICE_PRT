@@ -214,23 +214,31 @@ const LLMTable = ({handleItemClick}) => {
       field: 'result', headerName: 'Evaluation Result', flex: 2, align: 'center', headerAlign: 'center', sortable: false,
       renderCell: (params) => {
           const rowData = params.row;
+          console.log('rowData', rowData);
+          
           return (
             <div onContextMenu={(event) => handleCellClick(params, event)}>
-              {params.value}
-              {rowData.evaluations_status === 'success' ? (
-                // <button className='eval_result'>
-                // 평가가 완료된 경우: 평가 결과를 버튼으로 표시하고 클릭 시 handleFinalEvaluation 함수 호출
-                <button className='eval_result'
-                 onClick={() => handleFinalEvaluation(rowData)}>
-                  <span>
-                    {rowData.evaluation_result.toFixed(2) + '%'} 
-                  </span>
-                </button>
-              ) : rowData.checks_status === 'success' && rowData.evaluations_status === null ? <button className='result-button' onClick={() => hanbleEvaluation(rowData)}>
+            {params.value}
+            {rowData.evaluations_status === 'success' ? (
+              <Link
+              to={`/evaluation/result/${rowData.id}`}
+              state={rowData} // 이 형식으로 전달
+                className="eval_result"
+              >
+                <span>{ rowData.evaluation_result ? rowData.evaluation_result.toFixed(2) + '%' : 'non'}</span>
+              </Link>
+            ) : rowData.checks_status === 'success' && rowData.evaluations_status === null ? (
+              <Link
+              to={`/evaluation/view/${rowData.id}`}
+              state={rowData} // 이 형식으로 전달
+                className="result-button"
+              >
                 평가하기
-            </button> : '-'}
-            </div>
-            
+              </Link>
+            ) : (
+              '-'
+            )}
+          </div>
           );
       }
     },
@@ -302,7 +310,7 @@ const handleDeleteRow = async () => {
 
   return (
     <>
-      <Paper sx={{ width: "80vw", padding: "25px", maxWidth: "100%", marginLeft: "30px"}} onContextMenu={handleContextMenu}>
+      <Paper sx={{ width: "83vw", padding: "25px", maxWidth: "100%", marginLeft: "25px"}} onContextMenu={handleContextMenu}>
       
       <div style={{ height: 630, width: '100%', margin: '0 auto' }}>
         <DataGrid

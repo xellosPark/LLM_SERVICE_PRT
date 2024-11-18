@@ -1,0 +1,90 @@
+/* 사이드바 기본 스타일 */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 155px;
+    /* background-color: #343A40; */
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(192, 192, 192);
+    /* color: #C2C7D0; */
+    color: #979292;
+    padding: 5px 5px 10px 5px;
+    height: 100vh; /* 전체 높이를 설정하여 화면에 맞게 */
+    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+  }
+  
+  /* 최소화된 상태 */
+  .sidebar.minimized {
+    width: 50px;
+  }
+  
+  /* 메뉴 스타일 */
+  .menu {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 100px;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #979292;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: #000000; /* #EAD8B1 rgb(247, 243, 45); */
+  }
+  
+  .icon {
+    margin-right: 10px;
+    font-size: 14px;
+  }
+  
+  .text {
+    font-size: 14px;
+  }
+  
+  /* 최소화 상태에서 텍스트 숨김 */
+  .sidebar.minimized .menu-item .text {
+    display: none;
+  }
+  
+  .sidebar.minimized .menu-item {
+    justify-content: center;
+  }
+  
+  .sidebar.minimized .icon {
+    margin-right: 0;
+  }
+  
+  /* 하단 최소화/복구 버튼 */
+  .bottom-toggle {
+    margin-top: auto;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+  }
+  
+  .bottom-toggle:hover {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: #000000; /* #EAD8B1 rgb(247, 243, 45); */
+  }
+  
+  .toggle-text {
+    font-size: 14px;
+    color: #979292;
+  }
+  
+  .custom-icon-size {
+    font-size: 14px; /* Adjust the icon size here */
+    margin: 5px 7px 5px 10px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+  }

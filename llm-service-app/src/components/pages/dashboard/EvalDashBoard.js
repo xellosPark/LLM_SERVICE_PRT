@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import './EvalDashBoard.css';
 import EvaluationTable from "./EvaluationTable";
 import { LoadResultFile, SendEvalData } from "../../api/evaluationController";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { LoadChecksRow } from "../../api/DBControllers";
+import { BsChevronRight } from "react-icons/bs";
 
 // 요청 유형 정의 (한글)
 const requestTypes = [
@@ -13,6 +14,8 @@ const requestTypes = [
 ];
 
 const EvalDashBoard = () => {
+  const location = useLocation(); //useParams();
+  const rowData = location.state;
   const [activeTab, setActiveTab] = useState('Tab1'); // 현재 활성 탭 상태
   const [allSheetData, setAllSheetData] = useState([]); // 모든 시트 데이터 상태
   const [error, setError] = useState(null); // 에러 상태
@@ -26,8 +29,14 @@ const EvalDashBoard = () => {
 
   // 컴포넌트가 마운트될 때 로컬 저장소에서 데이터 불러오기
   useEffect(() => {
-    const job_id = localStorage.getItem('Job_Id');
-    setJobId(job_id);
+    if (rowData === null || rowData === undefined) {
+      const job_id = localStorage.getItem('Job_Id');
+      setJobId(job_id);
+    } else {
+      localStorage.setItem('Job_Id', rowData.job_id);
+      setJobId(rowData.job_id);
+    }
+    
     //const evalStart = localStorage.getItem('Evaluation_Start');
     //if (evalStart === 'true') {
       //console.log('한번만 들어오냐?');
@@ -275,7 +284,23 @@ const LoadMoveVal = () => {
   return groupedData;
 }
 
+  const checkMoveRisk = () => {
+    const allSheetData = JSON.parse(localStorage.getItem('allSheetData'));
+
+    if (allSheetData && Array.isArray(allSheetData)) {
+      // 각 requestType을 순회하며 해당 데이터를 필터링합니다.
+      requestTypes.forEach((requestType, index) => {
+          // 현재 requestType에 해당하는 데이터를 allSheetData에서 찾습니다.
+          const tabData = allSheetData.find(data => data.sheet === 'High Risk - 기술 자료 요청' ? 'No Risk' : 'Risk' === data[2]);
+          console.log('tabData', tabData);
+          
+      })
+    }
+  }
+
   const handleEvalEnd = async () => {
+    // checkMoveRisk();
+    // return;
     const movedValue = LoadMoveVal();
     const data = {
       service_name: "mail_compliance_check", 
@@ -300,7 +325,7 @@ const LoadMoveVal = () => {
       console.log('여기 들어오냐');
       localStorage.setItem('activeComponent', 'DashBoard');
       //handleItemClick('DashBoard');
-      navigate('/'); // 메인 페이지로 이동
+      navigate('/main'); // 메인 페이지로 이동
     }
   }
 
@@ -309,6 +334,16 @@ const LoadMoveVal = () => {
   }
 
   return (
+    <div className="content" >
+      <div className="navigation-bar">
+        <div className="navigation-title">
+          <Link to="/sidebar/DashBoard" className='nav-item active'   >
+            Mail Compliance 점검
+          </Link>
+          <BsChevronRight className="nav-item-create-header" />
+          <div className="nav-item-create-active">평가하기 </div>
+        </div>
+      </div>
     <div style={{ margin: '10px' }}>
       <div className="tab-buttons">
         <button
@@ -399,6 +434,7 @@ const LoadMoveVal = () => {
       
       {error && <div className="error">{error}</div>}
       {loading && <div className="loading">로딩 중...</div>}
+    </div>
     </div>
   );
 };

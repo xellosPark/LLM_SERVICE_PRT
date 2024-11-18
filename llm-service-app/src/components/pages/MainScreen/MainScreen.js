@@ -39,7 +39,7 @@ function MainScreen({ setActivePage, activePage }) {
         return lazy(() => import('../dashboard/EvalDashBoard'));
         case 'Final':
           setMainTitle("수정하기");
-          return lazy(() => import('../dashboard/EvalDashBoardView'));
+          return lazy(() => import('../dashboard/EvalDashBoardFinal'));
       case 'Sub4':
         setMainTitle("Sub4");
         return lazy(() => import('../Sub4/Sub4'));

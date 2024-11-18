@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import './EvalDashBoard.css';
-import EvaluationTable from "./EvaluaionTableView";
+import EvaluationTable from "./EvaluaionTableFinal";
 import { LoadResultFile, SendEvalData } from "../../api/evaluationController";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { LoadChecksRow } from "../../api/DBControllers";
+import { BsChevronRight } from "react-icons/bs";
 
 // 요청 유형 정의 (한글)
 const requestTypes = [
@@ -13,8 +14,10 @@ const requestTypes = [
   { level: '최종', request: '최종 Risk', riskLabel: 'none' },
 ];
 
-const EvalDashBoardView = () => {
-    console.log('여기 확인 ');
+const EvalDashBoardFinal = () => {
+    //console.log('여기 확인 ');
+    const location = useLocation(); //useParams();
+    const rowData = location.state;
   const [activeTab, setActiveTab] = useState('Tab4'); // 현재 활성 탭 상태
   const [allSheetData, setAllSheetData] = useState([]); // 모든 시트 데이터 상태
   const [error, setError] = useState(null); // 에러 상태
@@ -26,11 +29,15 @@ const EvalDashBoardView = () => {
   const [isTab4Visible, setIsTab4Visible] = useState(true); // Tab4 표시 여부를 관리하는 상태
   const [failMessage, setFailMessage] = useState('');
   const [isLoadFail, setIsLoadFail] = useState(false);
-
   // 컴포넌트가 마운트될 때 로컬 저장소에서 데이터 불러오기
   useEffect(() => {
-    const job_id = localStorage.getItem('Job_Id');
-    setJobId(job_id);
+    if (rowData === null || rowData === undefined) {
+      const job_id = localStorage.getItem('Job_Id');
+      setJobId(job_id);
+    } else {
+      localStorage.setItem('Job_Id', rowData.job_id);
+      setJobId(rowData.job_id);
+    }
     //const evalStart = localStorage.getItem('Evaluation_Start');
     //if (evalStart === 'true') {
     //  console.log('한번만 들어오냐?');
@@ -72,7 +79,7 @@ const EvalDashBoardView = () => {
     try {
       setLoading(true); // 로딩 상태 설정
       setError(null); // 에러 초기화
-      console.log('모든 시트 데이터 가져오기 시작'); // 데이터 가져오기 시작 로그
+      console.log('모든 시트 데이터 가져오기 시작', jobId); // 데이터 가져오기 시작 로그
 
       for (const sheet of sheets) {
         console.log(`"${sheet}" 시트에서 데이터 가져오는 중`); // 각 시트의 데이터 가져오기 로그
@@ -87,6 +94,7 @@ const EvalDashBoardView = () => {
       } else if (result.status === 205 || result.status === 206) {
           setFailMessage('데이터가 없습니다');
           setIsLoadFail(true);
+          return
         } else if (result.status === 200 || result.status === 201) {
           data = result.data;
           setIsLoadFail(false);
@@ -317,7 +325,7 @@ const LoadMoveVal = () => {
       console.log('여기 들어오냐');
       localStorage.setItem('activeComponent', 'DashBoard');
       //handleItemClick('DashBoard');
-      navigate('/'); // 메인 페이지로 이동
+      navigate('/main'); // 메인 페이지로 이동
     }
   }
 
@@ -335,6 +343,16 @@ const LoadMoveVal = () => {
   }
 
   return (
+    <div className="content" >
+      <div className="navigation-bar">
+        <div className="navigation-title">
+          <Link to="/sidebar/DashBoard" className='nav-item active'   >
+            Mail Compliance 점검
+          </Link>
+          <BsChevronRight className="nav-item-create-header" />
+          <div className="nav-item-create-active">수정하기 </div>
+        </div>
+      </div>
     <div style={{ margin: '10px' }}>
       <div className="tab-buttons">
       {isTab4Visible && (
@@ -419,7 +437,7 @@ const LoadMoveVal = () => {
 
               
             <div className="flex-row table-direct">
-              <div className="table-section">
+              <div className="table-section" style={{justifyContent: 'center'}}>
                 {/* 선택된 탭에 맞는 데이터 필터링 */}
                 {
                   isLoadFail === true ? <div>{failMessage}</div> :
@@ -442,7 +460,8 @@ const LoadMoveVal = () => {
         )}
       </div>
     </div>
+    </div>
   );
 };
 
-export default EvalDashBoardView;
+export default EvalDashBoardFinal;

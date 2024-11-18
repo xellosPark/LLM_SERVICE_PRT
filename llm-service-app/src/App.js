@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import LoginPage from './components/auth/LoginPage';
 import MainScreen from './components/pages/MainScreen/MainScreen';
 import Header from './components/Layouts/Header';
 import api, { setLogoutHandler } from './components/api/api';
 import { UserContext, UserProvider } from './components/useContext/UserContext';
 import { Login } from './components/api/userControllers';
+import SidebarLayout from './components/Layouts/SidebarLayout';
+import SidebarRoutes from './routes/SidebarRoutes';
+import PIEChatbot from './components/pages/dashboard/PIEChatbot';
+import DashBoard from './components/pages/dashboard/DashBoard';
+import LLMTable from './components/pages/dashboard/LLMTable';
+import CreateInspection from './components/pages/dashboard/CreateInspection';
+import EvalDashBoardFinal from './components/pages/dashboard/EvalDashBoardFinal';
+import EvalDashBoard from './components/pages/dashboard/EvalDashBoard';
 
 function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
   const location = useLocation();
@@ -34,22 +42,72 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
     };
   }, [location, isAuthenticated]);
 
+  const handleItemClick = (page) => {
+    setActivePage(page); // 현재 활성 페이지 설정
+  };
+
   return (
     <>
+      {/* 헤더 표시 */}
       {isAuthenticated && <Header onLogout={handleLogout} setActivePage={setActivePage} />}
-      <Routes>
-        <Route
-          path="/"
-          element={isAuthenticated ? <Navigate to={localStorage.getItem('lastPath') || "/main"} /> : <LoginPage onLogin={handleLogin} />}
-        />
-        <Route
-          path="/main"
-          element={isAuthenticated ? <MainScreen setActivePage={setActivePage} activePage={activePage} /> : <Navigate to="/" />}
-        />
-        <Route path='/evaluation'
-        element={isAuthenticated ? <MainScreen setActivePage={setActivePage} activePage={activePage} /> : <Navigate to="/" /> } />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+
+      <div style={{ display: 'flex' }}>
+        {/* 사이드바 표시 */}
+        {isAuthenticated && <SidebarLayout />}
+
+          {/* 라우트 설정 */}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isAuthenticated ? (
+                  <Navigate to={localStorage.getItem('lastPath') || "/main"} />
+                ) : (
+                  <LoginPage onLogin={handleLogin} />
+                )
+              }
+            />
+            <Route
+              path="/main"
+              element={isAuthenticated ? <DashBoard /> : <Navigate to="/" />}
+            />
+            
+            {/* PIEChatbot 경로 등록 */}
+            <Route
+              path="/sidebar/PIEChatbot"
+              element={isAuthenticated ? <PIEChatbot /> : <Navigate to="/" />}
+            />
+
+            {/* MailCompliance Create 경로 등록 */}
+            <Route
+              path="/MailCompliance/Create"
+              element={isAuthenticated ? <CreateInspection /> : <Navigate to="/" />}
+            />
+
+             {/* 평가 결과 화면 라우트 */}
+             <Route
+              path="/evaluation/result/:id"
+              element={isAuthenticated ? <EvalDashBoardFinal /> : <Navigate to="/" />}
+            />
+
+            <Route
+              path="/evaluation/view/:id"
+              element={isAuthenticated ? <EvalDashBoard /> : <Navigate to="/" />}
+            />
+
+            <Route
+              path="/sidebar/*"
+              element={
+                isAuthenticated ? (
+                  <SidebarRoutes setActivePage={setActivePage} activePage={activePage} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
     </>
   );
 }

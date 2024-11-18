@@ -88,7 +88,7 @@ export const fileSave = async (fileNames, elapsed_time, fileSize) => {
   
   try {
     const ip = `http://localhost:5000`;
-        const response = await api.post(`${ip}/api/datas/files`, fileNames);
+        const response = await api.post(`${ip}/api/datas/files`, {fileNames, elapsed_time, fileSize});
 
         
         return response;

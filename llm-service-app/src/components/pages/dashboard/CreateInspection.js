@@ -4,16 +4,17 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import './CreateInspection.css';
 import { MailCheckStart, fileSave, promptFileLoad, promptFileUpdate } from "../../api/mailCheckControllers";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Upload from '../../../logos/file_upload.png'
 import Modify from '../../../logos/modify_prompt.png'
+import { BsChevronRight } from "react-icons/bs";
 
-const socket = io('ws://165.244.190.28:5000', {
+const socket = io('ws://localhost:5000', {
     transports: ['websocket'],
     reconnection: true,
 }); // 서버 주소 설정
 
-const ModalPrompt = ({setIsPromteModalOpen, isPromptModalOpen, setPromptContent, promptContent}) => {
+const ModalPrompt = ({ setIsPromteModalOpen, isPromptModalOpen, setPromptContent, promptContent }) => {
 
     useEffect(() => {
         if (isPromptModalOpen === true) {
@@ -248,6 +249,8 @@ const CreateInspection = () => {
 
         const createUuid = getFormatUUID();
         setUuid(createUuid);
+        console.log('createUuid', createUuid);
+        
 
         const keywordTxt = { receiver: fileNames.receiver, title: fileNames.title };
         const mailList = {
@@ -325,13 +328,14 @@ const CreateInspection = () => {
 
     const SendMailCheckStart = async (time) => {
         const elapsed_time = (time / 1000).toFixed(2); //초 단위 시간 계산
+        console.log('uploadData', uploadData);
         
         const fileSaveResult = await fileSave(uploadData, elapsed_time, fileSize.toFixed(2));
         console.log('fileSaveResult', fileSaveResult);
 
         const result = await MailCheckStart(uploadData);
         console.log('result', result);
-        navigate('/'); // 메인 페이지로 이동
+        navigate('/main'); // 메인 페이지로 이동
     }
 
     const handleEditPrompt = async () => {
@@ -371,214 +375,229 @@ const CreateInspection = () => {
     }, [fileCount, failFileCount])
 
     return (
-        <div className="create-container">
-            {/* Data 섹션 */}
-            <div className="section">
-                <div className="section-title">
-                    <div className="title">Data</div>
-                    <div>
+        <div className="content">
+            {/* 네비게이션 바 */}
+            <div className="navigation-bar">
+                <div className="navigation-title">
+                    <Link to="/sidebar/DashBoard"
+                        className='nav-item active'
+                    >
+                        Mail Compliance 점검
+                    </Link>
+                    <BsChevronRight className="nav-item-create-header" />
+                    <div className="nav-item-create-active">신규 점검 생성</div>
+                </div>
+            </div>
 
-                        {/* 메일 정보 */}
-                        <div className="file-item">
-                            {/* 메일 정보 박스 */}
-                            <div className="file-details">
-                                <p className="file-names">
-                                    <span className="red-star">* </span>메일 정보
-                                </p>
-                            </div>
-                            {/* csv 버튼 박스 */}
-                            <div className="file-info">
-                                <button className="open-btn" onClick={() => document.getElementById('file-input-mail_info_csv').click()}>
-                                    <img
-                                        src={Upload}
-                                        alt="csvfileOpen"
-                                        className="csvfileOpen-icon"
-                                    />
-                                </button>
-                                <input
-                                    id="file-input-mail_info_csv"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => { handleFileChange(e, 'mail_info_csv'); handleFile(e, 'mail_info_csv'); }}
-                                    accept=".csv"
-                                    multiple
-                                />
-                                <div className="file-upload-list">{fileNames.mail_info_csv || 'csv 파일만 업로드 가능합니다.'}</div>
-                            </div>
-                        </div>
-                        
-                        {/* 메일 본문 */}
-                        <div className="file-item">
-                            {/* 메일 본문 박스 */}
-                            <div className="file-details">
-                                <p className="file-names">
-                                    <span className="red-star">* </span>메일 본문
-                                </p>
-                            </div>
-                            {/* zip 버튼 박스 */}
-                            <div className="file-info">
-                                <button className="open-btn" onClick={() => document.getElementById('file-input-mail_body_zip').click()}>
-                                    <img
-                                        src={Upload}
-                                        alt="csvfileOpen"
-                                        className="csvfileOpen-icon"
-                                    />
-                                </button>
-                                <input
-                                    id="file-input-mail_body_zip"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => { handleFileChange(e, 'mail_body_zip'); handleFile(e, 'mail_body_zip'); }}
-                                    accept=".zip"
-                                    multiple
-                                />
-                                <div className="file-upload-list">{fileNames.mail_body_zip ? fileNames.mail_body_zip : 'zip 파일만 업로드 가능합니다.'}</div>
-                            </div>
-                        </div>
+            <div className="create-container">
+                {/* Data 섹션 */}
+                <div className="section">
+                    <div className="section-title">
+                        <div className="title">Data</div>
+                        <div>
 
-                        {/* 자료요청 시스템 정보 */}
-                        <div className="file-item">
-                            {/* 자료요청 시스템 정보 박스 */}
-                            <div className="file-details">
-                                <p className="file-names">자료요청 시스템 정보</p>
-                            </div>
-                            {/* xlsx 버튼 박스 */}
-                            <div className="file-info">
-                                <button className="open-btn" onClick={() => document.getElementById('file-input-data_request_system_xlsx').click()}>
-                                    <img
-                                        src={Upload}
-                                        alt="csvfileOpen"
-                                        className="csvfileOpen-icon"
+                            {/* 메일 정보 */}
+                            <div className="file-item">
+                                {/* 메일 정보 박스 */}
+                                <div className="file-details">
+                                    <p className="file-names">
+                                        <span className="red-star">* </span>메일 정보
+                                    </p>
+                                </div>
+                                {/* csv 버튼 박스 */}
+                                <div className="file-info">
+                                    <button className="open-btn" onClick={() => document.getElementById('file-input-mail_info_csv').click()}>
+                                        <img
+                                            src={Upload}
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
+                                    <input
+                                        id="file-input-mail_info_csv"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'mail_info_csv'); handleFile(e, 'mail_info_csv'); }}
+                                        accept=".csv"
+                                        multiple
                                     />
-                                </button>
-                                <input
-                                    id="file-input-data_request_system_xlsx"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => { handleFileChange(e, 'data_request_system_xlsx'); handleFile(e, 'data_request_system_xlsx'); }}
-                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                    multiple
-                                />
-                                <div className="file-upload-list">{fileNames.data_request_system_xlsx ? fileNames.data_request_system_xlsx : 'xlsx 파일만 업로드 가능합니다.'}</div>
+                                    <div className="file-upload-list">{fileNames.mail_info_csv || 'csv 파일만 업로드 가능합니다.'}</div>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* 제거 키워드 정보 - 실수취인 */}
-                        <div className="file-item">
-                            {/* 제거 키워드 정보 박스 */}
-                            <div className="file-details">
-                                <p className="file-names">제거 키워드 정보</p>
-                            </div>
-                            {/* 실수취인 박스 */}
-                            <label className="file-delete-label" style={{ display: 'flex', justifyContent: 'center' }}>실수취인</label>
-                            {/* 실수취인 txt 버튼 박스 */}
-                            <div className="file-info">
-                                <button className="open-btn" onClick={() => document.getElementById('file-input-receiver').click()}>
-                                    <img
-                                        src={Upload}
-                                        alt="csvfileOpen"
-                                        className="csvfileOpen-icon"
+                            {/* 메일 본문 */}
+                            <div className="file-item">
+                                {/* 메일 본문 박스 */}
+                                <div className="file-details">
+                                    <p className="file-names">
+                                        <span className="red-star">* </span>메일 본문
+                                    </p>
+                                </div>
+                                {/* zip 버튼 박스 */}
+                                <div className="file-info">
+                                    <button className="open-btn" onClick={() => document.getElementById('file-input-mail_body_zip').click()}>
+                                        <img
+                                            src={Upload}
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
+                                    <input
+                                        id="file-input-mail_body_zip"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'mail_body_zip'); handleFile(e, 'mail_body_zip'); }}
+                                        accept=".zip"
+                                        multiple
                                     />
-                                </button>
-                                <input
-                                    id="file-input-receiver"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => { handleFileChange(e, 'receiver'); handleFile(e, 'receiver'); }}
-                                    accept="text/plain"
-                                    multiple
-                                />
-                                <div className="file-upload-list">{fileNames.receiver ? fileNames.receiver : 'txt 파일만 업로드 가능합니다.'}</div>
+                                    <div className="file-upload-list">{fileNames.mail_body_zip ? fileNames.mail_body_zip : 'zip 파일만 업로드 가능합니다.'}</div>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* 제거 키워드 정보 - 제목 */}
-                        <div className="file-item">
-                            {/* 빈 박스 */}
-                            <div className="file-details-empty">
-                                <p className="file-names"> </p>
-                            </div>
-                            {/* 제목 박스 */}
-                            <label className="file-delete-label" style={{ display: 'flex', justifyContent: 'center' }}>제목</label>
-                            {/* 제목 txt 버튼 박스 */}
-                            <div className="file-info">
-                                <button className="open-btn" onClick={() => document.getElementById('file-input-title').click()}>
-                                    <img
-                                        src={Upload}
-                                        alt="csvfileOpen"
-                                        className="csvfileOpen-icon"
+                            {/* 자료요청 시스템 정보 */}
+                            <div className="file-item">
+                                {/* 자료요청 시스템 정보 박스 */}
+                                <div className="file-details">
+                                    <p className="file-names">자료요청 시스템 정보</p>
+                                </div>
+                                {/* xlsx 버튼 박스 */}
+                                <div className="file-info">
+                                    <button className="open-btn" onClick={() => document.getElementById('file-input-data_request_system_xlsx').click()}>
+                                        <img
+                                            src={Upload}
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
+                                    <input
+                                        id="file-input-data_request_system_xlsx"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'data_request_system_xlsx'); handleFile(e, 'data_request_system_xlsx'); }}
+                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                        multiple
                                     />
-                                </button>
-                                <input
-                                    id="file-input-title"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => { handleFileChange(e, 'title'); handleFile(e, 'title'); }}
-                                    accept="text/plain"
-                                    multiple
-                                />
-                                <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt 파일만 업로드 가능합니다.'}</div>
+                                    <div className="file-upload-list">{fileNames.data_request_system_xlsx ? fileNames.data_request_system_xlsx : 'xlsx 파일만 업로드 가능합니다.'}</div>
+                                </div>
+                            </div>
+
+                            {/* 제거 키워드 정보 - 실수취인 */}
+                            <div className="file-item">
+                                {/* 제거 키워드 정보 박스 */}
+                                <div className="file-details">
+                                    <p className="file-names">제거 키워드 정보</p>
+                                </div>
+                                {/* 실수취인 박스 */}
+                                <label className="file-delete-label" style={{ display: 'flex', justifyContent: 'center' }}>실수취인</label>
+                                {/* 실수취인 txt 버튼 박스 */}
+                                <div className="file-info">
+                                    <button className="open-btn" onClick={() => document.getElementById('file-input-receiver').click()}>
+                                        <img
+                                            src={Upload}
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
+                                    <input
+                                        id="file-input-receiver"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'receiver'); handleFile(e, 'receiver'); }}
+                                        accept="text/plain"
+                                        multiple
+                                    />
+                                    <div className="file-upload-list">{fileNames.receiver ? fileNames.receiver : 'txt 파일만 업로드 가능합니다.'}</div>
+                                </div>
+                            </div>
+
+                            {/* 제거 키워드 정보 - 제목 */}
+                            <div className="file-item">
+                                {/* 빈 박스 */}
+                                <div className="file-details-empty">
+                                    <p className="file-names"> </p>
+                                </div>
+                                {/* 제목 박스 */}
+                                <label className="file-delete-label" style={{ display: 'flex', justifyContent: 'center' }}>제목</label>
+                                {/* 제목 txt 버튼 박스 */}
+                                <div className="file-info">
+                                    <button className="open-btn" onClick={() => document.getElementById('file-input-title').click()}>
+                                        <img
+                                            src={Upload}
+                                            alt="csvfileOpen"
+                                            className="csvfileOpen-icon"
+                                        />
+                                    </button>
+                                    <input
+                                        id="file-input-title"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => { handleFileChange(e, 'title'); handleFile(e, 'title'); }}
+                                        accept="text/plain"
+                                        multiple
+                                    />
+                                    <div className="file-upload-list">{fileNames.title ? fileNames.title : 'txt 파일만 업로드 가능합니다.'}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Model 섹션 */}
-            <div className="section">
-                <div className="section-title">
-                    <div className="title">Model</div>
-                    <select className="dropdown" value={selectedOption} onChange={handleDropChange}>
-                        <option value="" disabled>사용할 model을 선택하세요.</option>
-                        <option value="gemma">gemma</option>
-                        <option value="exaone">exaone</option>
-                    </select>
+                {/* Model 섹션 */}
+                <div className="section">
+                    <div className="section-title">
+                        <div className="title">Model</div>
+                        <select className="dropdown" value={selectedOption} onChange={handleDropChange}>
+                            <option value="" disabled>사용할 model을 선택하세요.</option>
+                            <option value="gemma">gemma</option>
+                            <option value="exaone">exaone</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            {/* Prompt Engineering 섹션 + 점검 시작 버튼 */}
-            <div className="section">
-                <div className="section-title">
-                    <div className="title">Prompt Engineering</div>
-                    <button className="icon-button-edit" onClick={handleEditPrompt}>
-                        <img src={Modify} alt="edit icon" />기술자료 prompt 수정하기
-                    </button>
-                </div>
-                <div className="run-button">
-                    <div>
-                        <button className="icon-button-run" onClick={handleMailCheckStart}>
-                            점검 시작
+                {/* Prompt Engineering 섹션 + 점검 시작 버튼 */}
+                <div className="section">
+                    <div className="section-title">
+                        <div className="title">Prompt Engineering</div>
+                        <button className="icon-button-edit" onClick={handleEditPrompt}>
+                            <img src={Modify} alt="edit icon" />기술자료 prompt 수정하기
                         </button>
                     </div>
-                </div>
-            </div>
-            {
-                isProgressModalOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                            <h2>파일 업로드 진행 상태</h2>
-                            <ul className="progress-list">
-                                {files.map((file, index) => (
-                                    <li key={index} className="progress-item">
-                                        <div className="file-info">
-                                            <span className="file-name">{file.name}</span>
-                                            <span className="progress-text">{progress[index]}%</span>
-                                        </div>
-                                        <div className="progress-bar">
-                                            <div className="progress-fill" style={{ width: `${progress[index]}%` }} />
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                            
+                    <div className="run-button">
+                        <div>
+                            <button className="icon-button-run" onClick={handleMailCheckStart}>
+                                점검 시작
+                            </button>
                         </div>
                     </div>
+                </div>
+                {
+                    isProgressModalOpen && (
+                        <div className="modal-overlay">
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <h2>파일 업로드 진행 상태</h2>
+                                <ul className="progress-list">
+                                    {files.map((file, index) => (
+                                        <li key={index} className="progress-item">
+                                            <div className="file-info">
+                                                <span className="file-name">{file.name}</span>
+                                                <span className="progress-text">{progress[index]}%</span>
+                                            </div>
+                                            <div className="progress-bar">
+                                                <div className="progress-fill" style={{ width: `${progress[index]}%` }} />
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                            </div>
+                        </div>
+                    )
+                }
+                {isPromptModalOpen && (
+                    <ModalPrompt setIsPromteModalOpen={setIsPromteModalOpen} isPromptModalOpen={isPromptModalOpen} setPromptContent={setPromptContent} promptContent={promptContent} />
                 )
-            }
-            {isPromptModalOpen && (
-                <ModalPrompt setIsPromteModalOpen={setIsPromteModalOpen} isPromptModalOpen={isPromptModalOpen} setPromptContent={setPromptContent} promptContent={promptContent} />
-            )
-            }
+                }
+            </div>
         </div>
     );
 };

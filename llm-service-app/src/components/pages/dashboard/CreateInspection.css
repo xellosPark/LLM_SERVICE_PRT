@@ -440,4 +440,12 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     background-color: #960735;
   }
 
-  
+  .nav-item {
+    text-decoration: none; /* 밑줄 제거 */
+  }
+
+  .nav-item.active {
+    outline: none;
+    color: rgb(0, 0, 0);
+    margin-bottom: 4px;
+}

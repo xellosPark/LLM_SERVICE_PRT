@@ -42,10 +42,16 @@
   width: 180px;
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  margin: -25px 100px 25px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+  margin: -25px 125px 25px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+  text-decoration: none; /* 밑줄 제거 */
   /* margin: 0% 100% 10% 0%; */
 }
   
 .newaddbutton:hover {
   opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+.nav-item {
+  text-decoration: none; /* 밑줄 제거 */
 }

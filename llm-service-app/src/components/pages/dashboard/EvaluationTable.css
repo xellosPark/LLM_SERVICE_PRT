@@ -8,10 +8,25 @@
   text-align: center;
 }
 
+
+
 .eval-table {
   width: 100%;
   table-layout: fixed; /* 열 너비를 고정 */
   border-collapse: collapse;
+  margin-left: 12px;
+}
+
+.eval-col-thead-padding {
+  padding: 11px !important;
+}
+
+.eval-col-tbody-padding {
+  padding: 15.7px !important;
+}
+
+.elval-col-nopadding {
+  padding: 0px;
 }
 
 .eval-table th {
@@ -28,6 +43,8 @@
   font-size: 14px;
   font-weight: lighter;
 }
+
+
 
 .eval-table td {
   padding: 8px;
@@ -146,6 +163,7 @@ padding-right: 4px;
   width: 140px;
   justify-content: center; /* 내용물 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
+  margin-right: 120px;
 }
 
 .eval-button-run:hover {

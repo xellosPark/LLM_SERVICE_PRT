@@ -124,6 +124,7 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
+    text-decoration: none;
   }
 
   .result-button:hover {
@@ -140,6 +141,8 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
   }
 
   .eval_result > span {
