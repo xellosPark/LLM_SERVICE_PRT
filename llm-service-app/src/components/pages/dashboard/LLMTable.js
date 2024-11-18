@@ -41,6 +41,8 @@ const LLMTable = ({handleItemClick}) => {
     // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
     const fileData = await LoadFilesTable(model.job_id);
     const data = { id: model.index, ...fileData }
+    console.log('선택한 files Data 표시', model, fileData);
+    
     
     setSelectedRowData(data);
     setIsModalOpen(true);
@@ -180,7 +182,7 @@ const LLMTable = ({handleItemClick}) => {
         );
       }
     },
-    { field: 'elapsed_time', headerName: 'progress time', flex: 2, headerAlign: 'center', sortable: false,
+    { field: 'elapsed_time', headerName: 'Progress Time', flex: 2, headerAlign: 'center', sortable: false,
       renderCell: (params) => {
         const rowData = params.row;
         return (
@@ -200,7 +202,7 @@ const LLMTable = ({handleItemClick}) => {
           <>
           <div onContextMenu={(event) => handleCellClick(params, event)}>
           {params.value}
-            { rowData.checks_status === 'success' ? loadRiskMails(rowData) : `-` }
+            { rowData.status === 'success' ? loadRiskMails(rowData) : `-` }
           </div>
           
           </>

@@ -12,22 +12,6 @@ function MainScreen({ setActivePage, activePage }) {
   const [subPage, setSubPage] = useState('Default');
   const [isActivePage, setIsActivePage] = useState(false);
 
-  const [navigationStack, setNavigationStack] = useState([]); // 네비게이션 히스토리를 저장하는 상태
-
-  // 항목 클릭을 처리하고 네비게이션 스택을 업데이트하는 함수
-  const handleItemClick = (componentName) => {
-    setActivePage(componentName); // 활성 페이지 업데이트
-
-    // 이전 스택에 새 컴포넌트 이름을 추가하여 네비게이션 스택 저장
-    setNavigationStack((prevStack) => [...prevStack, componentName]);
-  };
-
-  // 전체 네비게이션 스택을 로그로 출력하는 함수
-  const logNavigationStack = () => {
-    console.log("🔍 현재 네비게이션 스택:", navigationStack);
-  };
-
-
   // Toggle Sidebar function
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -51,10 +35,10 @@ function MainScreen({ setActivePage, activePage }) {
         setMainTitle("LLMOPS");
         return lazy(() => import('../dashboard/LLMOPS'));
       case 'Evaluation':
-        setMainTitle("Mail Compliance 점검 - Evaluation");
+        setMainTitle("평가하기");
         return lazy(() => import('../dashboard/EvalDashBoard'));
         case 'Final':
-          setMainTitle("Mail Compliance 점검 - Final");
+          setMainTitle("수정하기");
           return lazy(() => import('../dashboard/EvalDashBoardView'));
       case 'Sub4':
         setMainTitle("Sub4");
@@ -68,19 +52,19 @@ function MainScreen({ setActivePage, activePage }) {
     }
   };
 
-  // // Handle menu item click
-  // const handleItemClick = (componentName) => {
-  //   setSubPage('Default');
-  //   setIsActivePage(false);
-  //   const Component = loadComponent(componentName);
-  //   if (Component) {
-  //     setActiveComponent(() => Component);
-  //     //setMainTitle(componentName); // 헤더 제목 설정
-  //     localStorage.setItem('activeComponent', componentName);  // Save selected component in localStorage
-  //   } else {
-  //     console.error(`Component not found: ${componentName}`);
-  //   }
-  // };
+  // Handle menu item click
+  const handleItemClick = (componentName) => {
+    setSubPage('Default');
+    setIsActivePage(false);
+    const Component = loadComponent(componentName);
+    if (Component) {
+      setActiveComponent(() => Component);
+      //setMainTitle(componentName); // 헤더 제목 설정
+      localStorage.setItem('activeComponent', componentName);  // Save selected component in localStorage
+    } else {
+      console.error(`Component not found: ${componentName}`);
+    }
+  };
 
   // Restore last selected component on page refresh
   useEffect(() => {
@@ -101,7 +85,6 @@ function MainScreen({ setActivePage, activePage }) {
         isCollapsed={isCollapsed}
         onToggle={toggleSidebar}
         onItemClick={handleItemClick}  // Change component on Sider menu click
-        logNavigationStack={logNavigationStack} // 로그 함수 전달
       />
       <div className="content">
         {/* <div className="maintitle">
@@ -142,9 +125,14 @@ function MainScreen({ setActivePage, activePage }) {
             <div className="navigation-bar">
               <div className="navigation-title">
                 <>
+
                   <button onClick={() => handleItemClick('DashBoard')} className="nav-item-create">
-                    {MainTitle}
+                    Mail Compliance 점검
                   </button>
+                  <BsChevronRight className="nav-item-create-header" />
+                    
+                    
+                    <div className="nav-item-create-active">{MainTitle}</div>
                 </>
               </div>
             </div>

@@ -3,6 +3,10 @@ import "./FileTableModal.css"; // 모달에 대한 스타일을 별도 파일로
 
 const FileTableModal = ({ data, onClose }) => {
   if (!data) return null;
+  if (!data[0]) {
+    alert('데이터에 문제가 있습니다');
+    return
+  }
 
   const timeReplace = (time) => {
     // 특정 문자 집합 제거

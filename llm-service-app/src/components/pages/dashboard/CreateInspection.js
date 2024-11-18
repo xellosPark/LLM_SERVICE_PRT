@@ -83,6 +83,8 @@ const CreateInspection = () => {
     const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
     const [isPromptModalOpen, setIsPromteModalOpen] = useState(false);
     const [promptContent, setPromptContent] = useState("");
+    const [startTime, setStartTime] = useState('');
+    const [fileSize, setFileSize] = useState(0);
 
     useEffect(() => {
 
@@ -274,12 +276,13 @@ const CreateInspection = () => {
 
         socket.emit('sendUuid', { uuid: createUuid, type: fileNames }, (response) => {
             if (response === 'UUID received') {
+                handleFilsSizeAndTime();
                 files.forEach((file, index) => {
                     const formData = new FormData();
                     formData.append('file', file);
                     //formData.append('uuid', createUuid);
-
-                    axios.post(`http://165.244.190.28:5000/upload`, formData, {
+                    
+                    axios.post(`http://localhost:5000/upload`, formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                         onUploadProgress: (progressEvent) => {
                             const percentCompleted = Math.min(
@@ -320,8 +323,10 @@ const CreateInspection = () => {
         });
     };
 
-    const SendMailCheckStart = async () => {
-        const fileSaveResult = await fileSave(uploadData);
+    const SendMailCheckStart = async (time) => {
+        const elapsed_time = (time / 1000).toFixed(2); //초 단위 시간 계산
+        
+        const fileSaveResult = await fileSave(uploadData, elapsed_time, fileSize.toFixed(2));
         console.log('fileSaveResult', fileSaveResult);
 
         const result = await MailCheckStart(uploadData);
@@ -336,6 +341,13 @@ const CreateInspection = () => {
         setIsPromteModalOpen(true);
     }
 
+    const handleFilsSizeAndTime = () => {
+        const totalSizeInMB = files.reduce((acc, file) => acc + file.size, 0) / (1024 * 1024); //MB 단위로 변환
+        setFileSize(totalSizeInMB);
+        const startTime = Date.now();// 타이머 시작
+        setStartTime(startTime);
+    }
+
     useEffect(() => {
         if (files.length === 0)
             return;
@@ -344,10 +356,11 @@ const CreateInspection = () => {
         if (files.length === (fileCount + failFileCount)) {
             setUploadComplete(true);
             setTotalProgress(100);
+            const elapsed_time = Date.now() - startTime;// 타이머 시작
 
             const timer = setTimeout(() => {
                 console.log('파일 업로드 성공');
-                SendMailCheckStart();
+                SendMailCheckStart(elapsed_time);
                 setFileCount(0);
                 setFailFileCount(0);
             }, 1000); // 1초 후 로그 출력

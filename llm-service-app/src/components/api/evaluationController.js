@@ -9,13 +9,16 @@ export const LoadResultFile = async (job_id, sheet, type) => {
       // }
       //const dataJson = await response.json();
       //console.log('Fetched result:', dataJson); // 가져온 결과 로그 출력
-      return response.data;
+      return response;
   } catch (error) {
-    if (error.status === 500) {
+    if (error.response) {
+      return error.response.data;
+    }
+    if (error.status) {
       console.log('MailCheckStart Error Code ', error.status);
       return error.status;
   }
-  return undefined;
+  //return undefined;
   }
 }
 

@@ -6,17 +6,6 @@ import { faArrowLeft,faArrowRight,faDesktop,faChartPie } from '@fortawesome/free
 
 
 const Sider = ({ isCollapsed, onToggle, onItemClick }) => {
-  const handleItemClick = (componentName) => {
-    console.log(`🔹 handleItemClick 호출됨: ${componentName}`); // 버튼 클릭 시 호출 로그
-
-    // 브라우저 히스토리에 상태 저장
-    window.history.pushState({ component: componentName }, "", `/${componentName}`);
-    console.log(`➡️ window.history.pushState: component = ${componentName}, URL = /${componentName}`); // pushState에 대한 로그
-
-    // MainScreen의 상태 업데이트를 위한 콜백 호출
-    onItemClick(componentName);
-    console.log(`✔️ onItemClick 실행 완료: ${componentName}`); // onItemClick 완료 후 로그
-};
   return (
     <aside className={`sider ${isCollapsed ? 'collapsed' : ''}`}>
       <ul className="sidemenu">

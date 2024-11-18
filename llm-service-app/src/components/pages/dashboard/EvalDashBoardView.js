@@ -24,6 +24,8 @@ const EvalDashBoardView = () => {
   const [movedRisk, setMovedRisk] = useState({});
   const navigate = useNavigate();
   const [isTab4Visible, setIsTab4Visible] = useState(true); // Tab4 표시 여부를 관리하는 상태
+  const [failMessage, setFailMessage] = useState('');
+  const [isLoadFail, setIsLoadFail] = useState(false);
 
   // 컴포넌트가 마운트될 때 로컬 저장소에서 데이터 불러오기
   useEffect(() => {
@@ -76,14 +78,24 @@ const EvalDashBoardView = () => {
         console.log(`"${sheet}" 시트에서 데이터 가져오는 중`); // 각 시트의 데이터 가져오기 로그
         const result = await LoadResultFile(jobId, sheet, 'evaluations');
         
+        let data = null;
         if (result === undefined) {
-            setIsTab4Visible(false);
-            continue;
+          setIsTab4Visible(false);
+          setFailMessage('데이터가 없습니다');
+          setIsLoadFail(true);
+          continue;
+      } else if (result.status === 205 || result.status === 206) {
+          setFailMessage('데이터가 없습니다');
+          setIsLoadFail(true);
+        } else if (result.status === 200 || result.status === 201) {
+          data = result.data;
+          setIsLoadFail(false);
         }
+        
         //const result = await responce.json();
 
         // 각 행의 마지막에 riskLabel 추가
-        const rowsWithRiskLabel = result.rows.map((row, rowIndex) => {
+        const rowsWithRiskLabel = data.rows.map((row, rowIndex) => {
           const rowWithLabel = [...row]; // 기존 행 복사
           let riskLabel;
           let headerLabel;
@@ -110,7 +122,7 @@ const EvalDashBoardView = () => {
           return rowWithLabel;
         });
         //console.log(`"${sheet}" 시트의 모든 행에 리스크 레이블이 추가되었습니다.`, rowsWithRiskLabel); // 해당 시트 완료 로그
-        allData.push({ sheet, headers: result.headers, rows: rowsWithRiskLabel });
+        allData.push({ sheet, headers: data.headers, rows: rowsWithRiskLabel });
       }
 
       // 로컬 스토리지에 데이터 저장
@@ -362,23 +374,30 @@ const LoadMoveVal = () => {
           <>
             <div style={{display: 'flex', justifyContent:'space-between', maxWidth: '1700px'}}>
             {
-              activeTab !== 'Tab4' && (
+              // activeTab !== 'Tab4' && (
                 <div className="tab-container">
-                  <img src="https://img.icons8.com/?size=45&id=80613&format=png&color=000000" alt="tab" />
-
                   <div className="tab-title">
-                    {activeTab === 'Tab1' && 'High Risk'}
-                    {activeTab === 'Tab2' && 'Potential Risk'}
-                    {activeTab === 'Tab3' && 'No Risk'}
-                    {activeTab === 'Tab3' && '최종'}
-                    <div className="tab-title-span">{ 
-                      activeTab === 'Tab1' ? `${riskCount?.risk + formatData(movedRisk?.risk) - formatData(movedRisk?.m_risk)} / ${riskCount.keyword_filtered_num}` : 
-                      activeTab === 'Tab2' ? `${riskCount?.potential - formatData(movedRisk?.m_potential)} / ${riskCount.keyword_filtered_num}` : 
-                      activeTab === 'Tab3' ? `${riskCount?.no_risk + formatData(movedRisk?.no_risk) - formatData(movedRisk?.m_no_risk)} / ${riskCount.keyword_filtered_num}` :
-                      ''}</div>
+                    {activeTab === 'Tab1' && ''} {/* High Risk */}
+                    {activeTab === 'Tab2' && ''} {/* Potential Risk */}
+                    {activeTab === 'Tab3' && ''} {/* No Risk */}
+                    {activeTab === 'Tab4' && ''} {/* 최종 */}
+                    
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <span style={{ fontSize: '25px', fontWeight: 'bold', color: 'black', marginTop: '-4px'}}>{
+                        activeTab === 'Tab1' || activeTab === 'Tab4' ? `${riskCount?.risk + formatData(movedRisk?.risk) - formatData(movedRisk?.m_risk)}` : 
+                        activeTab === 'Tab2' ? `${riskCount?.potential - formatData(movedRisk?.m_potential)}` : 
+                        activeTab === 'Tab3' ? `${riskCount?.no_risk + formatData(movedRisk?.no_risk) - formatData(movedRisk?.m_no_risk)}` :
+                        ''
+                      }
+                      </span>
+                      <div className="tab-title-span" style={{ marginLeft: '8px' }}>
+                        {/* 전체 수치 표시 */}
+                        {` / ${riskCount.keyword_filtered_num}`}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              )
+              // )
             }
             
             {/* <div>
@@ -402,7 +421,9 @@ const LoadMoveVal = () => {
             <div className="flex-row table-direct">
               <div className="table-section">
                 {/* 선택된 탭에 맞는 데이터 필터링 */}
-                {getTabData(activeTab) ? (
+                {
+                  isLoadFail === true ? <div>{failMessage}</div> :
+                getTabData(activeTab) ? (
                   <EvaluationTable
                     // headers={getTabData(activeTab).headers}
                     // rows={getTabData(activeTab).rows}
@@ -413,7 +434,7 @@ const LoadMoveVal = () => {
                     isTab4Visible={isTab4Visible}
                   />
                  ) : (
-                  <div>데이터를 불러오는 중이거나 데이터가 없습니다.</div>
+                  <div>데이터를 불러오는 중입니다.</div>
                 )}
               </div>
             </div>

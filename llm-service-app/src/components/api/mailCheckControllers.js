@@ -83,8 +83,8 @@ export const promptFileUpdate = async (content) => {
   }
 }
 
-export const fileSave = async (fileNames) => {
-  console.log('filesave', fileNames);
+export const fileSave = async (fileNames, elapsed_time, fileSize) => {
+  //console.log('filesave', fileNames);
   
   try {
     const ip = `http://localhost:5000`;
