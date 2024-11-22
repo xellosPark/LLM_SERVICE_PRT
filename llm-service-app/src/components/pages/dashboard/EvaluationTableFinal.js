@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
 import Pagination from '../Pagination/Pagination';
 import './EvaluationTable.css';
+import { Link } from 'react-router-dom';
 
 
 const ToggleButton = React.memo(({ isRisk, onClick }) => {
@@ -36,7 +37,7 @@ const ToggleButton = React.memo(({ isRisk, onClick }) => {
     );
 });
 
-const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, isTab4Visible }) => {
+const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, isTab4Visible, rowData, id }) => {
     const [datas, setDatas] = useState([]);
     const [buttonStates, setButtonStates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -46,9 +47,9 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
 
     // Initial column widths, setting a default width of 100px for each column
     const [columnWidths, setColumnWidths] = useState({
-        no: 7,
-        complianceRisk: 90,
-        default: 0.5
+        no: 10,
+        complianceRisk: 57,
+        default: 1
     });
 
     const tableRef = useRef(null);
@@ -56,7 +57,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
     const resizingState = useRef({ startX: 0, startWidth: 0, containerWidth: 0 });
 
     const loadDatasFromLocalStorage = () => {
-        const storedData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+        //const storedData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+        const storedData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
         const currentSheetData = storedData.find(sheetData => {
             if (tabName === "Tab1") return sheetData.sheet === "High Risk - 기술 자료 요청";
             if (tabName === "Tab2") return sheetData.sheet === "Potential Risk - 일반 자료 요청";
@@ -110,28 +112,29 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                     if (currentSheetData.headers) {
                         const initialWidths = currentSheetData.headers.reduce((acc, header, index) => {
                             if (header === "본문") {
-                                acc[`field${index}`] = 500; // "본문" 헤더는 너비를 400px로 설정
+                                acc[`field${index}`] = 400; // "본문" 헤더 너비
                             } else if (header === "판단 근거 문장") {
-                                acc[`field${index}`] = 400; // "판단 근거 문장" 헤더는 너비를 300px로 설정
+                                acc[`field${index}`] = 300; // "판단 근거 문장" 헤더 너비
                             } else if (header === "No") {
-                                acc[`field${index}`] = 7; // "판단 근거 문장" 헤더는 너비를 300px로 설정
+                                acc[`field${index}`] = 10; // "No" 헤더 너비
+                            } else if (header === '자료요청 시스템 사용 확률') {
+                                // acc[`field${index}`] = hasDataInRequestedTitleColumn2 ? 100 : 0.5;
+                                acc[`field${index}`] = 130;
                             } else if (header === "자료요청 시스템 제목") {
                                 // 데이터 존재 여부에 따라 너비를 조건부로 설정
-                                acc[`field${index}`] = hasDataInRequestedTitleColumn ? 200 : 0.5;
-                            } else if (header === '자료요청 시스템 사용 확률') {
-                                acc[`field${index}`] = hasDataInRequestedTitleColumn2 ? 200 : 0.5;
-                            } else if (header === '자료요청 시스템 제목') {
-                                acc[`field${index}`] = 200;
+                                // acc[`field${index}`] = hasDataInRequestedTitleColumn ? 100 : 0.5;
+                                acc[`field${index}`] = 110;
                             } else {
+                                // acc[`field${index}`] = 0.1;
                                 acc[`field${index}`] = columnWidths.default; // 기타 헤더는 기본 너비를 사용
                             }
                             return acc;
                         }, {});
 
                         if (tabName === 'Tab3') {
-                            initialWidths.complianceRisk = 100;
+                            initialWidths.complianceRisk = 93;
                         } else {
-                            initialWidths.complianceRisk = 100;
+                            initialWidths.complianceRisk = 300;
                         }
                         setColumnWidths(prev => ({ ...prev, ...initialWidths }));
                     }
@@ -141,7 +144,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
     };
 
     const getColumnsFromHeaders = (tabName) => {
-        const storedData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+        //const storedData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+        const storedData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
         const sheetMap = {
             "Tab1": "High Risk - 기술 자료 요청",
             "Tab2": "Potential Risk - 일반 자료 요청",
@@ -150,7 +154,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
         };
         const currentSheetData = storedData.find(sheetData => sheetData.sheet === sheetMap[tabName]);
 
-        const columns = [{ key: 'no', label: 'No' }];
+        const columns = [{ key: 'no', label: 'Id' }];
         if (currentSheetData && currentSheetData.headers) {
             currentSheetData.headers.forEach((headerName, index) => {
                 columns.push({
@@ -187,7 +191,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
         const columnRightEdge = columnRefs.current[columnKey].getBoundingClientRect().right;
          //     const startX = e.clientX;
     //     const offset = startX - columnRightEdge + 200; // 마우스 포인터와 열 경계선의 차이
-        const startX = e.clientX + 100;
+        const startX = e.clientX + 150;
     
         console.log("열 시작 너비:", startWidth); // 디버그: 시작 너비 확인
         console.log("마우스 시작 X 좌표:", startX); // 디버그: 마우스 시작 X 좌표
@@ -202,8 +206,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
             if (columnKey === 'no' && newWidth > 10) {
                 newWidth = 10;
             }
-            if (columnKey === 'complianceRisk' && newWidth > 150) {
-                newWidth = 150;
+            if (columnKey === 'complianceRisk' && newWidth > 300) {
+                newWidth = 300;
             }
     
             console.log("마우스 이동 거리 (deltaX):", deltaX); // 디버그: 마우스 이동 거리 출력
@@ -250,7 +254,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
         console.log("=== Apply 버튼 클릭됨 ===");
     
         // localStorage에서 데이터 가져오기
-        let allSheetData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+        //let allSheetData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+        let allSheetData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
         const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
         const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
         const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "Potential Risk - 일반 자료 요청");
@@ -276,7 +281,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                 //console.log("No Risk 탭에 추가된 후의 rows:", noRiskSheetData.rows);
     
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
     
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -307,7 +313,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                 console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
     
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
     
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -339,7 +346,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                 //console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
 
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -370,7 +378,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                 });
 
                 // localStorage 동기화
-                let allSheetData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+                //let allSheetData = JSON.parse(localStorage.getItem('allSheetFinal')) || [];
+                let allSheetData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
                 allSheetData = allSheetData.map((sheetData) => {
                     if (tabName === "Tab1" && sheetData.sheet === "High Risk - 기술 자료 요청") {
                         sheetData.rows = sheetData.rows.map((row, rowIndex) => {
@@ -391,7 +400,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                     return sheetData;
                 });
 
-                localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetFinal', JSON.stringify(allSheetData));
                 //loadDatasFromLocalStorage();
 
                 return updatedDatas;
@@ -444,20 +454,21 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
 
     return (
         <div>
-            <div className='eval-div' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '95%' }}> {/* Fixed width for the table container */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '95%'}}> {/* Fixed width for the table container */}
                 <table className="eval-table" ref={tableRef}>
                     <thead>
                         <tr>
-                            {selectedColumns.map((column, inde) => (
+                            {selectedColumns.map((column) => (
                                 <th
-                                    className={isTab4Visible === true ? 'eval-col-thead-padding' : 'elval-col-nopadding'}
+                                    className={isTab4Visible === true ? 'eval-thead-padding' : 'eval-nopadding'}
                                     key={column.key}
                                     ref={(el) => {
                                         if (el) columnRefs.current[column.key] = el;
                                     }}
                                     style={{
-                                        width: `${columnWidths[column.key] || columnWidths.default}px`,
-                                        position: 'relative',
+                                        width: tabName === "Tab4" && column.key === "no" ? "18px" :
+                                        `${columnWidths[column.key] || columnWidths.default}px`,
+                                        position: 'relative'
                                     }}
                                 >
                                     <div style={{ textAlign: 'center', alignItems: 'center' }}>
@@ -465,7 +476,8 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                                         {column.key === 'complianceRisk' && (
                                             <button
                                                 style={{
-                                                    padding: '4px 7px',
+                                                    width: '150px',
+                                                    position: 'relative',
                                                     backgroundColor: '#E7E7E7',
                                                     border: 'none',
                                                     borderRadius: '25px',
@@ -487,7 +499,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                                                 top: 0,
                                                 width: '5px',
                                                 height: '100%',
-                                                backgroundColor: 'transparent',
+                                                backgroundColor: 'transparent'
                                             }}
                                         />
                                     </div>
@@ -500,7 +512,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                             <tr key={rowIndex} className={row.MoveColor === 'move' ? 'row-gray' : 'row-white'}>
                             {selectedColumns.map((column, colIndex) => (
                                 <td
-                                    className={isTab4Visible === true ? 'eval-col-tbody-padding' : 'elval-col-nopadding'}
+                                    className={isTab4Visible === true ? 'eval-tbody-padding' : 'eval-nopadding'}
                                     key={colIndex}
                                     onClick={(e) => handleColumnClick(e, row[column.key])} // 각 셀 클릭 시 handleColumnClick 호출
                                 >
@@ -526,7 +538,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                     className="eval-tooltip"
                     ref={tooltipRef}
                     style={{ top: tooltip.top, left: tooltip.left, position: 'absolute' }}
-                    onMouseLeave={hideTooltip} // 마우스를 툴팁 밖으로 옮기면 숨기기
+                    //onMouseLeave={hideTooltip} // 마우스를 툴팁 밖으로 옮기면 숨기기
                 >
                     {tooltip.content}
                 </div>
@@ -560,7 +572,13 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                 <div>
-                    <button className="eval-button-run" onClick={isTab4Visible ? () => handleEdit() : () => handleEvalEnd()}>  {isTab4Visible ? '수정하기' : '평가 완료'}</button>
+                    <Link to={`/service/mail-compliance/evaluation/${id}`}
+                        state={{ rowData : rowData, isResultEdit : true }}
+                        className="eval-final-button-run"
+                    >
+                        수정하기
+                    </Link>
+                    {/* <button className="eval-button-run" onClick={isTab4Visible ? () => handleEdit() : () => handleEvalEnd()}>  {isTab4Visible ? '수정하기' : '평가 완료'}</button> */}
                 </div>
             </div>
         </div>

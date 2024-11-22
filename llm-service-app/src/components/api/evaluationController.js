@@ -3,7 +3,7 @@ import api from './api'
 
 export const LoadResultFile = async (job_id, sheet, type) => {
   try {
-    const response = await api.get(`http://localhost:5000/api/datas/excel-data?job_id=${job_id}&sheet=${sheet}&type=${type}`);
+    const response = await api.get(`http://165.244.190.28:5000/api/datas/excel-data?job_id=${job_id}&sheet=${sheet}&type=${type}`);
       // if (!response.ok) {
       //   throw new Error('시트 데이터를 가져오는 데 실패했습니다');
       // }
@@ -24,7 +24,7 @@ export const LoadResultFile = async (job_id, sheet, type) => {
 
 export const SendEvalData = async (data) => {
     try {
-        const ip = `http://localhost:5000`;
+        const ip = `http://165.244.190.28:5000`;
         const response = await api.post(`${ip}/api/datas/mail-compliance-check/save_evaluation`, data);
         
         return response;

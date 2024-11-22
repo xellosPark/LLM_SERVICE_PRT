@@ -14,17 +14,17 @@ function SidebarLayout() {
   return (
     <aside className={`sidebar ${isMinimized ? 'minimized' : ''}`}>
       <div className="menu">
-        <Link to="/sidebar/DashBoard" className="menu-item">
+        <Link to="/service/mail-compliance" className="menu-item">
         <span className="custom-icon-size">
             <FontAwesomeIcon icon={faChartPie } />
           </span>
-          <span className="text">LLM Service</span>
+          <span className="sider-text">{!isMinimized && 'LLM Service'}</span>
         </Link>
-        <Link to="/sidebar/LLMOPS" className="menu-item">
+        <Link to="/ops" className="menu-item">
         <span className="custom-icon-size">
-            <FontAwesomeIcon icon={faChartPie } />
+            <FontAwesomeIcon icon={faDesktop} />
           </span>
-          <span className="text">LLM Ops</span>
+          <span className="sider-text">{!isMinimized && 'LLM Ops'}</span>
         </Link>
         {/* <Link to="/sidebar/view4" className="menu-item">
           <span className="custom-icon-size">
@@ -36,7 +36,8 @@ function SidebarLayout() {
       {/* 하단 최소화 버튼 */}
       <div className="bottom-toggle">
         <span onClick={toggleSidebar} className="toggle-text">
-          {isMinimized ? '➡ ' : '⬅ 최소화'}
+        <FontAwesomeIcon icon={isMinimized ? faArrowRight : faArrowLeft} />
+          {!isMinimized && <span className="toggle-icon-size"> 최소화</span>}
         </span>
       </div>
     </aside>

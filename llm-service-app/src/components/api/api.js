@@ -8,7 +8,7 @@ let logoutHandler = null; // 로그아웃 핸들러를 저장할 변수
 
 // Axios 인스턴스 생성
 const api = axios.create({
-    baseURL: `http://localhost:5000` //`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`
+    baseURL: `http://165.244.190.28:5000` //`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`
 });
 
 export const setLogoutHandler = (logoutFn) => {
@@ -21,7 +21,7 @@ const refreshAccessToken = async () => {
     //const history = useHistory
     console.log('재발급 진행');
 
-    const ip = `http://localhost:5000`;//`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
+    const ip = `http://165.244.190.28:5000`;//`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
     const refreshToken = localStorage.getItem('refreshToken');
     try {
         const response = await axios.post(`${ip}/api/auth/token`, { token: refreshToken });

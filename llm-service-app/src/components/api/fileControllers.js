@@ -3,7 +3,7 @@ import api from './api'
 
 export const DownloadResultFile = async (job_id, filename) => {
     try {
-        const ip = `http://localhost:5000`;
+        const ip = `http://165.244.190.28:5000`;
         const response = await api.get(`${ip}/api/datas/download-result/${filename}?job_id=${job_id}`, {
             responseType: 'blob', // 파일 다운로드를 위해 필요합니다.
         });

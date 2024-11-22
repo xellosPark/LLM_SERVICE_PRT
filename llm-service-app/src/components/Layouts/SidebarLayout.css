@@ -1,5 +1,5 @@
 /* 사이드바 기본 스타일 */
-  .sidebar {
+.sidebar {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -29,7 +29,7 @@
   .menu-item {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     color: #979292;
     text-decoration: none;
     transition: background 0.3s ease;
@@ -41,6 +41,11 @@
     color: #000000; /* #EAD8B1 rgb(247, 243, 45); */
   }
   
+  .sider-text {
+    font-size: 14px;
+    margin-left: 4px;
+  }
+
   .icon {
     margin-right: 10px;
     font-size: 14px;
@@ -87,4 +92,11 @@
   .custom-icon-size {
     font-size: 14px; /* Adjust the icon size here */
     margin: 5px 7px 5px 10px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+  }
+
+  .toggle-icon-size {
+    font-size: 14px; /* Adjust the icon size here */
+    margin-right: 5px;
+    margin-left: 1px;
+    
   }

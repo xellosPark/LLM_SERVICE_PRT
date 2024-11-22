@@ -2,7 +2,7 @@ import api from './api'
 
 export const LoadAllChecksTable = async () => {
     try {
-        const ip = `http://localhost:5000`;
+        const ip = `http://165.244.190.28:5000`;
         const response = await api.get(`${ip}/api/datas/checks-table-data`);
         
         return response.data;
@@ -17,7 +17,7 @@ export const LoadAllChecksTable = async () => {
 
 export const LoadChecksRow = async (job_id) => {
   try {
-    const ip = `http://localhost:5000`;
+    const ip = `http://165.244.190.28:5000`;
     const response = await api.get(`${ip}/api/datas/checks-table-row?job_id=${job_id}`);
     
     return response.data;
@@ -32,7 +32,7 @@ export const LoadChecksRow = async (job_id) => {
 
 export const LoadFilesTable = async (job_id) => {
     try {
-        const ip = `http://localhost:5000`;
+        const ip = `http://165.244.190.28:5000`;
         const response = await api.get(`${ip}/api/datas/files-table-data?job_id=${job_id}`);
         
         return response.data;
@@ -48,7 +48,7 @@ export const LoadFilesTable = async (job_id) => {
 export const LoadEvaluationRow = async (job_id) => {
   
   try {
-    const ip = `http://localhost:5000`;
+    const ip = `http://165.244.190.28:5000`;
     const response = await api.get(`${ip}/api/datas/evaluation-table-data?job_id=${job_id}`);
     
     return response.data;
@@ -63,7 +63,7 @@ export const LoadEvaluationRow = async (job_id) => {
 
 export const LoadJoinChecksEvalTable = async () => {
   try {
-    const ip = `http://localhost:5000`;
+    const ip = `http://165.244.190.28:5000`;
     const response = await api.get(`${ip}/api/datas/checks-eval-table-join`);
     return response.data;
   } catch (error) {
@@ -78,7 +78,7 @@ export const DeleteRow = async (job_id) => {
   console.log('DeleteRow',job_id);
   
   try {
-    const ip = `http://localhost:5000`;
+    const ip = `http://165.244.190.28:5000`;
     const response = await api.get(`${ip}/api/datas/delete-row?job_id=${job_id}`);
     //console.log('response', response);
     
@@ -86,6 +86,32 @@ export const DeleteRow = async (job_id) => {
   } catch (error) {
     if (error.status === 500) {
       console.log('LoadJoinChecksEvalTable Error Code ', error.status);
+      return error.status;
+    }
+  }
+}
+
+export const LoadLlmsTable = async () => {
+  try {
+    const ip = `http://165.244.190.28:5000`;
+    const response = await api.get(`${ip}/api/datas/load-llms-table`);
+    return response.data;
+  } catch (error) {
+    if (error.status === 500) {
+      console.log('LoadLlmsTable Error Code ', error.status);
+      return error.status;
+    }
+  }
+}
+
+export const LoadLlmsRow = async (id) => {
+  try {
+    const ip = `http://165.244.190.28:5000`;
+    const response = await api.get(`${ip}/api/datas/load-llms-row?id=${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.status === 500) {
+      console.log('LoadLlmsRow Error Code ', error.status);
       return error.status;
     }
   }

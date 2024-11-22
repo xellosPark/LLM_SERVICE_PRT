@@ -7,15 +7,15 @@ import darkLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_white_rgb.png';
 import { UserContext } from '../useContext/UserContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-function Header({ onLogout, setActivePage }) {
+function Header({ onLogout }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleClickLogo = () => {
-    setActivePage('main'); // 메인 페이지 활성화
-    navigate('/main'); // 메인 페이지로 이동
-    localStorage.setItem('activeComponent', 'DashBoard'); 
+    //setActivePage('main'); // 메인 페이지 활성화
+    navigate('/service/mail-compliance'); // 메인 페이지로 이동
+    //localStorage.setItem('activeComponent', 'DashBoard'); 
     // return (
     //   <Navigate to={"/main"} />
     // )

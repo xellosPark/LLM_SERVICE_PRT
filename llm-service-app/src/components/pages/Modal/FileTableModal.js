@@ -1,5 +1,6 @@
 import React from "react";
 import "./FileTableModal.css"; // 모달에 대한 스타일을 별도 파일로 분리
+import { LoadLlmsRow } from "../../api/DBControllers";
 
 const FileTableModal = ({ data, onClose }) => {
   if (!data) return null;
@@ -7,6 +8,13 @@ const FileTableModal = ({ data, onClose }) => {
     alert('데이터에 문제가 있습니다');
     return
   }
+  
+
+  // const ViewModelName = async (id) => {
+  //   const data = await LoadLlmsRow(id);
+  //   console.log('id', id, data, data.name_show);
+  //   setShowModel(data.name_show);
+  // }
 
   const timeReplace = (time) => {
     // 특정 문자 집합 제거
@@ -15,6 +23,7 @@ const FileTableModal = ({ data, onClose }) => {
     const result = date.toISOString().split('.')[0].replace('T', ' ');
     return result;
   }
+
   
   return (
     <div className="table-modal-overlay" onClick={onClose}>
@@ -27,7 +36,7 @@ const FileTableModal = ({ data, onClose }) => {
           <p style={{ color: 'gray', fontSize: '12px', fontWeight: 'normal', marginLeft: '7px' }}>(Job Id : {data[0]?.job_id || 'Nan'})</p>
         </div>
         <div className="table-modal-model">Model</div>
-        <div className="table-modal-content-model"><p>{data[0]?.model_name || 'Nan'}</p></div>
+        <div className="table-modal-content-model"><p>{data.model || 'Nan'}</p></div>
 
         <div className="table-modal-label">Data</div>
 

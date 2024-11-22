@@ -30,22 +30,22 @@
     display: inline-block;        /* 인라인 요소의 크기 조절을 위해 사용 */
   line-height: normal;            /* 인라인 요소의 본래 높이 유지 */
 }
-.navigation-bar {
-    background-color: #ffffff;  /* 네비게이션 배경색 */
-    display: flex;                /* 플렉스 사용으로 항목들을 적절히 정렬 */
-    align-items: center;          /* 텍스트 수직 가운데 정렬 (오타 수정: 'centr' -> 'center') */
-    padding-bottom: 10px;         /* 밑줄 위에 약간의 공간 추가 */
-    margin-top: 40px;             /* 위에 여백 추가 */
-    margin-left: 25px;            /* 왼쪽 여백 추가 */
-}
+/* .navigation-bar {
+    background-color: #ffffff;  네비게이션 배경색
+    display: flex;                플렉스 사용으로 항목들을 적절히 정렬
+    align-items: center;          텍스트 수직 가운데 정렬 (오타 수정: 'centr' -> 'center')
+    padding-bottom: 10px;         밑줄 위에 약간의 공간 추가
+    margin-top: 40px;             위에 여백 추가
+    margin-left: 25px;            왼쪽 여백 추가
+} */
 
-.navigation-title {
-    display: flex;                  /* 버튼들을 수평으로 나열 */
-    justify-content: flex-start;    /* 왼쪽 정렬 */
-    gap: 10px;                      /* 버튼 사이에 간격 추가 */
-    justify-content: center; /* 내용물 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-}
+/* .navigation-title {
+    display: flex;                  버튼들을 수평으로 나열
+    justify-content: flex-start;    왼쪽 정렬
+    gap: 10px;                      버튼 사이에 간격 추가
+    justify-content: center; 내용물 중앙 정렬
+    align-items: center; 세로 중앙 정렬
+} */
 
 .nav-item {
     background-color: transparent; /* 기본 배경색 제거 */
@@ -100,38 +100,38 @@
     margin-bottom: 25px;
 }
 
-.nav-item-create-header {
+/* .nav-item-create-header {
     justify-content: center;
     align-items: center;
-    background-color: transparent; /* 기본 배경색 제거 */
-    color: #222; /* 텍스트 색상 */
-    border: none; /* 테두리 제거 */
-    font-size: 19px; /* 폰트 크기 */
-    position: relative; /* underline을 위한 상대적 위치 */
+    background-color: transparent; 기본 배경색 제거
+    color: #222; 텍스트 색상
+    border: none; 테두리 제거
+    font-size: 19px; 폰트 크기
+    position: relative; underline을 위한 상대적 위치
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 25px;
-}
+} */
 
-.nav-item-create-active {
+/* .nav-item-create-active {
     justify-content: center;
     align-items: center;
-    background-color: transparent; /* 기본 배경색 제거 */
-    color: #b82749; /* 텍스트 색상 */
-    border: none; /* 테두리 제거 */
-    font-size: 19px; /* 폰트 크기 */
-    position: relative; /* underline을 위한 상대적 위치 */
+    background-color: transparent; 기본 배경색 제거
+    color: #b82749; 텍스트 색상
+    border: none; 테두리 제거
+    font-size: 19px; 폰트 크기
+    position: relative; underline을 위한 상대적 위치
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 25px;
-}
+} */
 
-.separator {
+/* .separator {
     width: 1px;
     height: 15px;
     background-color: #b6b4b4;
     margin: 0 5px;
-  }
+  } */
 
   .nav-icon {
     display: inline-block;

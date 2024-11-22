@@ -24,6 +24,7 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated'); // 로그인 상태 로컬 스토리지에 저장
+    sessionStorage.removeItem('isAuthenticated');
     localStorage.removeItem('activeComponent');
     localStorage.removeItem('lastPath');
   };

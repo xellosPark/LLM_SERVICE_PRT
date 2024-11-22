@@ -8,20 +8,21 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Upload from '../../../logos/file_upload.png'
 import Modify from '../../../logos/modify_prompt.png'
 import { BsChevronRight } from "react-icons/bs";
+import { LoadLlmsTable } from "../../api/DBControllers";
 
-const socket = io('ws://localhost:5000', {
+const socket = io('ws://165.244.190.28:5000', {
     transports: ['websocket'],
     reconnection: true,
 }); // 서버 주소 설정
 
 const ModalPrompt = ({ setIsPromteModalOpen, isPromptModalOpen, setPromptContent, promptContent }) => {
 
-    useEffect(() => {
-        if (isPromptModalOpen === true) {
-            console.log('promptContentssss', promptContent);
-            
-        }
-    }, [isPromptModalOpen])
+    // useEffect(() => {
+    //     if (isPromptModalOpen === true) {
+    //         console.log('promptContentssss', promptContent);
+
+    //     }
+    // }, [isPromptModalOpen])
     const closeModal = () => {
         setIsPromteModalOpen(false);
     }
@@ -39,18 +40,18 @@ const ModalPrompt = ({ setIsPromteModalOpen, isPromptModalOpen, setPromptContent
         <>
             <div className="modal-prompt-overlay">
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <h2>기술자료 prompt 수정하기</h2>
+                    <h2>기술자료 Prompt 수정하기</h2>
                     <div>
                         <textarea style={{
-                            width: '570px', 
-                            height: '580px', 
-                            fontSize: '16px', 
+                            width: '570px',
+                            height: '580px',
+                            fontSize: '16px',
                             border: '1px solid lightgray',
-                            paddingTop: '10px', 
+                            paddingTop: '10px',
                             paddingLeft: '10px',
                         }}
-                        rows={10}
-                        value={promptContent} onChange={handlePromptChange} />
+                            rows={10}
+                            value={promptContent} onChange={handlePromptChange} />
                     </div>
                     <div class="modal-prompt-button-container">
                         <button className="modal-prompt-save" onClick={saveModal}>Save</button>
@@ -86,9 +87,10 @@ const CreateInspection = () => {
     const [promptContent, setPromptContent] = useState("");
     const [startTime, setStartTime] = useState('');
     const [fileSize, setFileSize] = useState(0);
+    const [llmsData, setLlmsData] = useState([]);
 
     useEffect(() => {
-
+        LoadLlmDatas();
         socket.on('uploadProgress', (progress) => {
             console.log(`서버에서 받은 업로드 진행 상태: ${progress}%`);
         });
@@ -98,10 +100,16 @@ const CreateInspection = () => {
         };
     }, []);
 
+    const LoadLlmDatas = async () => {
+        const data = await LoadLlmsTable();
+        if (data)
+            setLlmsData(data);
+    }
+
     const promptLoad = async () => {
         const result = await promptFileLoad();
         console.log('result', result);
-        
+
         if (result === undefined) {
             setPromptContent('파일을 불러올수 없습니다');
         } else {
@@ -122,7 +130,7 @@ const CreateInspection = () => {
             }));
         }
         //console.log('filedName', fieldName, fileNames);
-        
+
     };
 
     const getFormatUUID = () => {
@@ -147,20 +155,20 @@ const CreateInspection = () => {
     //     setFileCount(0);
     //     setFailFileCount(0);
     //     console.log('fileName', fileName, files, progress);
-        
+
     // };
 
     const handleFile = (e, fieldName) => {
         const selectedFiles = Array.from(e.target.files);
         console.log("선택된 파일 목록:", selectedFiles); // 선택된 파일의 전체 목록을 배열로 출력
         console.log("선택된 파일 개수:", selectedFiles.length); // 선택된 파일 개수 출력
-    
+
         if (selectedFiles.length > 0) {
             const file = selectedFiles[0]; // 첫 번째 파일을 사용
-    
+
             setFiles((prevFiles) => {
                 const updatedFiles = [...prevFiles]; // 이전 파일 배열을 복사하여 새로운 배열 생성
-    
+
                 // fieldName에 따라 특정 인덱스의 파일을 설정
                 if (fieldName === 'mail_info_csv') {
                     console.log("처리 중: mail_info_csv");
@@ -180,11 +188,11 @@ const CreateInspection = () => {
                 } else {
                     console.log("알 수 없는 필드:", fieldName);
                 }
-    
+
                 console.log("업데이트된 파일 목록:", updatedFiles); // 파일이 업데이트된 배열을 출력
                 return updatedFiles; // 새로운 배열을 반환하여 상태 업데이트
             });
-    
+
             // 파일마다 진행률 배열을 초기화
             setProgress((prevProgress) => {
                 const updatedProgress = [...prevProgress]; // 기존 진행률 배열 복사
@@ -202,7 +210,7 @@ const CreateInspection = () => {
                 console.log("초기화된 파일 진행률:", updatedProgress); // 초기화된 진행률 배열 출력
                 return updatedProgress;
             });
-    
+
             setUploadComplete(false); // 업로드 완료 상태 초기화
             setTotalProgress(0); // 전체 진행률 초기화
             setFileCount(0); // 파일 개수 초기화
@@ -249,8 +257,6 @@ const CreateInspection = () => {
 
         const createUuid = getFormatUUID();
         setUuid(createUuid);
-        console.log('createUuid', createUuid);
-        
 
         const keywordTxt = { receiver: fileNames.receiver, title: fileNames.title };
         const mailList = {
@@ -284,8 +290,8 @@ const CreateInspection = () => {
                     const formData = new FormData();
                     formData.append('file', file);
                     //formData.append('uuid', createUuid);
-                    
-                    axios.post(`http://localhost:5000/upload`, formData, {
+
+                    axios.post(`http://165.244.190.28:5000/upload`, formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                         onUploadProgress: (progressEvent) => {
                             const percentCompleted = Math.min(
@@ -328,20 +334,19 @@ const CreateInspection = () => {
 
     const SendMailCheckStart = async (time) => {
         const elapsed_time = (time / 1000).toFixed(2); //초 단위 시간 계산
-        console.log('uploadData', uploadData);
-        
+
         const fileSaveResult = await fileSave(uploadData, elapsed_time, fileSize.toFixed(2));
         console.log('fileSaveResult', fileSaveResult);
 
         const result = await MailCheckStart(uploadData);
         console.log('result', result);
-        navigate('/main'); // 메인 페이지로 이동
+        navigate('/service/mail-compliance'); // 메인 페이지로 이동
     }
 
     const handleEditPrompt = async () => {
         await promptLoad();
         console.log('prompt', promptContent);
-        
+
         setIsPromteModalOpen(true);
     }
 
@@ -377,25 +382,22 @@ const CreateInspection = () => {
     return (
         <div className="content">
             {/* 네비게이션 바 */}
-            <div className="navigation-bar">
-                <div className="navigation-title">
-                    <Link to="/sidebar/DashBoard"
-                        className='nav-item active'
-                    >
+            <div className="create-navigation-bar">
+                <div className="create-navigation-title">
+                    <Link to="/service/mail-compliance"
+                        className='nav-item active'>
                         Mail Compliance 점검
                     </Link>
                     <BsChevronRight className="nav-item-create-header" />
                     <div className="nav-item-create-active">신규 점검 생성</div>
                 </div>
             </div>
-
             <div className="create-container">
                 {/* Data 섹션 */}
                 <div className="section">
                     <div className="section-title">
                         <div className="title">Data</div>
                         <div>
-
                             {/* 메일 정보 */}
                             <div className="file-item">
                                 {/* 메일 정보 박스 */}
@@ -547,9 +549,14 @@ const CreateInspection = () => {
                     <div className="section-title">
                         <div className="title">Model</div>
                         <select className="dropdown" value={selectedOption} onChange={handleDropChange}>
-                            <option value="" disabled>사용할 model을 선택하세요.</option>
-                            <option value="gemma">gemma</option>
-                            <option value="exaone">exaone</option>
+                            <option value="" disabled>{llmsData.length !== 0 ? '사용할 Model을 선택하세요.' : '모델 불러오기 실패'}</option>
+                            {
+                                llmsData.map((item) => (
+                                    <option key={item.id} value={item.name}>
+                                        {item.name_show}
+                                    </option>
+                                ))
+                            }
                         </select>
                     </div>
                 </div>
@@ -559,7 +566,7 @@ const CreateInspection = () => {
                     <div className="section-title">
                         <div className="title">Prompt Engineering</div>
                         <button className="icon-button-edit" onClick={handleEditPrompt}>
-                            <img src={Modify} alt="edit icon" />기술자료 prompt 수정하기
+                            <img src={Modify} alt="edit icon" />기술자료 Prompt 수정하기
                         </button>
                     </div>
                     <div className="run-button">
@@ -573,12 +580,12 @@ const CreateInspection = () => {
                 {
                     isProgressModalOpen && (
                         <div className="modal-overlay">
-                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-content-create" onClick={(e) => e.stopPropagation()}>
                                 <h2>파일 업로드 진행 상태</h2>
                                 <ul className="progress-list">
                                     {files.map((file, index) => (
                                         <li key={index} className="progress-item">
-                                            <div className="file-info">
+                                            <div className="modal-file-info">
                                                 <span className="file-name">{file.name}</span>
                                                 <span className="progress-text">{progress[index]}%</span>
                                             </div>
@@ -595,7 +602,7 @@ const CreateInspection = () => {
                 }
                 {isPromptModalOpen && (
                     <ModalPrompt setIsPromteModalOpen={setIsPromteModalOpen} isPromptModalOpen={isPromptModalOpen} setPromptContent={setPromptContent} promptContent={promptContent} />
-                )
+                    )
                 }
             </div>
         </div>

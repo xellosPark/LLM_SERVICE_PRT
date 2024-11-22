@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from './components/auth/LoginPage';
 import MainScreen from './components/pages/MainScreen/MainScreen';
 import Header from './components/Layouts/Header';
 import api, { setLogoutHandler } from './components/api/api';
 import { UserContext, UserProvider } from './components/useContext/UserContext';
 import { Login } from './components/api/userControllers';
-import SidebarLayout from './components/Layouts/SidebarLayout';
-import SidebarRoutes from './routes/SidebarRoutes';
-import PIEChatbot from './components/pages/dashboard/PIEChatbot';
 import DashBoard from './components/pages/dashboard/DashBoard';
-import LLMTable from './components/pages/dashboard/LLMTable';
+import PIEChatbot from './components/pages/dashboard/PIEChatbot';
+import LLMOPS from './components/pages/dashboard/LLMOPS';
 import CreateInspection from './components/pages/dashboard/CreateInspection';
-import EvalDashBoardFinal from './components/pages/dashboard/EvalDashBoardFinal';
 import EvalDashBoard from './components/pages/dashboard/EvalDashBoard';
+import EvalDashBoardFinal from './components/pages/dashboard/EvalDashBoardFinal';
+import SidebarLayout from './components/Layouts/SidebarLayout';
 
 function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
   const location = useLocation();
-  const [activePage, setActivePage] = useState('main'); // activePage 상태 관리
+  //const [activePage, setActivePage] = useState('main'); // activePage 상태 관리
 
   useEffect(() => {
     // 로그인 상태와 마지막 경로를 로컬 스토리지에 저장
@@ -42,72 +41,50 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
     };
   }, [location, isAuthenticated]);
 
-  const handleItemClick = (page) => {
-    setActivePage(page); // 현재 활성 페이지 설정
-  };
-
   return (
     <>
       {/* 헤더 표시 */}
-      {isAuthenticated && <Header onLogout={handleLogout} setActivePage={setActivePage} />}
-
+      {isAuthenticated && <Header onLogout={handleLogout} />}
+      {/* 사이드바 표시 */}
       <div style={{ display: 'flex' }}>
-        {/* 사이드바 표시 */}
         {isAuthenticated && <SidebarLayout />}
-
-          {/* 라우트 설정 */}
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isAuthenticated ? (
-                  <Navigate to={localStorage.getItem('lastPath') || "/main"} />
-                ) : (
-                  <LoginPage onLogin={handleLogin} />
-                )
-              }
-            />
-            <Route
-              path="/main"
-              element={isAuthenticated ? <DashBoard /> : <Navigate to="/" />}
-            />
-            
-            {/* PIEChatbot 경로 등록 */}
-            <Route
-              path="/sidebar/PIEChatbot"
-              element={isAuthenticated ? <PIEChatbot /> : <Navigate to="/" />}
-            />
-
-            {/* MailCompliance Create 경로 등록 */}
-            <Route
-              path="/MailCompliance/Create"
-              element={isAuthenticated ? <CreateInspection /> : <Navigate to="/" />}
-            />
-
-             {/* 평가 결과 화면 라우트 */}
-             <Route
-              path="/evaluation/result/:id"
-              element={isAuthenticated ? <EvalDashBoardFinal /> : <Navigate to="/" />}
-            />
-
-            <Route
-              path="/evaluation/view/:id"
-              element={isAuthenticated ? <EvalDashBoard /> : <Navigate to="/" />}
-            />
-
-            <Route
-              path="/sidebar/*"
-              element={
-                isAuthenticated ? (
-                  <SidebarRoutes setActivePage={setActivePage} activePage={activePage} />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </div>
+        {/* 라우트 설정 */}
+        <Routes>
+          <Route
+            path="/"
+            element={isAuthenticated ? <Navigate to={"/service/mail-compliance"} /> : <LoginPage onLogin={handleLogin} />}
+          />
+          <Route
+            path="/service/mail-compliance"
+            element={isAuthenticated ? <DashBoard /> : <Navigate to="/" />}
+          />
+          <Route
+            path='/service/pie-chabot'
+            element={isAuthenticated ? <PIEChatbot /> : <Navigate to="/" />}
+          />
+          <Route
+            path='/ops'
+            element={isAuthenticated ? <LLMOPS /> : <Navigate to="/" />}
+          />
+          <Route
+            path='/service/mail-compliance/new'
+            element={isAuthenticated ? <CreateInspection /> : <Navigate to="/" />}
+          />
+          <Route
+            path='/service/mail-compliance/evaluation/:id'
+            element={isAuthenticated ? <EvalDashBoard /> : <Navigate to="/" />}
+          />
+          <Route
+            path='/service/mail-compliance/evaluation/result/:id'
+            element={isAuthenticated ? <EvalDashBoardFinal /> : <Navigate to="/" />}
+          />
+          <Route
+            path='/service/*'
+            element={isAuthenticated ? <SidebarLayout /> : <Navigate to="/" />}
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
     </>
   );
 }
@@ -121,7 +98,7 @@ function App() {
 
     // if (loginData === undefined)
     //   console.log('로그인 실패');
-      
+
     // const { accessToken, refreshToken, user } = loginData;
     // setIsAuthenticated(true); // 로그인 성공 시 상태 변경
     // localStorage.setItem('accessToken', accessToken);
@@ -131,18 +108,19 @@ function App() {
     // login(user);
 
     if (user_id === '1111' && user_password === '2222') {
-       setIsAuthenticated(true); // 로그인 성공 시 상태 변경
-       localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
-       localStorage.setItem('activeComponent', 'DashBoard'); // 로그인 시 기본적으로 Sub1 로드
-     } else {
-       alert("ID 또는 PW가 틀렸습니다.");
+      setIsAuthenticated(true); // 로그인 성공 시 상태 변경
+      //localStorage.setItem('isAuthenticated', 'true'); // 로그인 상태 로컬 스토리지에 저장
+      sessionStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('activeComponent', 'DashBoard'); // 로그인 시 기본적으로 Sub1 로드
+    } else {
+      alert("ID 또는 PW가 틀렸습니다.");
     }
-    
+
     // try {
     //   const ip = `${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
     //   const ip2 = 'http://165.244.190.28:5000';
     //   console.log(ip);
-      
+
     //   const response = await api.post(`${ip2}/api/auth/login`, { user_id, user_password });
     //   const { accessToken, refreshToken } = response.data;
     //   setIsAuthenticated(true);
@@ -163,7 +141,8 @@ function App() {
   };
 
   useEffect(() => {
-    const savedAuthState = localStorage.getItem('isAuthenticated');
+    //const savedAuthState = localStorage.getItem('isAuthenticated');
+    const savedAuthState = sessionStorage.getItem('isAuthenticated');
     if (savedAuthState === 'true') {
       setIsAuthenticated(true); // 로컬 스토리지에 저장된 상태가 true이면 로그인 상태 유지
     }

@@ -32,7 +32,7 @@ function MainScreen({ setActivePage, activePage }) {
         setMainTitle("PIE 챗봇");  // PIE 챗봇 타이틀
         return lazy(() => import('../dashboard/PIEChatbot')); // 새로운 PIE Chatbot 컴포넌트
       case 'LLMOPS':
-        setMainTitle("LLMOPS");
+        setMainTitle("");   //LLMOPS
         return lazy(() => import('../dashboard/LLMOPS'));
       case 'Evaluation':
         setMainTitle("평가하기");

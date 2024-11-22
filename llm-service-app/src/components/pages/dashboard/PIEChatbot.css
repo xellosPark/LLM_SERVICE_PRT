@@ -1,8 +1,47 @@
 .piechatbot-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 36px;
-    font-weight: bold;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.piechatbot-navigation-bar {
+  background-color: #ffffff;
+  /* 네비게이션 배경색 */
+  display: flex;
+  /* 플렉스 사용으로 항목들을 적절히 정렬 */
+  align-items: center;
+  /* 텍스트 수직 가운데 정렬 (오타 수정: 'centr' -> 'center') */
+  padding-bottom: 10px;
+  /* 밑줄 위에 약간의 공간 추가 */
+  margin-top: 40px;
+  /* 위에 여백 추가 */
+  margin-left: 25px;
+  /* 왼쪽 여백 추가 */
+}
+
+.piechatbot-navigation-title {
+  display: flex;
+  /* 버튼들을 수평으로 나열 */
+  justify-content: flex-start;
+  /* 왼쪽 정렬 */
+  gap: 10px;
+  /* 버튼 사이에 간격 추가 */
+  justify-content: center;
+  /* 내용물 중앙 정렬 */
+  align-items: center;
+  /* 세로 중앙 정렬 */
+}
+
+.piechatbot-navigation-title-sub {
+  margin-bottom: 0px;
+}
+
+.piechatbot-separator {
+  width: 1px;
+  height: 15px;
+  background-color: #b6b4b4;
+  margin: 0 15px 0px 15px;
+}

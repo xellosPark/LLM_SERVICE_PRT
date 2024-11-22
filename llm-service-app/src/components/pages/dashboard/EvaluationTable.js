@@ -16,7 +16,7 @@ const ToggleButton = React.memo(({ isRisk, onClick }) => {
             onMouseEnter={() => setIsHovered(true)} // 마우스가 버튼 위에 있을 때
             onMouseLeave={() => setIsHovered(false)} // 마우스가 버튼을 떠날 때
             style={{
-                width: '100px', //80
+                width: '80px',
                 height: '30px',
                 color: 'white',
                 backgroundColor: isRisk ? 'black' : '#A9A9A9',
@@ -46,9 +46,9 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
     // Initial column widths, setting a default width of 100px for each column
     const [columnWidths, setColumnWidths] = useState({
-        no: 5,
-        complianceRisk: 110,
-        default: 1
+        no: 12,
+        complianceRisk: 57,
+        default: 0.5
     });
 
     const tableRef = useRef(null);
@@ -56,7 +56,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     const resizingState = useRef({ startX: 0, startWidth: 0, containerWidth: 0 });
 
     const loadDatasFromLocalStorage = () => {
-        const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        //const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        const storedData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
         const currentSheetData = storedData.find(sheetData => {
             if (tabName === "Tab1") return sheetData.sheet === "High Risk - 기술 자료 요청";
             if (tabName === "Tab2") return sheetData.sheet === "Potential Risk - 일반 자료 요청";
@@ -86,11 +87,11 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
             if (currentSheetData.headers) {
                 const initialWidths = currentSheetData.headers.reduce((acc, header, index) => {
                     if (header === "본문") {
-                        acc[`field${index}`] = 400; // "본문" 헤더는 너비를 400px로 설정
+                        acc[`field${index}`] = 500; // "본문" 헤더는 너비를 400px로 설정
                     } else if (header === "판단 근거 문장") {
-                        acc[`field${index}`] = 300; // "판단 근거 문장" 헤더는 너비를 300px로 설정
+                        acc[`field${index}`] = 400; // "판단 근거 문장" 헤더는 너비를 300px로 설정
                     } else if (header === "No") {
-                        acc[`field${index}`] = 5; // "판단 근거 문장" 헤더는 너비를 300px로 설정
+                        acc[`field${index}`] = 12; // "판단 근거 문장" 헤더는 너비를 300px로 설정
                     } else {
                         acc[`field${index}`] = columnWidths.default; // 기타 헤더는 기본 너비를 사용
                     }
@@ -98,9 +99,9 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 }, {});
 
                 if (tabName === 'Tab3') {
-                    initialWidths.complianceRisk = 93.5;
+                    initialWidths.complianceRisk = 57;
                 } else {
-                    initialWidths.complianceRisk = 150;
+                    initialWidths.complianceRisk = 300;
                 }
                 setColumnWidths(prev => ({ ...prev, ...initialWidths }));
             }
@@ -108,7 +109,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     };
 
     const getColumnsFromHeaders = (tabName) => {
-        const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        //const storedData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        const storedData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
         const sheetMap = {
             "Tab1": "High Risk - 기술 자료 요청",
             "Tab2": "Potential Risk - 일반 자료 요청",
@@ -116,7 +118,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
         };
         const currentSheetData = storedData.find(sheetData => sheetData.sheet === sheetMap[tabName]);
 
-        const columns = [{ key: 'no', label: 'No' }];
+        const columns = [{ key: 'no', label: 'Id' }];
         if (currentSheetData && currentSheetData.headers) {
             currentSheetData.headers.forEach((headerName, index) => {
                 columns.push({
@@ -142,22 +144,22 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
             console.log("ComplianceRisk 열은 크기 조정이 비활성화되었습니다."); // 디버그: ComplianceRisk 열 무시
             return;
         }
-    
+
         // 현재 테이블 너비를 계산
         const containerWidth = Object.values(columnWidths).reduce((total, width) => total + width, 0);
         console.log("현재 테이블 전체 너비:", containerWidth); // 디버그: 테이블 전체 너비 출력
-    
+
         const startWidth = columnRefs.current[columnKey] ? columnRefs.current[columnKey].offsetWidth : 0;
         const columnRightEdge = columnRefs.current[columnKey].getBoundingClientRect().right;
-         //     const startX = e.clientX;
+        //     const startX = e.clientX;
         //     const offset = startX - columnRightEdge + 200; // 마우스 포인터와 열 경계선의 차이
         const startX = e.clientX + 150;
-    
+
         console.log("열 시작 너비:", startWidth); // 디버그: 시작 너비 확인
         console.log("마우스 시작 X 좌표:", startX); // 디버그: 마우스 시작 X 좌표
-    
+
         resizingState.current = { startX, startWidth, containerWidth };
-    
+
         const onMouseMove = (moveEvent) => {
             const deltaX = moveEvent.clientX - resizingState.current.startX;
             let newWidth = Math.max(resizingState.current.startWidth + deltaX, 10); // 최소 너비 10px
@@ -166,40 +168,40 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
             if (columnKey === 'no' && newWidth > 10) {
                 newWidth = 10;
             }
-            if (columnKey === 'complianceRisk' && newWidth > 150) {
-                newWidth = 150;
+            if (columnKey === 'complianceRisk' && newWidth > 300) {
+                newWidth = 300;
             }
-    
+
             console.log("마우스 이동 거리 (deltaX):", deltaX); // 디버그: 마우스 이동 거리 출력
             console.log("새로운 열 너비:", newWidth); // 디버그: 새로운 열 너비 출력
-    
+
             setColumnWidths((prevWidths) => {
                 const updatedWidths = { ...prevWidths, [columnKey]: newWidth };
                 const totalResizableWidth = resizingState.current.containerWidth;
-    
+
                 console.log("조정 가능한 총 너비:", totalResizableWidth); // 디버그: 조정 가능한 총 너비 출력
-    
+
                 const scalingFactor = totalResizableWidth / Object.values(updatedWidths).reduce((a, b) => a + b);
                 console.log("스케일링 비율:", scalingFactor); // 디버그: 스케일링 비율 확인
-    
+
                 Object.keys(updatedWidths).forEach(key => {
                     if (key !== 'no' && key !== 'complianceRisk') {
                         updatedWidths[key] *= scalingFactor;
                     }
                 });
-    
+
                 console.log("업데이트된 열 너비:", updatedWidths); // 디버그: 업데이트된 열 너비 확인
-    
+
                 return updatedWidths;
             });
         };
-    
+
         const onMouseUp = () => {
             console.log("마우스 업 이벤트 발생, 크기 조정 종료."); // 디버그: 마우스 업 이벤트 발생 확인
             document.removeEventListener("mousemove", onMouseMove);
             document.removeEventListener("mouseup", onMouseUp);
         };
-    
+
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
     };
@@ -214,7 +216,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
         console.log("=== Apply 버튼 클릭됨 ===");
 
         // localStorage에서 데이터 가져오기
-        let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        //let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+        let allSheetData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
         const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
         const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
         const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "Potential Risk - 일반 자료 요청");
@@ -240,7 +243,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 //console.log("No Risk 탭에 추가된 후의 rows:", noRiskSheetData.rows);
 
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetData', JSON.stringify(allSheetData));
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -271,7 +275,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
 
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetData', JSON.stringify(allSheetData));
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -303,7 +308,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 //console.log("High Risk 탭에 추가된 후의 rows:", highRiskSheetData.rows);
 
                 // Step 4: localStorage에 업데이트된 allSheetData 저장
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetData', JSON.stringify(allSheetData));
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
@@ -321,7 +327,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     const handleToggle = useCallback((index) => {
         const actualIndex = indexOfFirstItem + index;
         console.log('actualIndex', actualIndex);
-        
+
         setButtonStates((prevButtonStates) => {
             const updatedButtonStates = [...prevButtonStates];
             updatedButtonStates[actualIndex] = !updatedButtonStates[actualIndex];
@@ -336,7 +342,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                 });
 
                 // localStorage 동기화
-                let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+                //let allSheetData = JSON.parse(localStorage.getItem('allSheetData')) || [];
+                let allSheetData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
                 allSheetData = allSheetData.map((sheetData) => {
                     if (tabName === "Tab1" && sheetData.sheet === "High Risk - 기술 자료 요청") {
                         sheetData.rows = sheetData.rows.map((row, rowIndex) => {
@@ -357,7 +364,8 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                     return sheetData;
                 });
 
-                localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                //localStorage.setItem('allSheetData', JSON.stringify(allSheetData));
+                sessionStorage.setItem('allSheetData', JSON.stringify(allSheetData));
                 //loadDatasFromLocalStorage();
 
                 return updatedDatas;
@@ -410,54 +418,84 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
     return (
         <div>
-            <div style={{ width: '1400px' }}> {/* Fixed width for the table container */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', width: '95%' }}> {/* Fixed width for the table container */}
                 <table className="eval-table" ref={tableRef}>
                     <thead>
                         <tr>
                             {selectedColumns.map((column) => (
-                                <th
-                                    className='th-center'
-                                    key={column.key}
-                                    ref={(el) => {
-                                        if (el) columnRefs.current[column.key] = el;
-                                    }}
-                                    style={{
-                                        width: `${columnWidths[column.key] || columnWidths.default}px`,
-                                        position: 'relative'
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <span>{column.label}</span>
-                                        {column.key === 'complianceRisk' && (
-                                            <button
-                                                style={{
-                                                    padding: '4px 7px',
-                                                    backgroundColor: '#E7E7E7',
-                                                    border: 'none',
-                                                    borderRadius: '25px',
-                                                    cursor: 'pointer',
-                                                    fontSize: '12px',
-                                                    color: '#4D4D4D', 
-                                                }}
-                                                onClick={handleApplyAction}
-                                            >
-                                                적용
-                                            </button>
-                                        )}
-                                        <div
-                                            onMouseDown={(e) => startResizing(e, column.key)}
-                                            style={{
-                                                cursor: 'col-resize',
-                                                position: 'absolute',
-                                                right: 0,
-                                                top: 0,
-                                                width: '5px',
-                                                height: '100%',
-                                                backgroundColor: 'transparent'
+                                (
+                                    column.key === 'complianceRisk' ? (
+                                        <th
+                                            key={column.key}
+                                            ref={(el) => {
+                                                if (el) columnRefs.current[column.key] = el;
                                             }}
-                                        />
-                                    </div>
-                                </th>
+                                            style={{
+                                                width: `135px`,
+                                                position: 'relative',
+                                                textAlign: 'center',
+                                                borderLeft: '7px solid white'
+                                            }}
+                                        ><div style={{ textAlign: 'center', alignItems: 'center' }}>
+                                                <span>{column.label}</span>
+                                                {/* {column.key === 'complianceRisk' && ( */}
+                                                    <button
+                                                        style={{
+                                                            padding: '4px 7px',
+                                                            backgroundColor: '#E7E7E7',
+                                                            border: 'none',
+                                                            borderRadius: '25px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '12px',
+                                                            color: '#4D4D4D',
+                                                            marginLeft: '7px', 
+                                                        }}
+                                                        onClick={handleApplyAction}
+                                                    >
+                                                        적용
+                                                    </button>
+                                                {/* )} */}
+                                                <div
+                                                    onMouseDown={(e) => startResizing(e, column.key)}
+                                                    style={{
+                                                        cursor: 'col-resize',
+                                                        position: 'absolute',
+                                                        right: 0,
+                                                        top: 0,
+                                                        width: '5px',
+                                                        height: '100%',
+                                                        backgroundColor: 'transparent'
+                                                    }}
+                                                />
+                                            </div>
+                                        </th>
+                                    ) :
+                                        <th
+                                            key={column.key}
+                                            ref={(el) => {
+                                                if (el) columnRefs.current[column.key] = el;
+                                            }}
+                                            style={{
+                                                width: `${columnWidths[column.key] || columnWidths.default}px`,
+                                                position: 'relative'
+                                            }}
+                                        >
+                                            <div style={{ textAlign: 'center', alignItems: 'center' }}>
+                                                <span>{column.label}</span>
+                                                <div
+                                                    onMouseDown={(e) => startResizing(e, column.key)}
+                                                    style={{
+                                                        cursor: 'col-resize',
+                                                        position: 'absolute',
+                                                        right: 0,
+                                                        top: 0,
+                                                        width: '5px',
+                                                        height: '100%',
+                                                        backgroundColor: 'transparent'
+                                                    }}
+                                                />
+                                            </div>
+                                        </th>)
                             ))}
                         </tr>
                     </thead>
@@ -468,6 +506,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                                     <td
                                         key={colIndex}
                                         onClick={(e) => handleColumnClick(e, row[column.key])} // 각 셀 클릭 시 handleColumnClick 호출
+                                        style={column.key === 'complianceRisk' ? { borderLeft: '7px solid white' } : {}}
                                     >
                                         {column.key === 'complianceRisk' ? (
                                             <ToggleButton
@@ -491,7 +530,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                     className="eval-tooltip"
                     ref={tooltipRef}
                     style={{ top: tooltip.top, left: tooltip.left, position: 'absolute' }}
-                    onMouseLeave={hideTooltip} // 마우스를 툴팁 밖으로 옮기면 숨기기
+                    //onMouseLeave={hideTooltip} // 마우스를 툴팁 밖으로 옮기면 숨기기
                 >
                     {tooltip.content}
                 </div>

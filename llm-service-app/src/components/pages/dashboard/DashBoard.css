@@ -1,57 +1,94 @@
-#sub1-main {
-    margin: 10px 20px;
+#dashboard-main {
+  margin: 10px 20px;
 }
 
-.sub1-main {
-  display: flex;
-  justify-content: space-between; /* 버튼을 오른쪽으로 정렬 */
-  align-items: center;
+.dashboard-main {
+display: flex;
+justify-content: space-between; /* 버튼을 오른쪽으로 정렬 */
+align-items: center;
 }
 
 .dashboard-title{
-  font-size: 12px;
-  color: #888;
-  margin-left: 10px;
-  
+font-size: 12px;
+color: #888;
+margin-left: 10px;
+
 }
 
-.icon-button-add img {
-    width: 20px; /* 아이콘 크기 */
-    height: 20px; /* 아이콘 높이 */
-    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 설정 */
-    border-radius: 50%; /* 아이콘을 둥글게 만듦 (원형) */
-    background-color: rgb(248, 248, 248); /* 아이콘의 배경 색을 흰색으로 설정 */
-    padding: 3px; /* 아이콘 안쪽 여백 설정 */
+.dashboard-navigation-bar {
+background-color: #ffffff;  /* 네비게이션 배경색 */
+display: flex;                /* 플렉스 사용으로 항목들을 적절히 정렬 */
+align-items: center;          /* 텍스트 수직 가운데 정렬 (오타 수정: 'centr' -> 'center') */
+padding-bottom: 10px;         /* 밑줄 위에 약간의 공간 추가 */
+margin-top: 40px;             /* 위에 여백 추가 */
+margin-left: 25px;            /* 왼쪽 여백 추가 */
 }
-  
-.icon-button-add {
-  display: inline-block;
-  background-color: rgb(248, 248, 248); /* 버튼 배경 색 설정 */
-  border: none; /* 버튼 테두리 */
-  border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
-  color: rgb(0, 0, 0); /* 글자 색 설정 */
-  padding: 5px 7px; /* 버튼의 내부 여백 설정 */
-  font-size: 16px; /* 글자 크기 설정 */
-  font-weight: bold; /* 글자 굵기를 굵게 설정 */
-  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
-  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
-  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
-  transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
-  height: 35px;
-  width: 180px;
-  justify-content: center; /* 내용물 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  margin: -25px 125px 25px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
-  text-decoration: none; /* 밑줄 제거 */
-  /* margin: 0% 100% 10% 0%; */
+
+.dashboard-navigation-title {
+display: flex;                  /* 버튼들을 수평으로 나열 */
+justify-content: flex-start;    /* 왼쪽 정렬 */
+gap: 10px;                      /* 버튼 사이에 간격 추가 */
+justify-content: center; /* 내용물 중앙 정렬 */
+align-items: center; /* 세로 중앙 정렬 */
 }
-  
-.newaddbutton:hover {
-  opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
-  text-decoration: none; /* 밑줄 제거 */
+
+.dashboard-navigation-title-sub {
+margin-bottom: 4px;
+}
+
+.dashboard-separator {
+width: 1px;
+height: 15px;
+background-color: #b6b4b4;
+margin: 0 15px 4px 15px;
+}
+
+.dashboard-icon-button-add img {
+  width: 20px; /* 아이콘 크기 */
+  height: 20px; /* 아이콘 높이 */
+  margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 설정 */
+  border-radius: 50%; /* 아이콘을 둥글게 만듦 (원형) */
+  background-color: rgb(248, 248, 248); /* 아이콘의 배경 색을 흰색으로 설정 */
+  padding: 3px; /* 아이콘 안쪽 여백 설정 */
+}
+
+.dashboard-icon-button-add {
+display: inline-block;
+background-color: rgb(248, 248, 248); /* 버튼 배경 색 설정 */
+border: none; /* 버튼 테두리 */
+border-radius: 14px; /* 버튼을 완전히 둥글게 만들어 피임 모양으로 설정 */
+color: rgb(0, 0, 0); /* 글자 색 설정 */
+padding: 5px 7px; /* 버튼의 내부 여백 설정 */
+font-size: 16px; /* 글자 크기 설정 */
+font-weight: bold; /* 글자 굵기를 굵게 설정 */
+cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
+align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
+transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
+height: 25px;
+width: 166px;
+justify-content: center; /* 내용물 중앙 정렬 */
+align-items: center; /* 세로 중앙 정렬 */
+margin: -29px 70px 26px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+text-decoration: none;
+/* margin: 0% 100% 10% 0%; */
+}
+
+.dashboard-newaddbutton:hover {
+opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
+text-decoration: none;
 }
 
 .nav-item {
-  text-decoration: none; /* 밑줄 제거 */
+text-decoration: none;
+}
+
+.nav-item.active {
+outline: none;
+color: rgb(0, 0, 0);
+}
+
+.nav-item:active {
+transform: scale(0.95); /* 클릭 시 살짝 축소 */
 }
