@@ -3,13 +3,13 @@ import './EvalDashBoard.css';
 import EvaluationTable from "./EvaluationTableFinal";
 import { LoadResultFile, SendEvalData } from "../../api/evaluationController";
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { LoadChecksRow, LoadEvaluationRow } from "../../api/DBControllers";
+import { LoadChecksRow, LoadEvaluationRow, LoadFilesTable } from "../../api/DBControllers";
 import { BsChevronRight } from "react-icons/bs";
 
 // 요청 유형 정의 (한글)
 const requestTypes = [
   { level: 'High Risk', request: 'High Risk - 기술 자료 요청', riskLabel: 'Risk' },
-  { level: 'Potential Risk', request: 'Potential Risk - 일반 자료 요청', riskLabel: 'No Risk' },
+  { level: 'Potential Risk', request: 'No Risk - 일반 자료 요청', riskLabel: 'No Risk' },
   { level: 'No Risk', request: 'No Risk - 자료 요청 없음', riskLabel: 'No Risk' },
   { level: '최종', request: '최종 Risk', riskLabel: 'none' },
 ];
@@ -83,17 +83,29 @@ const EvalDashBoardFinal = () => {
         const result = await LoadResultFile(jobId, sheet, 'evaluations');
 
         let data = null;
-        if (result === undefined) {
-          setIsTab4Visible(false);
-          setFailMessage('데이터가 없습니다.');
-          setIsLoadFail(true);
-          continue;
-        } else if (result.status === 205 || result.status === 206) {
-          setFailMessage('데이터가 없습니다.');
-          setIsLoadFail(true);
-        } else if (result.status === 200 || result.status === 201) {
+        if (result.status >= 200 && result.status < 300) {
           data = result.data;
           setIsLoadFail(false);
+        } else if (result.status >= 300 && result.status < 400) {
+          setFailMessage('데이터가 없습니다.');
+          console.error('평가 결과 Excel File Load Error', result);
+          setIsLoadFail(true);
+          return
+        } else if (result.status >= 400 && result.status < 500) {
+          setFailMessage('데이터가 없습니다.');
+          console.error('평가 결과 Excel File Load Error', result);
+          setIsLoadFail(true);
+          return
+        } else if (result.status >= 500 && result.status < 600) {
+          setFailMessage('데이터가 없습니다.');
+          console.error('평가 결과 Excel File Load Error', result);
+          setIsLoadFail(true);
+          return
+        } else {
+          setFailMessage('데이터가 없습니다.');
+          console.error('평가 결과 Excel File Load Error', result);
+          setIsLoadFail(true);
+          return
         }
 
         //const result = await responce.json();
@@ -108,7 +120,7 @@ const EvalDashBoardFinal = () => {
           if (sheet === 'High Risk - 기술 자료 요청') {
             riskLabel = 'Risk';
             headerLabel = 'from_high_risk';
-          } else if (sheet === 'Potential Risk - 일반 자료 요청') {
+          } else if (sheet === 'No Risk - 일반 자료 요청') {
             riskLabel = 'No Risk';
             headerLabel = 'from_potential_risk';
           } else if (sheet === 'No Risk - 자료 요청 없음') {
@@ -185,7 +197,7 @@ const EvalDashBoardFinal = () => {
           const itemIndex = 3;
           const filteredItems = tabData.rows.filter(row => row[itemIndex] === "move");
 
-          console.log("필터링된 항목 (move 상태):", filteredItems);
+          //console.log("필터링된 항목 (move 상태):", filteredItems);
 
           if (filteredItems.length > 0) {
             const label = requestType.level === 'No Risk' ? 'no_risk' : requestType.level === 'High Risk' ? 'risk' : 'potential';
@@ -211,7 +223,7 @@ const EvalDashBoardFinal = () => {
   const getTabData = (tabName) => {
     const tabMapping = {
       'Tab1': 'High Risk - 기술 자료 요청',
-      'Tab2': 'Potential Risk - 일반 자료 요청',
+      'Tab2': 'No Risk - 일반 자료 요청',
       'Tab3': 'No Risk - 자료 요청 없음',
       "Tab4": "최종 Risk"
     };
@@ -229,18 +241,18 @@ const EvalDashBoardFinal = () => {
 
     // 결과를 저장할 변수
     let itemsToMove = [];
-    console.log(`${"init"}에 유효한 데이터가 없습니다.`);
+    //console.log(`${"init"}에 유효한 데이터가 없습니다.`);
 
     // 전역에서 사용할 moveItemsArray 선언
     moveItemsArray = [];
-    console.log(`${"init"}에 유효한 데이터가 없습니다.`);
+    //console.log(`${"init"}에 유효한 데이터가 없습니다.`);
 
     if (allSheetData && Array.isArray(allSheetData)) {
       // 각 requestType을 순회하며 해당 데이터를 필터링합니다.
       requestTypes.forEach((requestType, index) => {
         // 현재 requestType에 해당하는 데이터를 allSheetData에서 찾습니다.
         const tabData = allSheetData.find(data => data.sheet === requestType.request);
-        console.log('LoadMoveVal tabData', tabData);
+        //console.log('LoadMoveVal tabData', tabData);
 
 
         if (tabData && tabData.rows) {
@@ -251,24 +263,24 @@ const EvalDashBoardFinal = () => {
           const filteredItems = tabData.rows.filter(row => row[itemIndex] === "move");
 
           // 필터링된 항목을 한국어로 콘솔에 출력합니다.
-          console.log(`"${requestType.level}"에서 이동할 항목:`);
-          console.log('filteredItems', filteredItems);
+          //console.log(`"${requestType.level}"에서 이동할 항목:`);
+          //console.log('filteredItems', filteredItems);
 
 
           if (filteredItems.length > 0) {
             filteredItems.forEach((item, itemIndex) => {
-              console.log(`아이템 ${itemIndex + 1}:`, item); // 각 "move" 항목을 출력합니다.
+              //console.log(`아이템 ${itemIndex + 1}:`, item); // 각 "move" 항목을 출력합니다.
 
               moveItemsArray.push(item); // "move" 항목을 배열에 추가합니다.
             });
           } else {
-            console.log(`"${requestType.level}"에 'move' 값이 있는 항목이 없습니다.`);
+            //console.log(`"${requestType.level}"에 'move' 값이 있는 항목이 없습니다.`);
           }
 
           // 전체 결과에 추가합니다.
           itemsToMove = itemsToMove.concat(filteredItems);
         } else {
-          console.log(`"${requestType.level}"에 유효한 데이터가 없습니다.`);
+          //console.log(`"${requestType.level}"에 유효한 데이터가 없습니다.`);
         }
       });
     } else {
@@ -299,6 +311,17 @@ const EvalDashBoardFinal = () => {
   }
 
   const handleEvalEnd = async () => {
+    const isCheckMove = handleMove();
+    if (isCheckMove === true) {
+      return
+    }
+
+    const fileData = await LoadFilesTable(jobId);
+    if (fileData.length <= 0) {
+      alert(`선택한 Job_id : ${jobId}  fils 정보가 이상합니다.`);
+      return
+    }
+
     const movedValue = LoadMoveVal();
     const data = {
       service_name: "mail_compliance_check",
@@ -306,7 +329,7 @@ const EvalDashBoardFinal = () => {
       user: "jaeyeong.lee",
       evaluation_type: "modification",
       keyword_filtered_num: riskCount.keyword_filtered_num,
-      data_request_system_xlsx_name: "자료현황_1721372445487.xlsx",
+      data_request_system_xlsx_name: fileData[0].data_request_system_xlsx_name || "",
       change_list: {
         from_high_risk: movedValue.from_high_risk,
         from_potential_risk: movedValue.from_potential_risk,
@@ -319,11 +342,23 @@ const EvalDashBoardFinal = () => {
     const result = await SendEvalData(data);
     console.log('SendEvalData result', result);
 
-    if (result.status === 204) {
-      console.log('여기 들어오냐');
-      //localStorage.setItem('activeComponent', 'DashBoard');
-      //handleItemClick('DashBoard');
+    if (result.status >= 200 && result.status < 300) {
       navigate('/service/mail-compliance'); // 메인 페이지로 이동
+    } else if (result.status >= 300 && result.status < 400) {
+        console.error('AiCore2 Edit Error', result);
+        //alert('AiCore2 Edit 중 에러가 발생했습니다. (300대 에러)');
+        
+    } else if (result.status >= 400 && result.status < 500) {
+        console.error('AiCore2 Edit Error', result);
+        //alert('AiCore2 Edit 중 에러가 발생했습니다. (400대 에러)');
+        
+    } else if (result.status >= 500 && result.status < 600) {
+        console.error('AiCore2 Edit Error', result);
+        //alert('AiCore2 Edit 중 에러가 발생했습니다. (500대 에러)');
+        
+    } else {
+        console.error('AiCore2 Edit Error', result);
+        alert('AiCore2 Edit 중 에러가 발생했습니다.');
     }
   }
 
@@ -335,6 +370,64 @@ const EvalDashBoardFinal = () => {
       setActiveTab('Tab1');
     }
   }
+
+  const handleMove = () => {
+    // localStorage에서 데이터 가져오기
+    //const storedData = localStorage.getItem('allSheetData');
+    const storedData = sessionStorage.getItem('allSheetData');
+
+    if (storedData) {
+      try {
+        // JSON 데이터를 파싱
+        const parsedData = JSON.parse(storedData);
+        const dataArray = Array.isArray(parsedData) ? parsedData : Object.values(parsedData);
+
+        // sheets 1, 2, 3 확인
+        //const sheetsToCheck = [0, 1, 2];
+        let moveFound = false;
+
+        dataArray.forEach((sheetData, index) => {
+          const movedData = sheetData.rows.filter((data) => data[3] === "None" &&
+           ((data[1] === "High Risk - 기술 자료 요청" && data[2] === "No Risk") || (data[1] !== "High Risk - 기술 자료 요청" && data[2] === "Risk")));
+
+           const revertData = sheetData.rows.filter((data) => data[3] === "move" &&
+           ((data[1] === "High Risk - 기술 자료 요청" && data[2] === "Risk") || (data[1] !== "High Risk - 기술 자료 요청" && data[2] === "No Risk")));
+
+
+          if (movedData.length > 0 || revertData.length > 0) {
+            moveFound = true;
+            return
+          }
+          //console.log('sheet', sheetsToCheck[index], sheet);
+        });
+        // sheetsToCheck 반복
+        // sheetsToCheck.forEach((sheetIndex) => {
+        //   const sheet = parsedData[sheetIndex]; // 현재 sheet 가져오기
+        //   if (sheet && sheet.rows && sheet.rows[0]) {
+        //     const row3 = sheet.rows[0]; // row[3] 접근
+
+        //     // row[3]의 0, 1, 2 인덱스에서 "move" 값이 있는지 확인
+        //     if (row3[0] === 'move' || row3[1] === 'move' || row3[2] === 'move' || row3[3] === 'move') {
+        //       console.log(`Sheet ${sheetIndex}: row[3]에서 "move" 값을 찾았습니다.`);
+        //       moveFound = true;
+        //       return
+        //     }
+        //   }
+        // });
+
+        if (moveFound) {
+          // 모든 시트를 확인했지만 "move" 값을 찾지 못한 경우
+          alert('적용되지 않은 수정 사항이 있습니다. 수정 사항 취소/반영 후 평가 완료 버튼을 눌러주세요.');
+        }
+        return moveFound;
+      } catch (error) {
+        console.error('데이터 파싱 중 오류 발생:', error);
+        //alert('저장된 데이터를 파싱하는 데 실패했습니다.');
+      }
+    } else {
+      //alert('localStorage에 "allSheetFinal" 키로 저장된 데이터가 없습니다.');
+    }
+  };
 
   const formatData = (value) => {
     return typeof value === 'object' && Object.keys(value).length === 0 ? 0 : value;
@@ -377,7 +470,7 @@ const EvalDashBoardFinal = () => {
             className={activeTab === 'Tab2' ? 'active' : ''}
             onClick={() => handleTabClick('Tab2')}
           >
-            Potential Risk - 일반 자료 요청
+            No Risk - 일반 자료 요청
           </button>
           <button
             className={activeTab === 'Tab3' ? 'active' : ''}

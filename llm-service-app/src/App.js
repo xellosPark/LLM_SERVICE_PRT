@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import LoginPage from './components/auth/LoginPage';
 import MainScreen from './components/pages/MainScreen/MainScreen';
 import Header from './components/Layouts/Header';
@@ -17,34 +17,88 @@ import SidebarLayout from './components/Layouts/SidebarLayout';
 function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
   const location = useLocation();
   //const [activePage, setActivePage] = useState('main'); // activePage 상태 관리
+  const [timeRemaining, setTimeRemaining] = useState(1800); // 초기 30분 (1800초)
+  const [timer, setTimer] = useState(null); // 타이머 상태
+  const [lastActionTime, setLastActionTime] = useState(Date.now()); // 마지막 입력 시간
 
-  useEffect(() => {
-    // 로그인 상태와 마지막 경로를 로컬 스토리지에 저장
-    if (isAuthenticated) {
-      localStorage.setItem('lastPath', location.pathname); // 현재 경로를 저장
-    }
+// 사용자의 키보드 입력을 추적하는 함수
+const handleUserAction = () => {
+  setLastActionTime(Date.now()); // 입력이 있을 때마다 시간을 갱신
+};
 
-    const interceptor = api.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (error.response.status === 401) {
-          handleLogout();
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-    );
+// 타이머 갱신 함수
+const updateTimer = () => {
+  
+  const timerset = (60 * 30);
+  const elapsedTime = Math.floor((Date.now() - lastActionTime) / 1000);
+  const remainingTime = timerset - elapsedTime;
+  //console.log('updateTimer', elapsedTime);
 
-    // 컴포넌트 언마운트 시 인터셉터 제거
-    return () => {
-      api.interceptors.response.eject(interceptor);
-    };
-  }, [location, isAuthenticated]);
+  if (remainingTime <= 0) {
+    // alert("30분간 입력이 없어 로그아웃되었습니다.");
+    handleLogout(); // 로그아웃 처리
+    clearInterval(timer); // 타이머 정지
+    setTimeRemaining(timerset); // 타이머 초기화
+  } else {
+    setTimeRemaining(remainingTime); // 남은 시간 갱신
+  }
+};
+
+// 타이머를 초기화하고 시작하는 useEffect
+useEffect(() => {
+  // 키보드와 마우스 이벤트 리스너를 설정합니다.
+  const handleKeyDown = () => handleUserAction(); // 키보드 입력 시 사용자의 상호작용을 트리거합니다.
+  const handleMouseActivity = () => handleUserAction(); // 마우스 클릭 또는 마우스 이동 시 사용자의 상호작용을 트리거합니다.
+
+  window.addEventListener('keydown', handleKeyDown); // 키보드 입력에 대한 이벤트 리스너 추가
+  window.addEventListener('mousedown', handleMouseActivity); // 마우스 클릭에 대한 이벤트 리스너 추가
+  
+  // 타이머를 매초마다 업데이트합니다.
+  const intervalId = setInterval(updateTimer, 1000); // 1초마다 타이머를 업데이트합니다.
+  setTimer(intervalId); // 타이머 인터벌 ID를 상태에 저장합니다.
+
+  // 클린업 함수: 컴포넌트가 언마운트될 때 이벤트 리스너와 타이머를 제거합니다.
+  return () => {
+    clearInterval(intervalId); // 타이머 인터벌을 클리어합니다.
+    window.removeEventListener('keydown', handleKeyDown); // 키보드 이벤트 리스너 제거
+    window.removeEventListener('mousedown', handleMouseActivity); // 마우스 클릭 이벤트 리스너 제거
+  
+  };
+}, [lastActionTime]); // `lastActionTime`이 변경될 때마다 useEffect가 재실행됩니다
+
+// 헤더에 타이머 표시
+const minutes = Math.floor(timeRemaining / 60);
+const seconds = timeRemaining % 60;
+
+
+  // useEffect(() => {
+  //   // 로그인 상태와 마지막 경로를 로컬 스토리지에 저장
+  //   if (isAuthenticated) {
+  //     localStorage.setItem('lastPath', location.pathname); // 현재 경로를 저장
+  //   }
+
+  //   const interceptor = api.interceptors.response.use(
+  //     (response) => response,
+  //     (error) => {
+  //       if (error.response.status === 401) {
+  //         handleLogout();
+  //         return Promise.reject(error);
+  //       }
+  //       return Promise.reject(error);
+  //     }
+  //   );
+
+  //   // 컴포넌트 언마운트 시 인터셉터 제거
+  //   return () => {
+  //     api.interceptors.response.eject(interceptor);
+  //   };
+  // }, [location, isAuthenticated]);
 
   return (
     <>
+      
       {/* 헤더 표시 */}
-      {isAuthenticated && <Header onLogout={handleLogout} />}
+      {isAuthenticated && <Header onLogout={handleLogout} timeRemaining={`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`} />}
       {/* 사이드바 표시 */}
       <div style={{ display: 'flex' }}>
         {isAuthenticated && <SidebarLayout />}
@@ -92,6 +146,7 @@ function AppWithLocation({ isAuthenticated, handleLogin, handleLogout }) {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { login, logout } = useContext(UserContext);
+
   const handleLogin = async (user_id, user_password) => {
     console.log('로그인', user_id, user_password);
     // const loginData = await Login(email, password);

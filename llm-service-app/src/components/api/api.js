@@ -8,8 +8,11 @@ let logoutHandler = null; // 로그아웃 핸들러를 저장할 변수
 
 // Axios 인스턴스 생성
 const api = axios.create({
-    baseURL: `http://165.244.190.28:5000` //`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`
-});
+    baseURL: "http://localhost:5000", // 서버의 기본 URL
+    headers: {
+      "Content-Type": "application/json", // 모든 요청에 기본 Content-Type 설정
+    },
+  });
 
 export const setLogoutHandler = (logoutFn) => {
     logoutHandler = logoutFn; // 로그아웃 핸들러를 설정

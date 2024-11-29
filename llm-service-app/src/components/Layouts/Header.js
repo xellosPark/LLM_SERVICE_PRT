@@ -1,13 +1,11 @@
 import React, { useContext, useState } from 'react';
-import './Header.css'; // CSS 파일 불러오기
-// import lightLogo from '../../logos/test_logo.jfif';
-// import lightLogo from '../../logos/prai-gen_logo_square.png';
+import './Header.css';
 import lightLogo from '../../logos/prai-gen_logo_line.png';
 import darkLogo from '../../logos/lge_2d+lge_logo_kr_heritagered_white_rgb.png';
 import { UserContext } from '../useContext/UserContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-function Header({ onLogout }) {
+function Header({ onLogout, timeRemaining }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -28,6 +26,8 @@ function Header({ onLogout }) {
         <button className='llm-logo-button' onClick={handleClickLogo}>
           <img alt='LG LOGO' src={`${isDarkMode ? darkLogo : lightLogo}`}  className={`logo ${isDarkMode ? 'dark-mode' : 'light-mode'}`} />
         </button>
+        <div>
+    </div>
       </div>
       <div className="user-section">
        
@@ -45,6 +45,7 @@ function Header({ onLogout }) {
         >
           로그아웃
         </button> */}
+        <div className="header-timer">{timeRemaining}</div>
         <label className="Huserinfo">
           {/* 반쪽 사람 아이콘 */}
           <svg xmlns="http://www.w3.org/2000/svg" className="icon-half-human" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,7 +57,7 @@ function Header({ onLogout }) {
             user ? (
               <span className='dark-mode'>{user.name}</span>
             ) : (
-              <span className='dark-mode'>김나경 님</span>
+              <span className='dark-mode'>이재영 님</span>
             )
           } 
       </label>

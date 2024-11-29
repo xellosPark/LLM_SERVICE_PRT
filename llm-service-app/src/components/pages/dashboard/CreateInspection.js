@@ -4,11 +4,11 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import './CreateInspection.css';
 import { MailCheckStart, fileSave, promptFileLoad, promptFileUpdate } from "../../api/mailCheckControllers";
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Upload from '../../../logos/file_upload.png'
 import Modify from '../../../logos/modify_prompt.png'
 import { BsChevronRight } from "react-icons/bs";
-import { LoadLlmsTable } from "../../api/DBControllers";
+import { CheckUserName, LoadLlmsTable } from "../../api/DBControllers";
 
 const socket = io('ws://165.244.190.28:5000', {
     transports: ['websocket'],
@@ -27,8 +27,26 @@ const ModalPrompt = ({ setIsPromteModalOpen, isPromptModalOpen, setPromptContent
         setIsPromteModalOpen(false);
     }
 
-    const saveModal = () => {
-        promptFileUpdate(promptContent);
+    const saveModal = async () => {
+        const result = await promptFileUpdate(promptContent);
+        if (result.status >= 200 && result.status < 300) {
+            
+        } else if (result.status >= 300 && result.status < 400) {
+            console.error('Prompt File 업로드 Error', result);
+            //alert('Prompt File 업로드 중 에러가 발생했습니다. (300대 에러)');
+            
+        } else if (result.status >= 400 && result.status < 500) {
+            console.error('Prompt File 업로드 Error', result);
+            //alert('Prompt File 업로드 중 에러가 발생했습니다. (400대 에러)');
+            
+        } else if (result.status >= 500 && result.status < 600) {
+            console.error('Prompt File 업로드 Error', result);
+            //alert('Prompt File 업로드 중 에러가 발생했습니다. (500대 에러)');
+            
+        } else {
+            console.error('Prompt File 업로드 Error', result);
+            alert('Prompt File 업로드 중 에러가 발생했습니다.');
+        }
         setIsPromteModalOpen(false); //마지막에 닫기
     }
 
@@ -39,21 +57,22 @@ const ModalPrompt = ({ setIsPromteModalOpen, isPromptModalOpen, setPromptContent
     return (
         <>
             <div className="modal-prompt-overlay">
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-content-prompt" onClick={(e) => e.stopPropagation()}>
                     <h2>기술자료 Prompt 수정하기</h2>
                     <div>
                         <textarea style={{
-                            width: '570px',
+                            width: '560px',
                             height: '580px',
                             fontSize: '16px',
                             border: '1px solid lightgray',
                             paddingTop: '10px',
                             paddingLeft: '10px',
+                            marginBottom: '10px', 
                         }}
                             rows={10}
                             value={promptContent} onChange={handlePromptChange} />
                     </div>
-                    <div class="modal-prompt-button-container">
+                    <div className="modal-prompt-button-container">
                         <button className="modal-prompt-save" onClick={saveModal}>Save</button>
                         <button className="modal-prompt-close" onClick={closeModal}>Close</button>
                     </div>
@@ -88,6 +107,7 @@ const CreateInspection = () => {
     const [startTime, setStartTime] = useState('');
     const [fileSize, setFileSize] = useState(0);
     const [llmsData, setLlmsData] = useState([]);
+    const [createTime, setCreateTime] = useState("");
 
     useEffect(() => {
         LoadLlmDatas();
@@ -108,12 +128,18 @@ const CreateInspection = () => {
 
     const promptLoad = async () => {
         const result = await promptFileLoad();
-        console.log('result', result);
 
-        if (result === undefined) {
-            setPromptContent('파일을 불러올수 없습니다');
-        } else {
+        if (result.status >= 200 && result.status < 300) {
             setPromptContent(result.data);
+        } else if (result.status >= 300 && result.status < 400) {
+            setPromptContent(result.data.message);
+        } else if (result.status >= 400 && result.status < 500) {
+            setPromptContent(result.data.message);
+        } else if (result.status >= 500 && result.status < 600) {
+            console.error("서버 에러:", result.status, result.data);
+        } else {
+            console.warn("예상치 못한 상태 코드:", result.status, result.data);
+            setPromptContent(result);
         }
     }
 
@@ -141,8 +167,11 @@ const CreateInspection = () => {
         const hour = String(date.getHours()).padStart(2, '0');
         const minute = String(date.getMinutes()).padStart(2, '0');
         const second = String(date.getSeconds()).padStart(2, '0');
+        const millisecond = String(date.getMilliseconds()).padStart(3, '0');
         const formattedDate = `${year}${month}${day}${hour}${minute}${second}`
         const uuidPart = uuidv4().slice(-4).padStart(4, '0');
+        const time = `${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond}`;
+        setCreateTime(time);
         return `${formattedDate}${uuidPart}` //uuid.slice(0, 4); // 앞 4자리 추출
     }
 
@@ -168,7 +197,8 @@ const CreateInspection = () => {
 
             setFiles((prevFiles) => {
                 const updatedFiles = [...prevFiles]; // 이전 파일 배열을 복사하여 새로운 배열 생성
-
+                //console.log('updatedFiles', updatedFiles);
+                
                 // fieldName에 따라 특정 인덱스의 파일을 설정
                 if (fieldName === 'mail_info_csv') {
                     console.log("처리 중: mail_info_csv");
@@ -207,8 +237,10 @@ const CreateInspection = () => {
                 } else if (fieldName === 'title') {
                     updatedProgress[4] = 0; // 인덱스 4 진행률 초기화
                 }
-                console.log("초기화된 파일 진행률:", updatedProgress); // 초기화된 진행률 배열 출력
-                return updatedProgress;
+
+                const filteredData = updatedProgress.filter(item => item != null && item !== "");
+                console.log("초기화된 파일 진행률:", filteredData); // 초기화된 진행률 배열 출력
+                return filteredData;
             });
 
             setUploadComplete(false); // 업로드 완료 상태 초기화
@@ -274,6 +306,13 @@ const CreateInspection = () => {
             model_name: selectedOption,
         };
 
+        const result = await CheckUserName(uploadDatas.user);
+
+        if (result.status !== 200) {
+            alert('유저 명이 잘못되었습니다.');
+            return
+        }
+
         setUploadData(uploadDatas);
         setIsProgressModalOpen(true); //로컬에서 테스트를 위해 남겨둠
 
@@ -282,11 +321,14 @@ const CreateInspection = () => {
         // }, 2000); // 1초 후 로그 출력
 
         // return;
+        const filteredData = files.filter(item => item != null && item !== "");
+        console.log("최종 업데이트된 파일 목록 : ", filteredData); // 파일이 업데이트된 배열을 출력
+        setFiles(filteredData);
 
         socket.emit('sendUuid', { uuid: createUuid, type: fileNames }, (response) => {
             if (response === 'UUID received') {
                 handleFilsSizeAndTime();
-                files.forEach((file, index) => {
+                filteredData.forEach((file, index) => {
                     const formData = new FormData();
                     formData.append('file', file);
                     //formData.append('uuid', createUuid);
@@ -335,23 +377,68 @@ const CreateInspection = () => {
     const SendMailCheckStart = async (time) => {
         const elapsed_time = (time / 1000).toFixed(2); //초 단위 시간 계산
 
-        const fileSaveResult = await fileSave(uploadData, elapsed_time, fileSize.toFixed(2));
-        console.log('fileSaveResult', fileSaveResult);
+        const fileSaveResult = await fileSave(uploadData, elapsed_time, fileSize.toFixed(2), createTime);
+
+        if (fileSaveResult.status >= 200 && fileSaveResult.status < 300) {
+            
+        } else if (fileSaveResult.status >= 300 && fileSaveResult.status < 400) {
+            console.error('AiCore1 Start Error', fileSaveResult);
+            alert('신규 점검 생성 파일 저장 중 에러가 발생했습니다. (300번대 에러)');
+            setIsProgressModalOpen(false);
+            return
+        } else if (fileSaveResult.status >= 400 && fileSaveResult.status < 500) {
+            console.error('AiCore1 Start Error', fileSaveResult);
+            alert('신규 점검 생성 파일 저장 중 에러가 발생했습니다. (400번대 에러)');
+            setIsProgressModalOpen(false);
+            return
+        } else if (fileSaveResult.status >= 500 && fileSaveResult.status < 600) {
+            console.error('AiCore1 Start Error', fileSaveResult);
+            alert('신규 점검 생성 파일 저장 중 에러가 발생했습니다. (500번대 에러)');
+            setIsProgressModalOpen(false);
+            return
+        } else {
+            console.error('AiCore1 Start Error', fileSaveResult);
+            alert('신규 점검 생성 파일 저장 중 에러가 발생했습니다.');
+            setIsProgressModalOpen(false);
+            return
+        }
+
+        //console.log('fileSaveResult', fileSaveResult);
 
         const result = await MailCheckStart(uploadData);
-        console.log('result', result);
+        //console.log('MailCheckStart', result);
+
+        if (result.status >= 200 && result.status < 300) {
+            
+        } else if (result.status >= 300 && result.status < 400) {
+            console.error('AiCore1 Start Error', result);
+            //alert('AiCore1 Start 중 에러가 발생했습니다. (300대 에러)');
+            
+        } else if (result.status >= 400 && result.status < 500) {
+            console.error('AiCore1 Start Error', result);
+            //alert('AiCore1 Start 중 에러가 발생했습니다. (400대 에러)');
+            
+        } else if (result.status >= 500 && result.status < 600) {
+            console.error('AiCore1 Start Error', result);
+            //alert('AiCore1 Start 중 에러가 발생했습니다. (500대 에러)');
+            
+        } else {
+            console.error('AiCore1 Start Error', result);
+            alert('AiCore1 Start 중 에러가 발생했습니다.');
+        }
+
         navigate('/service/mail-compliance'); // 메인 페이지로 이동
     }
 
     const handleEditPrompt = async () => {
-        await promptLoad();
-        console.log('prompt', promptContent);
+        const result = await promptLoad();
+        //console.log('prompt', promptContent);
 
         setIsPromteModalOpen(true);
     }
 
     const handleFilsSizeAndTime = () => {
-        const totalSizeInMB = files.reduce((acc, file) => acc + file.size, 0) / (1024 * 1024); //MB 단위로 변환
+        const totalSizeInMB = files.reduce((acc, file) => acc + file?.size, 0) / (1024 * 1024); //MB 단위로 변환
         setFileSize(totalSizeInMB);
         const startTime = Date.now();// 타이머 시작
         setStartTime(startTime);
@@ -360,7 +447,7 @@ const CreateInspection = () => {
     useEffect(() => {
         if (files.length === 0)
             return;
-        console.log('fileCount', fileCount, failFileCount);
+        console.log('fileCount',files.length, fileCount, failFileCount);
 
         if (files.length === (fileCount + failFileCount)) {
             setUploadComplete(true);
@@ -549,7 +636,7 @@ const CreateInspection = () => {
                     <div className="section-title">
                         <div className="title">Model</div>
                         <select className="dropdown" value={selectedOption} onChange={handleDropChange}>
-                            <option value="" disabled>{llmsData.length !== 0 ? '사용할 Model을 선택하세요.' : '모델 불러오기 실패'}</option>
+                            <option value="" disabled>{llmsData?.length !== 0 ? 'Model을 선택하세요.' : '모델 불러오기 실패'}</option>
                             {
                                 llmsData.map((item) => (
                                     <option key={item.id} value={item.name}>
@@ -586,7 +673,7 @@ const CreateInspection = () => {
                                     {files.map((file, index) => (
                                         <li key={index} className="progress-item">
                                             <div className="modal-file-info">
-                                                <span className="file-name">{file.name}</span>
+                                                <span className="file-name">{file?.name}</span>
                                                 <span className="progress-text">{progress[index]}%</span>
                                             </div>
                                             <div className="progress-bar">

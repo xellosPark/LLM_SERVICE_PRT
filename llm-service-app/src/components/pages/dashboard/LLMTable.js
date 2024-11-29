@@ -18,7 +18,7 @@ const LLMTable = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data ? data.slice(indexOfFirstItem, indexOfLastItem) : [];
+  const currentItems = data ? data?.slice(indexOfFirstItem, indexOfLastItem) : [];
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -41,9 +41,12 @@ const LLMTable = () => {
     // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
     const fileData = await LoadFilesTable(model.job_id);
     const data = { id: model.index, model:model.llm_id, ...fileData }
-    //console.log('선택한 files Data 표시', model, fileData);
-
-
+    console.log(`Job_id : ${model.job_id}, 선택한 files Data 표시`, fileData);
+    if (fileData.length <= 0) {
+      alert(`선택한 Job_id : ${model.job_id}  fils 정보가 이상합니다.`);
+      return
+    }
+    
     setSelectedRowData(data);
     setIsModalOpen(true);
   };
@@ -113,7 +116,7 @@ const LLMTable = () => {
   }
 
   const handleDownload = async (job_id, type) => {
-    console.log('download', type, job_id);
+    console.log('파일 다운로드 시 필요 정보 : ', type, job_id);
 
     let result = null;
     if (type === 'checks') {
@@ -122,9 +125,35 @@ const LLMTable = () => {
       result = await LoadEvaluationRow(job_id);
     }
 
-    console.log('result', result, result[0].result_file_name);
+    if (result.length <= 0) {
+      alert(`${job_id}를 포함한 ${type} 데이터에 result_file_name이 없습니다.`);
+      console.log(`${job_id}를 포함한 ${type} 데이터에 result_file_name이 없습니다.`);
+      return
+    }
 
-    await DownloadResultFile(job_id, result[0].result_file_name);
+    console.log('파일 다운로드 정보 : ', result, result[0].result_file_name);
+
+    const res = await DownloadResultFile(job_id, result[0].result_file_name);
+    
+    if (res.status >= 200 && res.status < 300) {
+            
+    } else if (res.status >= 300 && res.status < 400) {
+        console.error('파일 다운로드 Error', res);
+        //alert('파일 다운로드 중 에러가 발생했습니다. (300대 에러)');
+        
+    } else if (res.status >= 400 && res.status < 500) {
+        console.error('파일 다운로드 Error', res);
+        //alert('파일 다운로드 중 에러가 발생했습니다. (400대 에러)');
+        
+    } else if (res.status >= 500 && res.status < 600) {
+        console.error('파일 다운로드 Error', res);
+        //alert('파일 다운로드 중 에러가 발생했습니다. (500대 에러)');
+        
+    } else {
+        console.error('파일 다운로드 Error', res);
+        //alert('파일 다운로드 중 에러가 발생했습니다.');
+        
+    }
   }
 
   const columns = [
@@ -282,22 +311,27 @@ const LLMTable = () => {
   };
 
   const handleDeleteRow = async () => {
-    console.log('selectedRowData', selectedRowData);
+    console.log('Delete Row Data : ', selectedRowData);
 
     const result = await DeleteRow(selectedRowData.job_id);
     // if (selectedRowData) {
     //   setData((prevRows) => prevRows.filter((row) => row.id !== selectedRowData.id));
-    //console.log('result', result);
 
     if (result.status === 201) {
       handleCloseMenu();
       await LoadTable();
+    } else {
+      //alert('Delete 실패');
     }
   };
 
   const LoadTable = async () => {
     //const tableData = await LoadAllChecksTable();
-    const joinTableData = await LoadJoinChecksEvalTable();
+    let joinTableData = await LoadJoinChecksEvalTable();
+    if (joinTableData?.length <= 0) {
+      //alert('Join Checks, Evaluation Data Load 실패');
+      joinTableData = [];
+    }
     setData(joinTableData);
     //console.log('joinTableData', joinTableData);
     
@@ -361,7 +395,7 @@ const LLMTable = () => {
         <div className="pagination-container" style={{ textAlign: "center", marginTop: "-10px" }}>
           <Pagination
             postsPerPage={itemsPerPage}
-            totalPosts={data?.length}
+            totalPosts={data?.length || 1}
             paginate={paginate}
             currentPage={currentPage}
           />

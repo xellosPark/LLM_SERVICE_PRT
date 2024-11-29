@@ -358,17 +358,37 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     background: white;
     padding: 1.5rem;
     border-radius: 8px;
-    width: 700px;
+    width: 600px;
     height: auto;
     text-align: center;
     position: relative;
     font-size: 13px;
   }
-  
+
   .modal-content-create h2 {
     margin-top: 0;
     margin-bottom: 20px;
   }
+  
+
+  .modal-content-prompt {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 600px;
+    height: 710px;
+    text-align: center;
+    position: relative;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .modal-content-prompt h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
   
   .progress-list {
     list-style: none;
@@ -409,7 +429,7 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
   }
   
   .progress-fill {
-    background-color: #007bff;
+    background-color: #7092ff;
     height: 100%;
     border-radius: 8px 0 0 8px;
   }
@@ -425,9 +445,10 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin: 15px 14px 0px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+    margin: 10px 14px 0px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
     font-size: 17px;
     font-weight: bold;
+    width: 90px;
   }
 
   .modal-prompt-close:hover {
@@ -441,9 +462,10 @@ padding: 5px;       /* 아이콘 안쪽 여백 설정 */
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin: 15px 10px 0px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
+    margin: 10px 14px 0px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
     font-size: 17px;
     font-weight: bold;
+    width: 90px;
   }
   
   .modal-prompt-save:hover {

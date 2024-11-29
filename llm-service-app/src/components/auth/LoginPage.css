@@ -14,13 +14,14 @@
     width: 100%;
     height: 100%;
     background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; /* 이미지 반복 방지 */
-  background-attachment: fixed; /* 배경 이미지 고정 */
+    background-position: center;
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+    background-attachment: fixed; /* 배경 이미지 고정 */
     content: "";
     position: absolute;
-    background: url('../../logos/LG_Electronics_Gradient_01_RGB.jpg');
-    filter: brightness(80%); /* 100이하 어둡게, 100이상 밝게 */
+    /* background: url('../../logos/LG_Electronics_Gradient_01_RGB.jpg'); */
+    background-color: white;
+    filter: brightness(95%); /* 100이하 어둡게, 100이상 밝게 */
     /* backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px); Safari 호환성 */
     opacity: 0.9;  /* 가상 요소를 약간 투명하게 */
@@ -29,11 +30,12 @@
 
 .login {
     display: flex;
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(255, 255, 255);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 400px;
+    height: 230px;
     text-align: center;
     flex-direction: column;
 }
@@ -63,7 +65,7 @@
 }
 
 .login-body {
-    width: 70%;
+    width: 65%;
 }
 
 .login-input {
@@ -84,15 +86,15 @@
 }
 
 .login-submit {
-    width: 30%;
-    margin-left: 30px;
+    width: 25%;
+    /* margin-left: 20px; */
     margin-bottom: 10px;
 }
 
 .login-submit button {
     width: 100%;
     height: 100%;
-    background-color: #e91e63;
+    background-color: rgb(192, 0, 26);
     border: none;
     color: white;
     font-size: 18px;
@@ -102,13 +104,14 @@
 }
 
 .login-submit button:hover {
-    background-color: #d81b60;
+    background-color: rgb(170, 0, 0);
 }
 
 .login-options {
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
+    margin-top: 15px;
+    font-size: 13px;
 }
 
 .login-options span {

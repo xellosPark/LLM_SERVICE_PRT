@@ -61,7 +61,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
         const storedData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
         const currentSheetData = storedData.find(sheetData => {
             if (tabName === "Tab1") return sheetData.sheet === "High Risk - 기술 자료 요청";
-            if (tabName === "Tab2") return sheetData.sheet === "Potential Risk - 일반 자료 요청";
+            if (tabName === "Tab2") return sheetData.sheet === "No Risk - 일반 자료 요청";
             if (tabName === "Tab3") return sheetData.sheet === "No Risk - 자료 요청 없음";
             if (tabName === "Tab4") return sheetData.sheet === "최종 Risk";
             return false;
@@ -148,7 +148,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
         const storedData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
         const sheetMap = {
             "Tab1": "High Risk - 기술 자료 요청",
-            "Tab2": "Potential Risk - 일반 자료 요청",
+            "Tab2": "No Risk - 일반 자료 요청",
             "Tab3": "No Risk - 자료 요청 없음",
             "Tab4": "최종 Risk"
         };
@@ -258,7 +258,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
         let allSheetData = JSON.parse(sessionStorage.getItem('allSheetFinal')) || [];
         const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
         const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
-        const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "Potential Risk - 일반 자료 요청");
+        const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 일반 자료 요청");
     
         if (tabName === "Tab1") {
             // 기존 Tab1에서 No Risk로 이동하는 로직 (이전 코드 유지)
@@ -386,7 +386,7 @@ const EvaluationTableFinal = ({ tabName, movedRows, handleEvalEnd, handleEdit, i
                             if (rowIndex === actualIndex) row[2] = updatedButtonStates[actualIndex] ? 'Risk' : 'No Risk';
                             return row;
                         });
-                    } else if (tabName === "Tab2" && sheetData.sheet === "Potential Risk - 일반 자료 요청") {
+                    } else if (tabName === "Tab2" && sheetData.sheet === "No Risk - 일반 자료 요청") {
                         sheetData.rows = sheetData.rows.map((row, rowIndex) => {
                             if (rowIndex === actualIndex) row[2] = updatedButtonStates[actualIndex] ? 'Risk' : 'No Risk';
                             return row;

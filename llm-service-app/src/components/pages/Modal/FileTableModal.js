@@ -4,10 +4,7 @@ import { LoadLlmsRow } from "../../api/DBControllers";
 
 const FileTableModal = ({ data, onClose }) => {
   if (!data) return null;
-  if (!data[0]) {
-    alert('데이터에 문제가 있습니다');
-    return
-  }
+  if (!data[0]) return null;
   
 
   // const ViewModelName = async (id) => {
@@ -24,7 +21,6 @@ const FileTableModal = ({ data, onClose }) => {
     return result;
   }
 
-  
   return (
     <div className="table-modal-overlay" onClick={onClose}>
       <div className="table-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -58,11 +54,11 @@ const FileTableModal = ({ data, onClose }) => {
             <div className="table-keywords-row">
               <div className="table-keywords">
                 <span className="table-keyword">실수취인</span>
-                <span className="table-keyword-name">{data[0]?.keyword_title_txt_name || 'Nan'}</span>  {/* data-tooltip="" */}
+                <span className="table-keyword-name">{data[0]?.keyword_receiver_txt_name || 'Nan'}</span>  {/* data-tooltip="" */}
               </div>
               <div className="table-keywords">
                 <span className="table-keyword">제목</span>
-                <span className="table-keyword-name">{data[0]?.keyword_receiver_txt_name || 'Nan'}</span>  {/* data-tooltip="" */}
+                <span className="table-keyword-name">{data[0]?.keyword_title_txt_name || 'Nan'}</span>  {/* data-tooltip="" */}
               </div>
             </div>
           </div>

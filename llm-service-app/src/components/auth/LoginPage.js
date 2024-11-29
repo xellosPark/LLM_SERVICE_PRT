@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginPage.css'
-import lightLogo from '../../logos/test_logo.jfif';
+import lightLogo from '../../logos/prai-gen_logo_line.png';
 
 function LoginPage({ onLogin }) {
   const [id, setId] = useState('');
@@ -14,8 +14,9 @@ function LoginPage({ onLogin }) {
   return (
     <div className='login-container'>
       <div className='login'>
-      <div className='login-img' >
-        <img alt='LG LOGO' src={lightLogo} style={{width: '100px'}} />
+      <div className='login-img' style={{ textAlign: 'left' }}>
+        <img alt='LG LOGO' src={lightLogo} style={{ width: '150px', marginTop: '10px', marginBottom: '4px' }} />
+        <p style={{ fontSize: '30x', fontWeight: 'bold', marginLeft: '3px', marginBottom:'25px' }}>PRI Gen.AI Playground</p>
       </div>
         <form onSubmit={handleSubmit}>
           <div className='login-box'>
@@ -23,14 +24,14 @@ function LoginPage({ onLogin }) {
               <input className='login-input'
                   type="text"
                   value={id}
-                  placeholder='아이디를 입력해 주세요'
+                  placeholder='아이디를 입력해 주세요.'
                   onChange={(e) => setId(e.target.value)}
                   required
                 />
               <input className='login-input'
                   type="password"
                   value={pw}
-                  placeholder='비밀번호를 입력해 주세요'
+                  placeholder='비밀번호를 입력해 주세요.'
                   onChange={(e) => setPw(e.target.value)}
                   required
                 />

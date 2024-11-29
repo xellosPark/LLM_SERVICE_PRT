@@ -60,7 +60,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
         const storedData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
         const currentSheetData = storedData.find(sheetData => {
             if (tabName === "Tab1") return sheetData.sheet === "High Risk - 기술 자료 요청";
-            if (tabName === "Tab2") return sheetData.sheet === "Potential Risk - 일반 자료 요청";
+            if (tabName === "Tab2") return sheetData.sheet === "No Risk - 일반 자료 요청";
             if (tabName === "Tab3") return sheetData.sheet === "No Risk - 자료 요청 없음";
             return false;
         });
@@ -113,7 +113,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
         const storedData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
         const sheetMap = {
             "Tab1": "High Risk - 기술 자료 요청",
-            "Tab2": "Potential Risk - 일반 자료 요청",
+            "Tab2": "No Risk - 일반 자료 요청",
             "Tab3": "No Risk - 자료 요청 없음"
         };
         const currentSheetData = storedData.find(sheetData => sheetData.sheet === sheetMap[tabName]);
@@ -209,6 +209,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(datas.length / itemsPerPage);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -220,7 +221,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
         let allSheetData = JSON.parse(sessionStorage.getItem('allSheetData')) || [];
         const highRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "High Risk - 기술 자료 요청");
         const noRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 자료 요청 없음");
-        const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "Potential Risk - 일반 자료 요청");
+        const potentialRiskSheetData = allSheetData.find(sheetData => sheetData.sheet === "No Risk - 일반 자료 요청");
 
         if (tabName === "Tab1") {
             // 기존 Tab1에서 No Risk로 이동하는 로직 (이전 코드 유지)
@@ -248,7 +249,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
-
+                //setCurrentPage(1);
                 // Step 6: 500ms 대기
                 await new Promise(resolve => setTimeout(resolve, 300)); // 대기 시간 추가
             } else {
@@ -280,7 +281,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
-
+                //setCurrentPage(1);
                 // Step 6: 500ms 대기
                 await new Promise(resolve => setTimeout(resolve, 500)); // 대기 시간 추가
             } else {
@@ -313,7 +314,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
 
                 // Step 5: 상태를 재로딩하여 적용
                 loadDatasFromLocalStorage();
-
+                //setCurrentPage(1);
                 // Step 6: 500ms 대기
                 await new Promise(resolve => setTimeout(resolve, 500)); // 대기 시간 추가
             } else {
@@ -350,7 +351,7 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
                             if (rowIndex === actualIndex) row[2] = updatedButtonStates[actualIndex] ? 'Risk' : 'No Risk';
                             return row;
                         });
-                    } else if (tabName === "Tab2" && sheetData.sheet === "Potential Risk - 일반 자료 요청") {
+                    } else if (tabName === "Tab2" && sheetData.sheet === "No Risk - 일반 자료 요청") {
                         sheetData.rows = sheetData.rows.map((row, rowIndex) => {
                             if (rowIndex === actualIndex) row[2] = updatedButtonStates[actualIndex] ? 'Risk' : 'No Risk';
                             return row;
@@ -414,6 +415,12 @@ const EvaluationTable = ({ tabName, movedRows, handleEvalEnd }) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        if (currentPage > totalPages && totalPages !== 0) {
+            setCurrentPage(totalPages);
+        }
+    }, [currentPage, totalPages, tabName])
 
 
     return (
