@@ -149,7 +149,7 @@ export const fileSave = async (fileNames, elapsed_time, fileSize, createTime) =>
   //console.log('filesave', fileNames);
 
   try {
-    const ip = `http://165.244.190.28:5000`;
+    const ip = `http://localhost:5000`;
     const response = await api.post(`${ip}/api/datas/files`, { fileNames, elapsed_time, fileSize, createTime });
     return response;
   } catch (error) {

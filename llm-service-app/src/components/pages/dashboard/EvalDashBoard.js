@@ -104,7 +104,11 @@ const EvalDashBoard = () => {
 
       for (const sheet of sheets) {
         //console.log(`"${sheet}" 시트에서 데이터 가져오는 중`); // 각 시트의 데이터 가져오기 로그
-        const result = await LoadResultFile(jobId, sheet, 'checks');
+        let type = 'checks';
+        if (isResultEdit) {
+          type = 'evaluations';
+        }
+        const result = await LoadResultFile(jobId, sheet, type);
 
         let data = null;
         if (result.status >= 200 && result.status < 300) {

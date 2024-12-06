@@ -327,7 +327,7 @@ const CreateInspection = () => {
 
         socket.emit('sendUuid', { uuid: createUuid, type: fileNames }, (response) => {
             if (response === 'UUID received') {
-                handleFilsSizeAndTime();
+                handleFilsSizeAndTime(filteredData);
                 filteredData.forEach((file, index) => {
                     const formData = new FormData();
                     formData.append('file', file);
@@ -437,8 +437,8 @@ const CreateInspection = () => {
         setIsPromteModalOpen(true);
     }
 
-    const handleFilsSizeAndTime = () => {
-        const totalSizeInMB = files.reduce((acc, file) => acc + file?.size, 0) / (1024 * 1024); //MB 단위로 변환
+    const handleFilsSizeAndTime = (filteredData) => {
+        const totalSizeInMB = filteredData.reduce((acc, file) => acc + file?.size, 0) / (1024 * 1024); //MB 단위로 변환
         setFileSize(totalSizeInMB);
         const startTime = Date.now();// 타이머 시작
         setStartTime(startTime);

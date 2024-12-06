@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './SidebarLayout.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft,faArrowRight,faDesktop,faChartPie } from '@fortawesome/free-solid-svg-icons'
 
 function SidebarLayout() {
   const [isMinimized, setIsMinimized] = useState(false);
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setIsMinimized(!isMinimized);
@@ -14,13 +15,14 @@ function SidebarLayout() {
   return (
     <aside className={`sidebar ${isMinimized ? 'minimized' : ''}`}>
       <div className="menu">
-        <Link to="/service/mail-compliance" className="menu-item">
+        <Link to="/service/mail-compliance" className={`menu-item ${location.pathname.startsWith(`/service/mail-compliance`) || location.pathname.startsWith(`/service/pie-chabot`)
+                                                        || location.pathname === `/` ? 'menu-focus' : ''}`}>
         <span className="custom-icon-size">
             <FontAwesomeIcon icon={faChartPie } />
           </span>
           <span className="sider-text">{!isMinimized && 'LLM Service'}</span>
         </Link>
-        <Link to="/ops" className="menu-item">
+        <Link to="/ops" className={`menu-item ${location.pathname.startsWith(`/ops`) ? 'menu-focus' : ''}`}>
         <span className="custom-icon-size">
             <FontAwesomeIcon icon={faDesktop} />
           </span>

@@ -35,7 +35,7 @@
     transition: background 0.3s ease;
   }
   
-  .menu-item:hover {
+  .menu-item:hover, .menu-focus {
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
     color: #000000; /* #EAD8B1 rgb(247, 243, 45); */
