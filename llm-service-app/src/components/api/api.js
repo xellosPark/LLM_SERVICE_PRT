@@ -1,18 +1,15 @@
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
-import { useContext } from "react";
-import { useHistory } from 'react-router-dom';
-import { UserContext } from "../useContext/UserContext";
 
 let logoutHandler = null; // 로그아웃 핸들러를 저장할 변수
 
 // Axios 인스턴스 생성
 const api = axios.create({
-    baseURL: "http://localhost:5000", // 서버의 기본 URL
+    baseURL: "http://165.244.190.28:5000",
     headers: {
-      "Content-Type": "application/json", // 모든 요청에 기본 Content-Type 설정
+        "Content-Type": "application/json", // 기본 Content-Type 설정
     },
-  });
+});
 
 export const setLogoutHandler = (logoutFn) => {
     logoutHandler = logoutFn; // 로그아웃 핸들러를 설정
@@ -20,12 +17,10 @@ export const setLogoutHandler = (logoutFn) => {
 
 // Access Token 갱신 함수
 const refreshAccessToken = async () => {
-    
-    //const history = useHistory
-    console.log('재발급 진행');
 
-    const ip = `http://165.244.190.28:5000`;//`${process.env.REACT_APP_API_DEV}:${process.env.REACT_APP_API_PORT}`;
+    const ip = `http://165.244.190.28:5000`;
     const refreshToken = localStorage.getItem('refreshToken');
+
     try {
         const response = await axios.post(`${ip}/api/auth/token`, { token: refreshToken });
         const { accessToken } = response.data;
@@ -36,8 +31,7 @@ const refreshAccessToken = async () => {
         return accessToken;
     } catch (error) {
         console.log('error1', logoutHandler);
-        if (logoutHandler) logoutHandler();  // 로그아웃 핸들러 호출
-        //console.error('Error refreshing access token:', error);
+        if (logoutHandler) logoutHandler(); // 로그아웃 핸들러 호출
         throw error;
     }
 };
@@ -52,13 +46,12 @@ api.interceptors.request.use(
             return config;
         }
 
-        // Access Token이 있을 경우, 토큰 만료 여부 확인
         if (accessToken) {
             try {
                 const decoded = jwtDecode(accessToken);
                 const currentTime = Date.now() / 1000;
 
-                // 토큰이 만료되었으면 Access Token 갱신
+                // 토큰 만료 여부 확인 및 갱신
                 if (decoded.exp < currentTime) {
                     const newAccessToken = await refreshAccessToken();
                     config.headers['Authorization'] = `Bearer ${newAccessToken}`;
@@ -86,16 +79,14 @@ api.interceptors.response.use(
             try {
                 const newAccessToken = await refreshAccessToken();
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                return api(originalRequest);  // 원래 요청을 다시 시도
+                return api(originalRequest); // 원래 요청 재시도
             } catch (error) {
-                // Refresh token이 만료되었을 때, logout 호출
                 console.log('error2', logoutHandler);
-                
-                if (logoutHandler) logoutHandler();
-                return Promise.reject(error);  // 로그인 페이지로 리디렉션 등의 처리 필요
+                if (logoutHandler) logoutHandler(); // 로그아웃 처리
+                return Promise.reject(error);
             }
         }
-        //return Promise.reject(error);
+        return Promise.reject(error);
     }
 );
 

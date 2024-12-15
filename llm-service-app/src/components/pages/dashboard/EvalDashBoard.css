@@ -1,146 +1,10 @@
-.tab-buttons {
-  display: inline-block;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-left: 11px;
-  margin-top: 2px;
-  /* border: 1px solid #c9c5c5; */
-}
-
-.tab-buttons button {
-  border: none;
-  padding: 13px 15px;
-  cursor: pointer;
-  font-size: 14.5px;
-  /* transition: background-color 0.3s; */
-  background-color: white;
-  color: #929292;
-  /* border-right: 1px solid #c9c5c5; */
-  border-bottom: 2px solid transparent; /* 초기 상태에서 밑줄을 투명하게 설정 */
-}
-
-.tab-buttons button:hover {
-  /* background-color: #F8E5EB; */
-  color: #000000;
-}
-
-.tab-buttons button.active {
-  /* background-color: #c9415e; */
-  color: rgb(0, 0, 0);
-  font-size: 15px;
-  font-weight: bold;
-  border-bottom: 2px solid #c9415e; /* active 상태에서 밑줄 색상 설정 */
-}
-
-.tab-wrapper {
-  padding: 10px;
-  border-radius: 0px 0px 8px 8px;
-  justify-content: space-between;
-}
-.table-direct {
-  display: flex;
-  width: 100%;
-}
-
-.table-section {
-  margin: 5px 0px;
-}
-
-.table-state-section {
-  display: flex;
+.eval-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 50px;
+  background-color: #ffffff;
   justify-content: center;
   align-items: center;
-  height: 60vh;
-  font-size: 36px;
-  font-weight: bold;
-}
-
-.table-th {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.risk-th-button {
-  border: 1px solid #888;
-  margin-left: 5px;
-  padding: 4px 8px;
-  font-size: 9px;
-  border-radius: 8px;
-  background-color: transparent;
-  color: #888;
-  cursor: pointer;
-}
-
-.eval-table {
-  margin: 0px;
-  padding: 0px;
-}
-
-.risk-td-button {
-  font-size: 10px;
-  padding: 4px 24px;
-  color: black;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.eval-table td {
-  font-size: 12px;
-}
-
-.risk-td-button:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.eval-td-textarea {
-  width: 100%;
-/* border: 2px solid #ddd; */
-border: none;
-padding: 4px;
-border-radius: 4px;
-font-size: 10px;
-resize: vertical; /* 수직 크기 조절 가능 */
-/* box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); */
-transition: border-color 0.3s ease, box-shadow 0.3s ease;
-background-color: transparent;
-}
-
-/* 텍스트 에리어에 포커스가 있을 때 스타일 */
-.eval-td-textarea:focus {
-  outline: none;
-  border-color: none;
-  /* box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
-  background-color: transparent;
-}
-
-/* 텍스트 에리어 placeholder 스타일 */
-.eval-td-textarea::placeholder {
-  color: #aaa;
-  font-style: italic;
-}
-
-.tab-container {
-  display: inline-flex;
-  background-color: white;
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.tab-title {
-  display: inline-block;
-  /* border: 1px solid #6b6b6b; */
-  padding: 10px;
-  border-radius: 8px;
-  color: #aaa;
-  background-color: white;
-  font-size: 12px;
-}
-
-.tab-title-span {
-  color: #7e7e7e;
-  font-size: 15px;
 }
 
 .eval-navigation-bar {
@@ -158,14 +22,33 @@ background-color: transparent;
   align-items: center;
 }
 
+.nav-item {
+  text-decoration: none;
+  background-color: transparent; /* 기본 배경색 제거 */
+  color: rgba(117, 117, 117, 0.616); /* 텍스트 색상 */
+  border: none; /* 테두리 제거 */
+  padding: 15px 20px; /* 버튼의 내부 여백 */
+  font-size: 19px; /* 폰트 크기 */
+  font-weight: bold;
+  cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+  transition: color 0.3s ease, transform 0.2s ease; /* 텍스트 색상과 크기 변화에 애니메이션 추가 */
+  position: relative; /* underline을 위한 상대적 위치 */
+}
+
+.nav-item.active {
+  outline: none;
+  color: rgb(0, 0, 0);
+  transform: scale(0.95);
+}
+
 .nav-item-eval-header {
   justify-content: center;
   align-items: center;
-  background-color: transparent; /* 기본 배경색 제거 */
-  color: #222; /* 텍스트 색상 */
-  border: none; /* 테두리 제거 */
-  font-size: 19px; /* 폰트 크기 */
-  position: relative; /* underline을 위한 상대적 위치 */
+  background-color: transparent;
+  color: #222;
+  border: none;
+  font-size: 19px;
+  position: relative;
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 25px;
@@ -175,12 +58,81 @@ background-color: transparent;
 .nav-item-eval-active {
   justify-content: center;
   align-items: center;
-  background-color: transparent; /* 기본 배경색 제거 */
-  color: #b82749; /* 텍스트 색상 */
-  border: none; /* 테두리 제거 */
-  font-size: 19px; /* 폰트 크기 */
-  position: relative; /* underline을 위한 상대적 위치 */
+  background-color: transparent;
+  color: #b82749;
+  border: none;
+  font-size: 19px;
+  position: relative;
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 25px;
+}
+
+.tab-buttons {
+  display: inline-block;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-left: 11px;
+  margin-top: 2px;
+}
+
+.tab-buttons button {
+  border: none;
+  padding: 13px 15px;
+  cursor: pointer;
+  font-size: 14.5px;
+  background-color: white;
+  color: #929292;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-buttons button:hover {
+  color: #000000;
+}
+
+.tab-buttons button.active {
+  color: rgb(0, 0, 0);
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 2px solid #c9415e;
+}
+
+.tab-wrapper {
+  padding: 10px;
+  border-radius: 0px 0px 8px 8px;
+  justify-content: space-between;
+}
+
+.tab-container {
+  display: inline-flex;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.tab-title {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 8px;
+  color: #aaa;
+  background-color: white;
+  font-size: 12px;
+}
+
+.tab-title-span {
+  color: #7e7e7e;
+  font-size: 15px;
+}
+
+.table-section {
+  margin: 5px 0px;
+}
+
+.table-state-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  font-size: 36px;
+  font-weight: bold;
 }

@@ -10,7 +10,7 @@
   }
   
   .page-item {
-    margin: 0 5px; /* Adjust the margin as needed */
+    margin: 0 5px;
   }
   
   .page-item button {
@@ -34,7 +34,6 @@
   }
   
   .page-item.active button {
-    /* background-color: #ccc5c8; */
     color: rgb(194, 26, 65);
     font-size: 14px;
     font-weight: bold;

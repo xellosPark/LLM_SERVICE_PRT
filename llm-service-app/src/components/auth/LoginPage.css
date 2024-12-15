@@ -15,16 +15,13 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat; /* 이미지 반복 방지 */
-    background-attachment: fixed; /* 배경 이미지 고정 */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     content: "";
     position: absolute;
-    /* background: url('../../logos/LG_Electronics_Gradient_01_RGB.jpg'); */
     background-color: white;
-    filter: brightness(95%); /* 100이하 어둡게, 100이상 밝게 */
-    /* backdrop-filter: blur(50px);
-    -webkit-backdrop-filter: blur(50px); Safari 호환성 */
-    opacity: 0.9;  /* 가상 요소를 약간 투명하게 */
+    filter: brightness(95%);
+    opacity: 0.9; /* 약간 투명하게 */
     z-index: -1; /* 부모 요소 뒤에 배치 */
 }
 
@@ -40,23 +37,9 @@
     flex-direction: column;
 }
 
-.login-logo {
-    position: relative;
-    align-items: center;
-    margin-bottom: 0px;
-    justify-content: center;
+.login-img {
+    margin-bottom: 10px;
 }
-
-.login-logo div {
-    position: absolute;
-    /* border: 1px solid black; */
-}
-/* 
-.login-logo h2 {
-    text-align: right; 
-    margin-right: 60px;
-    margin-bottom: 5px;
-} */
 
 .login-box {
     display: flex;
@@ -76,10 +59,6 @@
     margin-bottom: 10px;
 }
 
-.login-img {
-    margin-bottom: 10px;
-}
-
 .login-input:focus {
     outline: none;
     border: 1px solid #8b8b8b;
@@ -87,7 +66,6 @@
 
 .login-submit {
     width: 25%;
-    /* margin-left: 20px; */
     margin-bottom: 10px;
 }
 

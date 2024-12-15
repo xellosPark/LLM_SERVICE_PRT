@@ -1,143 +1,85 @@
-/* 공통 스타일 */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .user-section {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logout-button {
-    background-color: #8B1E4A;
-    color: #ecf0f1;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  /* 라이트 모드 (기본) */
-  .header.light-mode {
-    background-color: #ffffff;
-    color: #222;
-    font-size: 14px;
-  }
-  
-  /* 다크 모드 */
-  .header.dark-mode {
-    background-color: #3D3D3D;
-    color: #eee;
-    font-size: 14px;
-  }
-  
-  .user-name.dark-mode {
-    background-color: #34495e;
-  }
-  
-  .logout-button.dark-mode {
-    background-color: #c0392b;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-  .logo.light-mode, .logo.dark-mode {
-    width: 120px;
-    /* margin-top: 10px; */
-    margin-left: 2px;
-    background-position: center;
-  }
+.light-mode {
+  background-color: #ffffff;
+  color: #222;
+  font-size: 14px;
+}
 
-  #llm-logo:hover {
-    cursor: pointer;
-  }
+.llm-logo:hover {
+  cursor: pointer;
+}
 
-  .NewlogOut-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff;
-    color: #eee;
-    border: none;    
-    color: rgb(146, 146, 146);
-    position: relative;
-    margin-right: 40px;
-    cursor: pointer;
-    padding: 4px 10px;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: 3px;
-    
-  }
+.llm-logo-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
 
-  .NewlogOut-button:hover {
-    opacity: 0.8;    /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
-  }
-  
-  .icon-lock {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-  
-  .icon-arrow {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .NewlogOut-text {
-    flex-grow: 1;
-    text-align: center;
-    font-weight: bold;
-  }
-   .NewlogOut-text::before {
-    content: '';
-    position: absolute;
-    left: 50px;
-    top: 0;
-    bottom: 0;
-    border-left: 2px dashed #eee;   /* 점선 추가 */
-    height: 100%;
-  }
+.logo-light-mode {
+  width: 120px;
+  margin-left: 2px;
+  background-position: center;
+}
 
-   .Huserinfo {
-    display: flex;
-    align-items: center;
-    color: rgb(75, 75, 75);
-    padding: 4px 10px;
-    border-radius: 50px;
-    border: none;   /* 점선 추가 */
-    margin-right: 2px;
-    font-size: 15px;
-    font-weight: bold;
-  }
-   .icon-half-human {
-    width: 17px;    /* 아이콘 너비 */
-    height: 17px;    /* 아이콘 높이 */
-    margin-right: 5px;    /* 텍스트와 아이콘 간격 */
-    fill: rgb(255, 255, 255);    /* 아이콘 색상 */
-  }
-   .userinfo-text {
-    font-size: 16px;
-    color: #222;
-  }
+.user-section {
+  display: flex;
+  align-items: center;
+}
 
-  .llm-logo-button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-  }
+.header-timer {
+  color: rgb(129, 129, 129);
+}
 
-  .header-timer {
-    color: rgb(129, 129,129);
-  }
+.Huserinfo {
+  display: flex;
+  align-items: center;
+  color: rgb(75, 75, 75);
+  padding: 4px 10px;
+  border-radius: 50px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 2px;
+}
+
+.icon-half-human {
+  width: 17px;
+  height: 17px;
+  margin-right: 5px;
+  fill: rgb(255, 255, 255);
+}
+
+.NewlogOut-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  color: rgb(146, 146, 146);
+  border: none;
+  position: relative;
+  margin-right: 40px;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 3px;
+}
+
+.NewlogOut-button:hover {
+  opacity: 0.8;
+}

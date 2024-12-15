@@ -5,7 +5,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // 앱이 처음 로드될 때 localStorage에서 유저 정보를 가져옵니다.
+  // 앱이 처음 로드될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -20,10 +20,11 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    // 사용자 관련 데이터 localStorage 및 sessionStorage에서 제거
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
-    localStorage.removeItem('isAuthenticated'); // 로그인 상태 로컬 스토리지에 저장
+    localStorage.removeItem('isAuthenticated');
     sessionStorage.removeItem('isAuthenticated');
     localStorage.removeItem('activeComponent');
     localStorage.removeItem('lastPath');

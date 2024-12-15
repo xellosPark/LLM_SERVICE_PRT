@@ -1,4 +1,71 @@
-/* 전체 레이아웃을 위한 Flexbox 컨테이너 */
+.create-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 50px; /* 고정된 헤더 아래 여백 추가 */
+  background-color: #ffffff;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-navigation-bar {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-top: 40px;
+  margin-left: 25px;
+}
+
+.create-navigation-title {
+  margin-left: -14px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  text-decoration: none;
+  background-color: transparent; /* 기본 배경색 제거 */
+  color: rgba(117, 117, 117, 0.616); /* 텍스트 색상 */
+  border: none; /* 테두리 제거 */
+  padding: 15px 20px; /* 버튼의 내부 여백 */
+  font-size: 19px; /* 폰트 크기 */
+  font-weight: bold;
+  cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+  transition: color 0.3s ease, transform 0.2s ease; /* 텍스트 색상과 크기 변화에 애니메이션 추가 */
+  position: relative; /* underline을 위한 상대적 위치 */
+}
+
+.nav-item.active {
+  outline: none;
+  color: rgb(0, 0, 0);
+  margin-bottom: 4px;
+}
+
+.nav-item-create-header {
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #222;
+  border: none;
+  font-size: 19px;
+  position: relative;
+  font-weight: bold;
+  margin: 20px 10px 25px -4px;
+}
+
+.nav-item-create-active {
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #b82749;
+  border: none;
+  font-size: 19px;
+  position: relative;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
 .create-container {
   padding: 20px;
 }
@@ -24,68 +91,75 @@
   margin-bottom: 10px;
 }
 
-/* 각 필드 그룹 */
-.field-wrapper {
+.file-item {
   display: flex;
   align-items: center;
-  flex-direction: column; /* 세로 정렬 */
-  /* border-radius: 5px;
-  margin-left: 8px;
-  background-color: #f7f7f7;
+  justify-content: space-between;
   width: 1000px;
-  max-width: 1000px;
-  font-size: 13px; */
 }
 
-.field-wrapper  > img {
-  margin: 0px 10px;
-}
-
-.field-wrapper > label {
+.file-details {
   display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 2px solid #e0e0e0;
   border-radius: 10px;
-  justify-content: left; 
-  align-items: center; 
-  min-width: 100px;
   padding: 10px;
-  margin-right: 5px;
-  width: 130px;
-  color: #222;
-  height: 30px;
-  
+  margin: 4px 10px 4px -2px;
 }
-  /* 새로운 필드 그룹을 위한 Flex 설정 */
-.custom-field-wrapper {
+
+.file-names {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  border: none;
+  width: 200px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.red-star {
+  color: #bd0826;
+  font-size: 15px;
+}
+
+.file-info {
   display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  margin: 10px 0px;
+  align-items: center;
+  font-size: 13px;
+  background-color: rgb(248, 248, 248);
+  border-radius: 7px;
+  height: 37px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.open-btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background-color: rgb(248, 248, 248);
+  margin-left: 5px;
+}
+
+.open-btn img {
+  width: 22px;
+  height: 22px;
+}
+
+.csvfileOpen-icon {
+  width: 32px;
+  height: 32px;
 }
 
 .file-upload-list {
   display: inline-block;
   color: #888;
-  flex: 1; /* 자동으로 남은 공간 차지 */
+  flex: 1;
   margin-left: 5px;
   font-size: 13px;
   font-weight: lighter;
-}
-
-.file-delete {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.file-delete > div {
-  display: flex;
-  align-items: center;
-}
-
-.flex-row {
-  display: flex;
-  align-items: center;
-  margin: 3px 0px;
-  padding: 2px;
 }
 
 /* 라벨 스타일 */
@@ -100,8 +174,17 @@
   margin-left: 4px;
   margin-right: 10px;
   min-width: 70px;
-  text-align: center; /* 가운데 정렬 */
+  text-align: center;
   font-size: 12px;
+}
+
+.file-details-empty {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: none;
+  padding: 10px;
+  margin: 4px 14px 4px -2px;
 }
 
 /* 드롭다운 스타일 */
@@ -124,35 +207,54 @@
   margin-left: 0px;
 }
 
-.flex-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.open-btn img {
-  width: 22px; /* 아이콘 크기 */
-  height: 22px; /* 아이콘 높이 */
-}
-
-.open-btn{
-  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
-  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
-  border: none;
+.icon-button-edit {
+  display: inline-block;
   background-color: rgb(248, 248, 248);
-  /* border: 2px solid #c1c3c5; */
-  /* border-radius: 30px; */
-  margin-left: 5px;
+  border: none;
+  border-radius: 14px;
+  color: rgb(0, 0, 0);
+  padding: 5px 7px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  width: 225px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.icon-button-edit:hover {
+  opacity: 0.8;
+}
+
+.icon-button-edit img {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(248, 248, 248);
+  padding: 3px;
+  margin-right: 5px;
+}
+
+.run-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  margin-left: 240px;
 }
 
 .action-icon {
-  margin-right: 8px; /* 아이콘과 텍스트 사이의 마진 */
+  margin-right: 8px;
 }
 
 .icon-button {
-  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
-  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
   border: none;
   padding: 0px 0px;
   background-color: #F7F7F7;
@@ -162,368 +264,175 @@
 
 .icon-button-run {
   display: inline-block;
-  background-color: #BB0841; /* 버튼 배경 색 설정 */
+  background-color: #BB0841;
   border: none;
   border-radius: 17px;
-  color: white; /* 글자 색 설정 */
-  padding: 10px 7px; /* 버튼의 내부 여백 설정 */
-  font-size: 17px; /* 글자 크기 설정 */
-  font-weight: bold; /* 글자 굵기를 굵게 설정 */
-  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
-  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
-  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
-  transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
+  color: white;
+  padding: 10px 7px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
   width: 140px;
-  justify-content: center; /* 내용물 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: center;
+  align-items: center;
 }
 
 .icon-button-run:hover {
-  opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
+  opacity: 0.8;
 }
 
 .icon-button-run img {
-width: 20px;         /* 아이콘 크기 줄이기 */
-height: 20px;        /* 아이콘 높이 줄이기 */
-margin-right: 10px;  /* 아이콘과 텍스트 사이의 간격 설정 */
-border-radius: 50%;  /* 아이콘을 완전히 둥글게 만듦 (원형) */
-background-color: white; /* 아이콘의 배경 색을 흰색으로 설정 */
-padding: 5px;       /* 아이콘 안쪽 여백 설정 */
-}
-
-.icon-button-edit {
-  display: inline-block;
-  background-color: rgb(248, 248, 248); /* 버튼 배경 색 설정 */
-  border: none;
-  border-radius: 14px;
-  color: rgb(0, 0, 0); /* 글자 색 설정 */
-  padding: 5px 7px; /* 버튼의 내부 여백 설정 */
-  font-size: 13px; /* 글자 크기 설정 */
-  font-weight: bold; /* 글자 굵기 설정 */
-  cursor: pointer; /* 마우스 오버 시 포인터 커서 표시 */
-  display: flex; /* 아이콘과 텍스트를 수평으로 정렬하기 위해 Flexbox 사용 */
-  align-items: center; /* 아이콘과 텍스트를 수직으로 중앙에 정렬 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
-  transition: background-color 0.3s ease; /* 배경색 변화에 부드러운 전환 효과 추가 */
-  width: 225px;
-  justify-content: center; /* 내용물 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  margin-top: 20px;
-}
-  
-  .icon-button-edit:hover {
-  opacity: 0.8; /* 버튼에 마우스 오버 시 살짝 투명하게 변환 */
-}
-  
-  .icon-button-edit img {
   width: 20px;
   height: 20px;
-  background-color: rgb(248, 248, 248); /* 아이콘의 배경 색을 흰색으로 설정 */
-  padding: 3px;       /* 아이콘 안쪽 여백 설정 */
-  margin-right: 5px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 5px;
 }
 
-  .run-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 60px;
-    margin-left: 240px;
-  }
+/* 모달 창 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
-  .file-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 10px;
-    margin: 10px 8px;
-    width: 980px;
-    max-width: 980px; */
-    /* margin-left: 500px; */
-    width: 1000px;
-  }
-  
-  .file-info {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    background-color: rgb(248, 248, 248);
-    border-radius: 7px;
-    height: 37px;
-    width: 100%;
-    margin-bottom: 5px;
-  }
-  
-  /* .file-icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    
-  } */
-  
-  .file-details {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 4px 10px 4px -2px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
-  }
+.modal-content-create {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 600px;
+  height: auto;
+  text-align: center;
+  position: relative;
+  font-size: 13px;
+}
 
-  .file-details-empty {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border: none;
-    padding: 10px;
-    margin: 4px 14px 4px -2px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
-  }
-  
-  .file-names {
-    font-size: 14px;
-    font-weight: bold;
-    margin: 0;
-    border: none;
-    width: 200px;
-    box-sizing: border-box;
-    text-align: center;
-  }
+.modal-content-create h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
 
-  .red-star {
-    color: #bd0826;
-    font-size: 15px;
-  }
+.modal-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
-  .file-margin {
-    margin-right: -100px;
-  }
-  
-  .file-modified {
-    font-size: 12px;
-    color: #888;
-  }
-  
-  .file-actions {
-    display: flex;
-    align-items: center;
-    
-  }
-  
-  .edit-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
-  .csvfileOpen-icon {
-    width: 32px;
-    height: 32px;
-  }
+.modal-content-prompt {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 600px;
+  height: 710px;
+  text-align: center;
+  position: relative;
+  font-size: 13px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
-  
-  /* 모달 창 */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
+.modal-content-prompt h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
 
-  .modal-prompt-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modal-content-create {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    width: 600px;
-    height: auto;
-    text-align: center;
-    position: relative;
-    font-size: 13px;
-  }
+.progress-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  .modal-content-create h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-  
+.progress-item {
+  margin-bottom: 20px;
+}
 
-  .modal-content-prompt {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    width: 600px;
-    height: 710px;
-    text-align: center;
-    position: relative;
-    font-size: 13px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+.modal-file-info {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  border-radius: 7px;
+  height: 37px;
+  width: 100%;
+  margin-bottom: 5px;
+}
 
-  .modal-content-prompt h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-  
-  
-  .progress-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .progress-item {
-    margin-bottom: 20px;
-  }
-  
-  .modal-file-info {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    border-radius: 7px;
-    height: 37px;
-    width: 100%;
-    margin-bottom: 5px;
-  }
-  
-  .file-name {
-    color: #333;
-  }
-  
-  .progress-text {
-    font-weight: bold;
-    color: #555;
-    margin-left: 10px;
-  }
-  
-  .progress-bar {
-    width: 100%;
-    background-color: #e0e0e0;
-    height: 25px;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .progress-fill {
-    background-color: #7092ff;
-    height: 100%;
-    border-radius: 8px 0 0 8px;
-  }
+.file-name {
+  color: #333;
+}
 
-  .modal-prompt-button-container {
-    text-align: right; /* 부모 요소를 오른쪽 정렬 */
-  }
-    
-  .modal-prompt-close {
-    padding: 0.8rem 1.5rem;
-    background-color: #e7e7e7;
-    color: rgb(90, 90, 90);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 10px 14px 0px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
-    font-size: 17px;
-    font-weight: bold;
-    width: 90px;
-  }
+.progress-text {
+  font-weight: bold;
+  color: #555;
+  margin-left: 10px;
+}
 
-  .modal-prompt-close:hover {
-    background-color: #c5c5c5;
-  }
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 25px;
+  border-radius: 8px;
+  overflow: hidden;
+}
 
-  .modal-prompt-save {
-    padding: 0.8rem 1.5rem;
-    background-color: #BB0841;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 10px 14px 0px 0px; /* 버튼 여백 설정 (상, 우, 하, 좌) */
-    font-size: 17px;
-    font-weight: bold;
-    width: 90px;
-  }
-  
-  .modal-prompt-save:hover {
-    background-color: #960735;
-  }
+.progress-fill {
+  background-color: #7092ff;
+  height: 100%;
+  border-radius: 8px 0 0 8px;
+}
 
-  .nav-item {
-    text-decoration: none;
-  }
+.modal-prompt-button-container {
+  text-align: right;
+}
 
-  .nav-item.active {
-    outline: none;
-    color: rgb(0, 0, 0);
-    margin-bottom: 4px;
-  }
+.modal-prompt-save {
+  padding: 0.8rem 1.5rem;
+  background-color: #BB0841;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px 14px 0px 0px;
+  font-size: 17px;
+  font-weight: bold;
+  width: 90px;
+}
 
-  .create-navigation-bar {
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
-    margin-top: 40px;
-    margin-left: 25px;
-  }
+.modal-prompt-save:hover {
+  background-color: #960735;
+}
 
-  .create-navigation-title {
-    margin-left: -14px;
-    display: flex;
-    align-items: center;
-  }
+.modal-prompt-close {
+  padding: 0.8rem 1.5rem;
+  background-color: #e7e7e7;
+  color: rgb(90, 90, 90);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px 14px 0px 0px;
+  font-size: 17px;
+  font-weight: bold;
+  width: 90px;
+}
 
-  .nav-item-create-header {
-    justify-content: center;
-    align-items: center;
-    background-color: transparent; /* 기본 배경색 제거 */
-    color: #222; /* 텍스트 색상 */
-    border: none; /* 테두리 제거 */
-    font-size: 19px; /* 폰트 크기 */
-    position: relative; /* underline을 위한 상대적 위치 */
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 25px;
-    margin: 20px 10px 25px -4px;
-  }
-
-  /* .nav-item-create-header {
-    margin: 0px 10px 5px -4px;
-  } */
-
-  .nav-item-create-active {
-    justify-content: center;
-    align-items: center;
-    background-color: transparent; /* 기본 배경색 제거 */
-    color: #b82749; /* 텍스트 색상 */
-    border: none; /* 테두리 제거 */
-    font-size: 19px; /* 폰트 크기 */
-    position: relative; /* underline을 위한 상대적 위치 */
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 25px;
+.modal-prompt-close:hover {
+  background-color: #c5c5c5;
 }

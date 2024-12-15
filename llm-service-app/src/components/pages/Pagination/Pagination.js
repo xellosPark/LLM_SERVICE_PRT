@@ -5,19 +5,16 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   const pageNumbers = [];
   const totalPages = Math.ceil(totalPosts / postsPerPage);
 
-  // 페이지네이션에 표시할 페이지 번호 수를 결정합니다.
   const numbersToShow = 10;
   let startPage = Math.max(currentPage - Math.floor(numbersToShow / 2), 1);
   let endPage = startPage + numbersToShow - 1;
 
-  // endPage가 전체 페이지 수를 초과하는 경우 조정합니다.
   if (endPage > totalPages) {
     endPage = totalPages;
     // 정확한 수의 페이지 번호를 표시하기 위해 startPage를 조정합니다.
     startPage = Math.max(totalPages - numbersToShow + 1, 1);
   }
-
-  // 페이지 번호 배열을 생성합니다.
+  
   for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }

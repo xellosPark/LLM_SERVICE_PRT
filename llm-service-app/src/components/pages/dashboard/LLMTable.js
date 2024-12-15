@@ -4,11 +4,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import Pagination from '../Pagination/Pagination';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import './LLMTable.css';
-import { DeleteRow, LoadAllChecksTable, LoadChecksRow, LoadEvaluationRow, LoadFilesTable, LoadJoinChecksEvalTable, LoadLlmsRow } from '../../api/DBControllers';
+import { DeleteRow, LoadChecksRow, LoadEvaluationRow, LoadFilesTable, LoadJoinChecksEvalTable } from '../../api/DBControllers';
 import FileTableModal from '../Modal/FileTableModal';
 import { LuDownload } from "react-icons/lu";
 import { HiQuestionMarkCircle } from "react-icons/hi2";
-import { Navigate, useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DownloadResultFile } from '../../api/fileControllers';
 
 const LLMTable = () => {
@@ -26,10 +26,9 @@ const LLMTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [menuPosition, setMenuPosition] = useState(null);
-  const navigate = useNavigate();
 
   const capitalizeFirstLetter = (str) => {
-    if (!str) return str; // 문자열이 빈 경우 바로 반환
+    if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
@@ -38,7 +37,6 @@ const LLMTable = () => {
   };
 
   const handleIconClick = async (model) => {
-    // 예: 특정 모델에 대한 세부 정보를 외부 링크로 열기
     const fileData = await LoadFilesTable(model.job_id);
     const data = { id: model.index, model:model.llm_id, ...fileData }
     console.log(`Job_id : ${model.job_id}, 선택한 files Data 표시`, fileData);
@@ -55,36 +53,27 @@ const LLMTable = () => {
     // 특정 문자 집합 제거
     const date = new Date(time);
     const result = date.toISOString().split('.')[0].replace('T', ' ');
-    //const formattedDate = result.replace(/[TZ,]/g, (match) => (match === 'T' ? ' ' : '')); // "e", "o", ","를 모두 제거
     return result;
   }
 
-  const hanbleEvaluation = (data) => {
-    //localStorage.setItem('activeComponent', 'Evaluation');
-    localStorage.setItem('Job_Id', data.job_id);
-    localStorage.setItem('Evaluation_Start', true);
-    //handleItemClick('Evaluation');
-  }
-
-  // 상태에 따라 배경색을 반환하는 함수
   const getStatusStyle = (status) => {
     const baseStyle = {
       display: 'flex',
-      borderRadius: '8px',    // border-radius 추가
-      padding: '0px 0px',      // padding도 함께 추가 가능
+      borderRadius: '8px',
+      padding: '0px 0px',
       maxWidth: '100px',
       minWidth: '80px',
     };
     switch (status) {
       case 'running':
       case 'saving':
-        return { ...baseStyle, backgroundColor: '#F0F0F0', color: '#706f6f' } // 회색
+        return { ...baseStyle, backgroundColor: '#F0F0F0', color: '#706f6f' }
       case 'success':
-        return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#050996' } // 파란색
+        return { ...baseStyle, backgroundColor: '#EEF5FF', color: '#050996' }
       case 'error':
-        return { ...baseStyle, backgroundColor: '#FFEFEF', color: '#ba0404' } // 빨간색
+        return { ...baseStyle, backgroundColor: '#FFEFEF', color: '#ba0404' }
       default:
-        return {}; // 기본 스타일 (변경 없음)
+        return {};
     }
   };
 
@@ -108,13 +97,6 @@ const LLMTable = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
   }
 
-  function handleFinalEvaluation(data) {
-    localStorage.setItem('Job_Id', data.job_id);
-    localStorage.setItem('Evaluation_Start', true);
-    //handleItemClick('Final');
-
-  }
-
   const handleDownload = async (job_id, type) => {
     console.log('파일 다운로드 시 필요 정보 : ', type, job_id);
 
@@ -132,27 +114,17 @@ const LLMTable = () => {
     }
 
     console.log('파일 다운로드 정보 : ', result, result[0].result_file_name);
-
     const res = await DownloadResultFile(job_id, result[0].result_file_name);
     
     if (res.status >= 200 && res.status < 300) {
-            
     } else if (res.status >= 300 && res.status < 400) {
         console.error('파일 다운로드 Error', res);
-        //alert('파일 다운로드 중 에러가 발생했습니다. (300대 에러)');
-        
     } else if (res.status >= 400 && res.status < 500) {
         console.error('파일 다운로드 Error', res);
-        //alert('파일 다운로드 중 에러가 발생했습니다. (400대 에러)');
-        
     } else if (res.status >= 500 && res.status < 600) {
         console.error('파일 다운로드 Error', res);
-        //alert('파일 다운로드 중 에러가 발생했습니다. (500대 에러)');
-        
     } else {
         console.error('파일 다운로드 Error', res);
-        //alert('파일 다운로드 중 에러가 발생했습니다.');
-        
     }
   }
 
@@ -167,7 +139,6 @@ const LLMTable = () => {
     },
     {
       field: 'created_time', headerName: 'Time', flex: 2.5, align: 'center', headerAlign: 'center', sortable: false,
-
       renderCell: (params) => (
         <div onContextMenu={(event) => handleCellClick(params, event)}>
           {timeReplace(params.value)}
@@ -187,7 +158,6 @@ const LLMTable = () => {
                 <FaExternalLinkAlt className='icon' />
               </span>
             </div>
-
           </>
         );
       }
@@ -251,8 +221,6 @@ const LLMTable = () => {
           <div onContextMenu={(event) => handleCellClick(params, event)}>
             {params.value}
             {rowData.evaluations_status === 'success' ? (
-              // <button className='eval_result'>
-              // 평가가 완료된 경우: 평가 결과를 버튼으로 표시하고 클릭 시 handleFinalEvaluation 함수 호출
               <Link
                 to={`/service/mail-compliance/evaluation/result/${rowData.index}`}
                 state={rowData}
@@ -292,16 +260,14 @@ const LLMTable = () => {
   ];
 
   const handleContextMenu = (event) => {
-    console.log('오른쪽 클릭');
     event.preventDefault();
-    //event.stopPropagation();
   };
 
   const handleCellClick = (params, event) => {
     if (event.type === 'contextmenu') {
-      event.preventDefault(); // 기본 컨텍스트 메뉴 방지
-      setMenuPosition({ mouseX: event.clientX, mouseY: event.clientY }); // 마우스 클릭 위치 저장
-      setSelectedRowData(params.row); // 선택된 행 설정
+      event.preventDefault();
+      setMenuPosition({ mouseX: event.clientX, mouseY: event.clientY });
+      setSelectedRowData(params.row);
     }
   };
 
@@ -312,34 +278,26 @@ const LLMTable = () => {
 
   const handleDeleteRow = async () => {
     console.log('Delete Row Data : ', selectedRowData);
-
     const result = await DeleteRow(selectedRowData.job_id);
-    // if (selectedRowData) {
-    //   setData((prevRows) => prevRows.filter((row) => row.id !== selectedRowData.id));
 
     if (result.status === 201) {
       handleCloseMenu();
       await LoadTable();
-    } else {
-      //alert('Delete 실패');
     }
   };
 
   const LoadTable = async () => {
-    //const tableData = await LoadAllChecksTable();
     let joinTableData = await LoadJoinChecksEvalTable();
     if (joinTableData?.length <= 0) {
-      //alert('Join Checks, Evaluation Data Load 실패');
       joinTableData = [];
     }
     setData(joinTableData);
-    //console.log('joinTableData', joinTableData);
     
   }
 
   const itemWidthIndex = currentItems.map((item, index) => ({
     ...item,
-    index: index + 1 + (currentPage - 1) * itemsPerPage, //이전 페이지의 항목 수를 더해 순번 계산
+    index: index + 1 + (currentPage - 1) * itemsPerPage,
   }));
 
   useEffect(() => {
@@ -360,16 +318,16 @@ const LLMTable = () => {
             disableColumnResize
             sx={{
               "& .MuiDataGrid-root": {
-                overflowX: "hidden", // 수평 스크롤을 제거하여 화면을 넘지 않도록 설정
+                overflowX: "hidden",
               },
               "& .MuiDataGrid-cell": {
-                textOverflow: "ellipsis", // 텍스트가 넘칠 경우 말줄임표(...) 처리
+                textOverflow: "ellipsis",
                 overflow: "hidden",
-                whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
+                whiteSpace: "nowrap",
               },
               "& .MuiDataGrid-columnHeadersInner": {
                 "& .MuiDataGrid-columnSeparator--sideRight": {
-                  display: "none", // 마지막 구분선을 숨겨서 오른쪽 끝에 표시되지 않도록 설정
+                  display: "none",
                 },
               },
               '& .MuiDataGrid-row:hover': {

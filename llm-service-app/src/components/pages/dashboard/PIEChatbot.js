@@ -1,10 +1,10 @@
 import React from 'react';
-import './PIEChatbot.css'; // Create a CSS file for this component if needed
+import './PIEChatbot.css';
 import { Link } from 'react-router-dom';
 
 function PIEChatbot() {
   return (
-    <div className='content'>
+    <div className='pie-content'>
       {/* 네비게이션 바 */}
       <div className="piechatbot-navigation-bar">
         <div className="piechatbot-navigation-title">

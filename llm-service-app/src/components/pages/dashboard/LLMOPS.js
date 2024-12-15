@@ -1,5 +1,5 @@
 import React from 'react';
-import './LLMOPS.css'; // Create a CSS file for this component if needed
+import './LLMOPS.css';
 
 function LLMOPS() {
   return (

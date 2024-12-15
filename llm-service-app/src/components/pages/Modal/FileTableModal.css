@@ -1,4 +1,3 @@
-/* 모달의 배경을 어둡게 처리 */
 .table-modal-overlay {
   position: fixed;
   top: 0;
@@ -12,7 +11,6 @@
   z-index: 1000;
 }
 
-/* 모달 콘텐츠 */
 .table-modal-content {
   background: white;
   padding: 25px 25px 20px 25px;
@@ -23,7 +21,6 @@
   position: relative;
 }
 
-/* X 버튼 스타일 */
 .table-close-button {
   position: absolute;
   top: 10px;
@@ -63,15 +60,9 @@
   margin-top: 30px;
 }
 
-.table-modal-label {
-  margin-top: 20px;
-  margin-bottom: 7px;
-}
-
 .table-modal-content-model {
   background-color: #f8f8f8;
   border-radius: 8px;
-  /* margin-bottom: 20px; */
 }
 
 .table-modal-content-model p {
@@ -79,6 +70,11 @@
   margin-top: 5px;
   color: gray;
   font-size: 13px;
+}
+
+.table-modal-label {
+  margin-top: 20px;
+  margin-bottom: 7px;
 }
 
 .table-data-section {
@@ -108,35 +104,15 @@
 
 .table-file-name {
   background-color: #f8f8f8;
-  /* border: 1px solid #e0e0e0; */
   padding: 8px 20px;
   border-radius: 4px;
   width: 100%;
   max-width: 395px;
-  white-space: nowrap; /* 텍스트를 한 줄로 고정 */
-  overflow: hidden; /* 넘치는 내용은 숨김 */
-  text-overflow: ellipsis; /* 넘치는 부분은 '...'으로 표시 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: gray;
 }
-
- /* 툴팁으로 표시될 내용 */
-/* .table-file-name:hover::after, .table-keyword-name:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  background-color: #333;
-  color: #fff;
-  padding: 5px;
-  border-radius: 4px;
-  top: 36%;
-  left: 9%;
-  transform: translateX(0%);
-  white-space: nowrap;
-  z-index: 100;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  opacity: 1;
-} */
 
 .table-data-delete {
   padding: 8px 20px;
@@ -174,29 +150,8 @@
 
 .table-keyword-name {
   background-color: #f8f8f8;
-  /* border: 1px solid #e0e0e0; */
   padding: 8px 20px;
   border-radius: 4px;
   width: 100%;
   color: gray;
-}
-
-.table-modal-close {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.table-modal-close-button {
-  cursor: pointer;
-  padding: 8px 16px;
-  background-color: #9A4444;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
-.table-modal-close-button:hover {
-  background-color: #664343;
 }
